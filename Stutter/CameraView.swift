@@ -129,13 +129,13 @@ class CameraView : UIView {
         self.recordButton = container
         
         self.recordButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        self.backButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
+//        self.backButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         self.flipButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         self.importButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         
 //        self.backButton.addSubview(self.backButtonLabel)
         
-        self.addSubview(self.backButton)
+//        self.addSubview(self.backButton)
         self.addSubview(self.flipButton)
         self.addSubview(self.importButton)
         self.addSubview(self.recordButton)

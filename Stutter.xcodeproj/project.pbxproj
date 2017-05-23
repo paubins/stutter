@@ -18,6 +18,7 @@
 		5FE3C84C1ED3E8940027348C /* ScrubberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C84B1ED3E8940027348C /* ScrubberView.swift */; };
 		5FE3C84E1ED3E8F40027348C /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C84D1ED3E8F40027348C /* ProgressView.swift */; };
 		5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8511ED40CBD0027348C /* UIView+.swift */; };
+		5FE3C8541ED41F6C0027348C /* PlaybackBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8531ED41F6C0027348C /* PlaybackBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		5FE3C84B1ED3E8940027348C /* ScrubberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrubberView.swift; sourceTree = "<group>"; };
 		5FE3C84D1ED3E8F40027348C /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		5FE3C8511ED40CBD0027348C /* UIView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		5FE3C8531ED41F6C0027348C /* PlaybackBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaybackBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				5FE3C8491ED3E8110027348C /* PlayButtonsView.swift */,
 				5FE3C84B1ED3E8940027348C /* ScrubberView.swift */,
 				5FE3C84D1ED3E8F40027348C /* ProgressView.swift */,
+				5FE3C8531ED41F6C0027348C /* PlaybackBarView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */,
 				5FE3C84E1ED3E8F40027348C /* ProgressView.swift in Sources */,
 				5FE3C84A1ED3E8110027348C /* PlayButtonsView.swift in Sources */,
+				5FE3C8541ED41F6C0027348C /* PlaybackBarView.swift in Sources */,
 				5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

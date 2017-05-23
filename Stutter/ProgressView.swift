@@ -16,18 +16,40 @@ class ProgressView: UIView {
     var currentProgressLayoutConstraint:NSLayoutConstraint!
     var progressBars:[UIView] = []
     
+    let tickContainer:UIView = UIView(frame: CGRect.zero)
+    let tick:UIView = UIView(frame: CGRect.zero)
+    
     let colors = [UIColor.black, UIColor.gray, UIColor.blue, UIColor.darkGray, UIColor.brown]
     
     var timer:Timer!
+    var playbackTimer:Timer!
     
     var currentIndex:Int!
     var currentProgress:UIView!
+    
+    var tickContainerWidthAnchor:NSLayoutConstraint!
     
     override init (frame : CGRect) {
         super.init(frame : frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.green
+        
+        self.tickContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.tickContainer.addSubview(self.tick)
+        self.addSubview(self.tickContainer)
+        
+        self.tick.backgroundColor = UIColor.magenta
+        self.tick.translatesAutoresizingMaskIntoConstraints = false
+        self.tick.widthAnchor.constraint(equalToConstant: 2).isActive = true
+        self.tick.topAnchor.constraint(equalTo: self.tickContainer.topAnchor).isActive = true
+        self.tick.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        self.tick.rightAnchor.constraint(equalTo: self.tickContainer.rightAnchor).isActive = true
+        
+        self.tickContainer.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        self.tickContainer.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        self.tickContainerWidthAnchor = self.tickContainer.widthAnchor.constraint(equalToConstant: 2)
+        self.tickContainerWidthAnchor.isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,14 +64,15 @@ class ProgressView: UIView {
         
         self.addSubview(currentProgress)
         
-        currentProgress.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        currentProgress.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        currentProgress.heightAnchor.constraint(equalToConstant: 5).isActive = true
         
         if (self.progressBars.count > 0) {
             currentProgress.leftAnchor.constraint(equalTo: (self.progressBars.last?.rightAnchor)!).isActive = true
         } else {
             currentProgress.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         }
+        
+        currentProgress.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
         self.currentProgressLayoutConstraint = currentProgress.widthAnchor.constraint(equalToConstant: 0)
         self.currentProgressLayoutConstraint.isActive = true
@@ -75,9 +98,45 @@ class ProgressView: UIView {
                                           selector: #selector(extendCurrentProgressView),
                                           userInfo: nil, repeats: true)
     }
+    
+    func resetProgress() {
+        if (self.timer != nil) {
+            self.timer.invalidate()
+            self.timer = nil
+        }
+        
+        self.progressBars = []
+        self.final = false
+        self.currentIndex = 0
+        self.currentProgressLayoutConstraint = nil
+        
+        for subview in self.subviews {
+            if(subview != self.tickContainer) {
+                subview.removeFromSuperview()
+            }
+        }
+    }
+    
+    func playback() {
+        if(self.timer == nil) {
+            self.playbackTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self,
+                                                      selector: #selector(showPlayback),
+                                                      userInfo: nil, repeats: true)
+        }
+    }
 }
 
 extension ProgressView  {
+    func showPlayback() {
+        self.tickContainerWidthAnchor.constant += 1
+        let width = self.tickContainer.frame.origin.x + self.tickContainer.frame.size.width
+        if (UIScreen.main.bounds.size.width < width) {
+            self.playbackTimer.invalidate()
+            self.playbackTimer = nil
+            self.tickContainerWidthAnchor.constant = 2
+        }
+    }
+    
     func extendCurrentProgressView() {
         self.currentProgressLayoutConstraint.constant += 1
         let width = self.currentProgress.frame.origin.x + self.currentProgress.frame.size.width

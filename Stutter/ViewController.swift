@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         self.exportButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         self.progressView.bottomAnchor.constraint(equalTo: self.exportButton.topAnchor).isActive = true
-        self.progressView.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        self.progressView.heightAnchor.constraint(equalToConstant: 10).isActive = true
         self.progressView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.progressView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
@@ -85,10 +85,12 @@ extension ViewController : ExportViewDelegate {
     
     func playButtonWasTapped() {
         print("play new one")
+        self.progressView.playback()
     }
     
     func resetButtonWasTapped() {
         print("Reseting scrubs")
+        self.progressView.resetProgress()
     }
 }
 

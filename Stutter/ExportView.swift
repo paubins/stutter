@@ -74,6 +74,7 @@ class ExportView : UIView {
         self.addSubview(exportButton)
         
         exportButton.leftAnchor.constraint(equalTo: resetButton.rightAnchor).isActive = true
+        exportButton.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         exportButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         exportButton.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         exportButton.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
@@ -83,7 +84,6 @@ class ExportView : UIView {
         
         playButton.widthAnchor.constraint(equalTo: resetButton.widthAnchor, multiplier: 1, constant: 0).isActive = true
         resetButton.widthAnchor.constraint(equalTo: exportButton.widthAnchor, multiplier: 1, constant: 0).isActive = true
-        exportButton.widthAnchor.constraint(equalTo: playButton.widthAnchor, multiplier: 1, constant: 0).isActive = true
         
         playButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.playButtonWasTapped)))
         resetButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.resetButtonWasTapped)))
