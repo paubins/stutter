@@ -10,11 +10,20 @@ import UIKit
 
 let DEFAULT_PROGRESS = CGFloat(30)
 
+protocol CameraViewDelegate {
+    func recordingHasStoppedWithLength(time: Int)
+    func recordingHasBegun()
+}
+
 class CameraView : UIView {
     
     var recordButton:UIView!
     var recordProgressLayoutConstraint:NSLayoutConstraint!
     var timer:Timer!
+    
+    var currentTime:Float = 0.0
+    
+    var delegate: CameraViewDelegate?
     
     let recordButtonProgressView:UIView = {
         let view = UIView(frame: CGRect.zero)
@@ -124,7 +133,7 @@ class CameraView : UIView {
         self.flipButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         self.importButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         
-        self.backButton.addSubview(self.backButtonLabel)
+//        self.backButton.addSubview(self.backButtonLabel)
         
         self.addSubview(self.backButton)
         self.addSubview(self.flipButton)
@@ -148,13 +157,13 @@ class CameraView : UIView {
         self.importButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.importButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         
-        self.backButton.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        self.backButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        self.backButton.heightAnchor.constraint(equalToConstant: 120).isActive = true
-        self.backButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        
-        self.backButtonLabel.centerXAnchor.constraint(equalTo: self.backButton.centerXAnchor).isActive = true
-        self.backButtonLabel.centerYAnchor.constraint(equalTo: self.backButton.centerYAnchor).isActive = true
+//        self.backButton.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+//        self.backButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+//        self.backButton.heightAnchor.constraint(equalToConstant: 120).isActive = true
+//        self.backButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
+//        
+//        self.backButtonLabel.centerXAnchor.constraint(equalTo: self.backButton.centerXAnchor).isActive = true
+//        self.backButtonLabel.centerYAnchor.constraint(equalTo: self.backButton.centerYAnchor).isActive = true
 
     }
     
@@ -173,9 +182,12 @@ extension CameraView {
             print("import videos")
         } else {
             if (self.timer != nil) {
+                self.delegate?.recordingHasStoppedWithLength(time: Int(100 * self.currentTime))
+                self.currentTime = 0
                 self.timer.invalidate()
                 self.timer = nil
             } else {
+                self.delegate?.recordingHasBegun()
                 self.recordProgressLayoutConstraint.constant = DEFAULT_PROGRESS
                 self.recordProgressLayoutConstraint.constant = 1
                 self.timer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
@@ -186,6 +198,8 @@ extension CameraView {
     func updateProgress(timer: Timer) {
         print("timer fired")
         if (self.recordButtonProgressView.frame.width < 60) {
+            self.currentTime += 0.35
+            
             UIView.animate(withDuration: 0.2, animations: { 
                 self.recordProgressLayoutConstraint.constant += 1
                 self.setNeedsLayout()

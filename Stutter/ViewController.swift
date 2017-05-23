@@ -13,7 +13,8 @@ let WIDTH_CONSTANT = CGFloat(70.0)
 class ViewController: UIViewController {
     
     let progressView:ProgressView = ProgressView(frame: CGRect.zero)
-    let scrubberView:ScrubberView = ScrubberView(frame: CGRect.zero)
+    var scrubberView:ScrubberView = ScrubberView(frame: CGRect.zero)
+    
     let cameraView:CameraView = CameraView(frame: CGRect.zero)
     let exportButton:ExportView = ExportView(frame: CGRect.zero)
     let playButtonsView:PlayButtonsView = PlayButtonsView(frame: CGRect.zero)
@@ -54,30 +55,19 @@ class ViewController: UIViewController {
         self.cameraView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.cameraView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
-        self.exportButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        self.playButtonsView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        
+        self.cameraView.delegate = self
+        self.scrubberView.delegate = self
         self.playButtonsView.delegate = self
         self.exportButton.delegate = self
+    }
+    
+    func resetScrubberView() {
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-}
-
-extension ViewController {
-    func tapped(gestureRecognizer: UITapGestureRecognizer) {
-        if gestureRecognizer.view == self.exportButton {
-            print("export files")
-        } else if gestureRecognizer.view == self.scrubberView {
-            print("scrubber view")
-        } else if gestureRecognizer.view == self.playButtonsView {
-            print("played a button")
-        } else if gestureRecognizer.view == self.cameraView {
-            print("pressed camera view")
-        }
     }
 }
 
@@ -91,5 +81,30 @@ extension ViewController : PlayButtonViewDelegate {
 extension ViewController : ExportViewDelegate {
     func exportButtonWasTapped() {
         print("exporting")
+    }
+    
+    func playButtonWasTapped() {
+        print("play new one")
+    }
+    
+    func resetButtonWasTapped() {
+        print("Reseting scrubs")
+    }
+}
+
+extension ViewController : ScrubberViewDelegate {
+    func sliceWasMovedTo(time: Int) {
+        print(time)
+    }
+}
+
+extension ViewController : CameraViewDelegate {
+    
+    func recordingHasBegun() {
+        self.resetScrubberView()
+    }
+    
+    func recordingHasStoppedWithLength(time: Int) {
+        self.scrubberView.length = time
     }
 }

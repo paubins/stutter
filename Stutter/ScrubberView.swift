@@ -8,10 +8,17 @@
 
 import UIKit
 
+protocol ScrubberViewDelegate {
+    func sliceWasMovedTo(time: Int)
+}
 
 class ScrubberView : UIView {
     var flippers:[NSLayoutConstraint] = []
     var slices:[UIView] = []
+    
+    var length:Int = 0
+    
+    var delegate: ScrubberViewDelegate?
     
     override init (frame : CGRect) {
         super.init(frame : frame)
@@ -68,13 +75,7 @@ class ScrubberView : UIView {
     }
     
     func blowUpSliceAt(index: Int) {
-        UIView.animate(withDuration: 0.32) { 
-            self.slices[index].layer.shadowColor = UIColor.orange.cgColor
-        }
-        
-        UIView.animate(withDuration: 0.32) {
-            self.slices[index].layer.shadowColor = UIColor.clear.cgColor
-        }
+        self.slices[index].shake()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -91,6 +92,8 @@ extension ScrubberView {
         let layoutConstraint:NSLayoutConstraint = self.flippers[view!.tag]
         if (gestureRecognizer.location(in: self.superview).x < UIScreen.main.bounds.width - 10) {
             layoutConstraint.constant = gestureRecognizer.location(in: self.superview).x
+            let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10)))))
+            self.delegate?.sliceWasMovedTo(time: currentTime)
         }
     }
 }
