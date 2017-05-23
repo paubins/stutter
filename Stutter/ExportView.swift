@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol ExportViewDelegate {
+    func exportButtonWasTapped()
+}
+
 class ExportView : UIView {
+    var delegate: ExportViewDelegate?
+    
     override init (frame : CGRect) {
         super.init(frame : frame)
         

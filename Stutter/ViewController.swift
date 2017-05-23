@@ -56,6 +56,9 @@ class ViewController: UIViewController {
         
         self.exportButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         self.playButtonsView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
+        
+        self.playButtonsView.delegate = self
+        self.exportButton.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,5 +78,18 @@ extension ViewController {
         } else if gestureRecognizer.view == self.cameraView {
             print("pressed camera view")
         }
+    }
+}
+
+extension ViewController : PlayButtonViewDelegate {
+    func playButtonWasTapped(index: Int) {
+        self.scrubberView.blowUpSliceAt(index: index)
+        self.progressView.updateProgress(index: index)
+    }
+}
+
+extension ViewController : ExportViewDelegate {
+    func exportButtonWasTapped() {
+        print("exporting")
     }
 }

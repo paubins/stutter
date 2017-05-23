@@ -8,9 +8,21 @@
 
 import UIKit
 
+protocol PlayButtonViewDelegate {
+    func playButtonWasTapped(index: Int)
+}
+
 class PlayButtonsView: UIView {
     
     let padding = 0
+    
+    let button0 = UIView(frame: CGRect.zero)
+    let button1 = UIView(frame: CGRect.zero)
+    let button2 = UIView(frame: CGRect.zero)
+    let button3 = UIView(frame: CGRect.zero)
+    let button4 = UIView(frame: CGRect.zero)
+    
+    var delegate: PlayButtonViewDelegate?
     
     override init (frame : CGRect) {
         super.init(frame : frame)
@@ -18,7 +30,6 @@ class PlayButtonsView: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.red
         
-        let button0 = UIView(frame: CGRect.zero)
         button0.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(button0)
         
@@ -28,7 +39,6 @@ class PlayButtonsView: UIView {
         button0.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         button0.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
         
-        let button1 = UIView(frame: CGRect.zero)
         button1.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(button1)
         
@@ -37,10 +47,8 @@ class PlayButtonsView: UIView {
         button1.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         button1.leftAnchor.constraint(equalTo: button0.rightAnchor).isActive = true
         button1.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
-        
         button1.backgroundColor = UIColor.gray
         
-        let button2 = UIView(frame: CGRect.zero)
         button2.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(button2)
         
@@ -50,7 +58,6 @@ class PlayButtonsView: UIView {
         button2.leftAnchor.constraint(equalTo: button1.rightAnchor).isActive = true
         button2.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
         
-        let button3 = UIView(frame: CGRect.zero)
         button3.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(button3)
         
@@ -60,7 +67,7 @@ class PlayButtonsView: UIView {
         button3.leftAnchor.constraint(equalTo: button2.rightAnchor).isActive = true
         button3.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
         
-        let button4 = UIView(frame: CGRect.zero)
+        
         button4.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(button4)
         
@@ -74,6 +81,12 @@ class PlayButtonsView: UIView {
         button1.widthAnchor.constraint(equalTo: button2.widthAnchor, multiplier: 1, constant: 0).isActive = true
         button2.widthAnchor.constraint(equalTo: button3.widthAnchor, multiplier: 1, constant: 0).isActive = true
         button3.widthAnchor.constraint(equalTo: button4.widthAnchor, multiplier: 1, constant: 0).isActive = true
+        
+        button0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
+        button1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
+        button2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
+        button3.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
+        button4.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,4 +101,21 @@ class PlayButtonsView: UIView {
      }
      */
     
+}
+
+extension PlayButtonsView {
+    func tapped(gesturerecognizer:UITapGestureRecognizer) {
+        let tappedView = gesturerecognizer.view
+        if (tappedView == self.button0) {
+            self.delegate?.playButtonWasTapped(index: 0)
+        } else if (tappedView == self.button1) {
+            self.delegate?.playButtonWasTapped(index: 1)
+        } else if (tappedView == self.button2) {
+            self.delegate?.playButtonWasTapped(index: 2)
+        } else if (tappedView == self.button3) {
+            self.delegate?.playButtonWasTapped(index: 3)
+        } else if (tappedView == self.button4) {
+            self.delegate?.playButtonWasTapped(index: 4)
+        }
+    }
 }

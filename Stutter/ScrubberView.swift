@@ -11,6 +11,7 @@ import UIKit
 
 class ScrubberView : UIView {
     var flippers:[NSLayoutConstraint] = []
+    var slices:[UIView] = []
     
     override init (frame : CGRect) {
         super.init(frame : frame)
@@ -24,24 +25,22 @@ class ScrubberView : UIView {
         let colors = [UIColor.black, UIColor.gray, UIColor.blue, UIColor.darkGray, UIColor.brown]
         
         while(i < 5) {
-            let flipper:UIView = {
-                let container:UIView = UIView(frame: CGRect.zero)
-                container.translatesAutoresizingMaskIntoConstraints = false
-                container.backgroundColor = UIColor.clear
-                
-                let slice:UIView = UIView(frame: CGRect.zero)
-                slice.translatesAutoresizingMaskIntoConstraints = false
-                slice.backgroundColor = colors[i]
-                
-                container.addSubview(slice)
-                
-                slice.topAnchor.constraint(equalTo: container.topAnchor).isActive = true
-                slice.widthAnchor.constraint(equalToConstant: 5).isActive = true
-                slice.heightAnchor.constraint(equalTo: container.heightAnchor).isActive = true
-                slice.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
-                
-                return container
-            }()
+            let flipper:UIView = UIView(frame: CGRect.zero)
+            flipper.translatesAutoresizingMaskIntoConstraints = false
+            flipper.backgroundColor = UIColor.clear
+            
+            let slice:UIView = UIView(frame: CGRect.zero)
+            slice.translatesAutoresizingMaskIntoConstraints = false
+            slice.backgroundColor = colors[i]
+            
+            flipper.addSubview(slice)
+            
+            slice.topAnchor.constraint(equalTo: flipper.topAnchor).isActive = true
+            slice.widthAnchor.constraint(equalToConstant: 5).isActive = true
+            slice.heightAnchor.constraint(equalTo: flipper.heightAnchor).isActive = true
+            slice.centerXAnchor.constraint(equalTo: flipper.centerXAnchor).isActive = true
+            
+            slices.append(slice)
             
             self.addSubview(flipper)
             
@@ -65,6 +64,16 @@ class ScrubberView : UIView {
             
             padding += CGFloat(50.0)
             i += 1
+        }
+    }
+    
+    func blowUpSliceAt(index: Int) {
+        UIView.animate(withDuration: 0.32) { 
+            self.slices[index].layer.shadowColor = UIColor.orange.cgColor
+        }
+        
+        UIView.animate(withDuration: 0.32) {
+            self.slices[index].layer.shadowColor = UIColor.clear.cgColor
         }
     }
     
