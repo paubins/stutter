@@ -8,10 +8,16 @@
 
 import UIKit
 
+protocol ProgressViewDelegate {
+    func currentProgress(index: Int)
+}
+
 class ProgressView: UIView {
     
     let padding = 0
     var final = false
+    
+    var delegate: ProgressViewDelegate?
     
     var currentProgressLayoutConstraint:NSLayoutConstraint!
     var progressBars:[UIView] = []
@@ -128,7 +134,7 @@ class ProgressView: UIView {
 
 extension ProgressView  {
     func showPlayback() {
-        self.tickContainerWidthAnchor.constant += 1
+        self.tickContainerWidthAnchor.constant += 0.01
         let width = self.tickContainer.frame.origin.x + self.tickContainer.frame.size.width
         if (UIScreen.main.bounds.size.width < width) {
             self.playbackTimer.invalidate()
@@ -138,7 +144,7 @@ extension ProgressView  {
     }
     
     func extendCurrentProgressView() {
-        self.currentProgressLayoutConstraint.constant += 1
+        self.currentProgressLayoutConstraint.constant += 0.01
         let width = self.currentProgress.frame.origin.x + self.currentProgress.frame.size.width
         if (UIScreen.main.bounds.size.width < width) {
             self.timer.invalidate()

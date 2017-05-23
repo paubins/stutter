@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ScrubberViewDelegate {
-    func sliceWasMovedTo(time: Int)
+    func sliceWasMovedTo(index: Int, time: Int)
 }
 
 class ScrubberView : UIView {
@@ -67,7 +67,9 @@ class ScrubberView : UIView {
             
             flippers.append(layoutConstraint)
             
-            flipper.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(self.tapped)))
+            if (i != 0) {
+                flipper.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(self.tapped)))
+            }
             
             padding += CGFloat(50.0)
             i += 1
@@ -93,7 +95,7 @@ extension ScrubberView {
         if (gestureRecognizer.location(in: self.superview).x < UIScreen.main.bounds.width - 10) {
             layoutConstraint.constant = gestureRecognizer.location(in: self.superview).x
             let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10)))))
-            self.delegate?.sliceWasMovedTo(time: currentTime)
+            self.delegate?.sliceWasMovedTo(index: (view?.tag)!, time: currentTime)
         }
     }
 }

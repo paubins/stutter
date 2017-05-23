@@ -129,13 +129,9 @@ class CameraView : UIView {
         self.recordButton = container
         
         self.recordButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-//        self.backButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         self.flipButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         self.importButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        
-//        self.backButton.addSubview(self.backButtonLabel)
-        
-//        self.addSubview(self.backButton)
+
         self.addSubview(self.flipButton)
         self.addSubview(self.importButton)
         self.addSubview(self.recordButton)
@@ -156,15 +152,6 @@ class CameraView : UIView {
         
         self.importButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.importButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-//        self.backButton.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-//        self.backButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-//        self.backButton.heightAnchor.constraint(equalToConstant: 120).isActive = true
-//        self.backButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
-//        
-//        self.backButtonLabel.centerXAnchor.constraint(equalTo: self.backButton.centerXAnchor).isActive = true
-//        self.backButtonLabel.centerYAnchor.constraint(equalTo: self.backButton.centerYAnchor).isActive = true
-
     }
     
     required init?(coder aDecoder: NSCoder) {
