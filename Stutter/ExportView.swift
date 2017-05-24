@@ -8,7 +8,7 @@
 
 import UIKit
 
-let NEW_WIDTH_CONSTANT = CGFloat(120)
+let NEW_WIDTH_CONSTANT = CGFloat(10)
 
 protocol ExportViewDelegate {
     func exportButtonWasTapped()
@@ -18,6 +18,9 @@ protocol ExportViewDelegate {
 
 class ExportView : UIView {
     var delegate: ExportViewDelegate?
+    
+    var activityLoader:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    var exportlabel:UILabel!
     
     override init (frame : CGRect) {
         super.init(frame : frame)
@@ -32,9 +35,14 @@ class ExportView : UIView {
         var label = UILabel(frame: CGRect.zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Play"
-
+        
+        activityLoader.translatesAutoresizingMaskIntoConstraints = false
+        activityLoader.isHidden = true
+        
         playButton.addSubview(label)
+        
         self.addSubview(playButton)
+        self.addSubview(activityLoader)
         
         label.centerXAnchor.constraint(equalTo: playButton.centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: playButton.centerYAnchor).isActive = true
@@ -66,11 +74,11 @@ class ExportView : UIView {
         let exportButton = UIView(frame: CGRect.zero)
         exportButton.translatesAutoresizingMaskIntoConstraints = false
 
-        label = UILabel(frame: CGRect.zero)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Export"
+        exportlabel = UILabel(frame: CGRect.zero)
+        exportlabel.translatesAutoresizingMaskIntoConstraints = false
+        exportlabel.text = "Export"
         
-        exportButton.addSubview(label)
+        exportButton.addSubview(exportlabel)
         self.addSubview(exportButton)
         
         exportButton.leftAnchor.constraint(equalTo: resetButton.rightAnchor).isActive = true
@@ -79,8 +87,11 @@ class ExportView : UIView {
         exportButton.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         exportButton.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
         
-        label.centerXAnchor.constraint(equalTo: exportButton.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: exportButton.centerYAnchor).isActive = true
+        exportlabel.centerXAnchor.constraint(equalTo: exportButton.centerXAnchor).isActive = true
+        exportlabel.centerYAnchor.constraint(equalTo: exportButton.centerYAnchor).isActive = true
+        
+        activityLoader.centerXAnchor.constraint(equalTo: exportButton.centerXAnchor).isActive = true
+        activityLoader.centerYAnchor.constraint(equalTo: exportButton.centerYAnchor).isActive = true
         
         playButton.widthAnchor.constraint(equalTo: resetButton.widthAnchor, multiplier: 1, constant: 0).isActive = true
         resetButton.widthAnchor.constraint(equalTo: exportButton.widthAnchor, multiplier: 1, constant: 0).isActive = true
@@ -93,6 +104,12 @@ class ExportView : UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func resetExportButton() {
+        self.exportlabel.isHidden = false
+        self.activityLoader.isHidden = true
+        self.activityLoader.stopAnimating()
     }
 
 }
@@ -108,6 +125,10 @@ extension ExportView {
     }
     
     func exportButtonWasTapped() {
+        self.activityLoader.isHidden = false
+        self.activityLoader.startAnimating()
+        self.exportlabel.isHidden = true
+        
         self.delegate?.exportButtonWasTapped()
     }
 }

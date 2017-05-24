@@ -11,7 +11,7 @@ import AssetsLibrary
 import AVFoundation
 import Photos
 
-let WIDTH_CONSTANT = CGFloat(70.0)
+let WIDTH_CONSTANT = CGFloat(20.0)
 
 var TIMES = [0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0]
 
@@ -31,8 +31,9 @@ class ViewController: UIViewController {
     var currentAssetDuration:Float64 = 0
     var lastSelectedIndex:Int = 0
     var lastInsertedTime:CMTime = kCMTimeZero
+    var imagePickerViewController:UIImagePickerController!
     
-    let asset:AVAsset = AVAsset.init(url: Bundle.main.url(forResource: "test", withExtension: "mp4")!)
+    var asset:AVAsset = AVAsset.init(url: Bundle.main.url(forResource: "test", withExtension: "mp4")!)
     let mutableComposition:AVMutableComposition = AVMutableComposition()
     
     var exporter:AVAssetExportSession! = nil
@@ -40,7 +41,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.translatesAutoresizingMaskIntoConstraints = true
         
         self.view.addSubview(self.cameraView)
         self.view.addSubview(self.scrubberView)
@@ -92,7 +93,7 @@ class ViewController: UIViewController {
         self.playButtonsView.delegate = self
         self.exportButton.delegate = self
     }
-    
+
     func checkPhotoLibraryPermission() {
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
@@ -138,6 +139,7 @@ class ViewController: UIViewController {
                     UISaveVideoAtPathToSavedPhotosAlbum(outputPath, self, nil, nil)
                     print("Success")
                     
+                    self.exportButton.resetExportButton()
                     self.resetButtonWasTapped()
                 }
                 else {
@@ -204,6 +206,46 @@ extension ViewController : PlayButtonViewDelegate {
         self.currentPlayTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self,
                                                     selector: #selector(updateCurrentTime), userInfo: nil, repeats: true)
     }
+    
+    func presentImagePickerViewController() {
+        self.imagePickerViewController = UIImagePickerController()
+        self.imagePickerViewController.delegate = self
+        self.imagePickerViewController.sourceType = .savedPhotosAlbum
+        self.imagePickerViewController.mediaTypes = UIImagePickerController.availableMediaTypes(for: .savedPhotosAlbum)!
+        
+        self.present(self.imagePickerViewController, animated: false) {
+            
+        }
+    }
+}
+
+extension ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let videoURL = info[UIImagePickerControllerMediaURL] as! NSURL
+        self.asset = AVAsset(url: videoURL as URL)
+        
+        self.imagePickerViewController.dismiss(animated: true) { 
+            self.view.setNeedsLayout()
+        }
+
+        self.playerView.isHidden = false
+        self.playerView.player = AVPlayer(playerItem: AVPlayerItem(asset: self.asset))
+        
+        var time:Float64!
+        
+        self.asset.loadValuesAsynchronously(forKeys: ["duration"]) {
+            switch(self.asset.statusOfValue(forKey: "duration", error: nil)) {
+            case AVKeyValueStatus.loaded:
+                time = CMTimeGetSeconds(self.asset.duration)
+                self.scrubberView.length = Int(floor(time * 100))
+                self.currentAssetDuration = time
+                
+                break
+            default:
+                break
+            }
+        }
+    }
 }
 
 extension ViewController : ExportViewDelegate {
@@ -262,28 +304,18 @@ extension ViewController : ScrubberViewDelegate {
 extension ViewController : CameraViewDelegate {
     
     func recordingHasBegun() {
+//        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+//        picker.delegate = self;
+//        picker.allowsEditing = YES;
+//        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
 
     }
     
+    func recordButtonPressed() {
+        self.presentImagePickerViewController()
+    }
+    
     func recordingHasStoppedWithLength(time: Int) {
-        self.scrubberView.length = time
         
-        self.playerView.isHidden = false
-        self.playerView.player = AVPlayer(playerItem: AVPlayerItem(asset: self.asset))
-        
-        var time:Float64!
-        
-        self.asset.loadValuesAsynchronously(forKeys: ["duration"]) {
-            switch(self.asset.statusOfValue(forKey: "duration", error: nil)) {
-            case AVKeyValueStatus.loaded:
-                time = CMTimeGetSeconds(self.asset.duration)
-                self.scrubberView.length = Int(floor(time * 100))
-                self.currentAssetDuration = time
-                
-                break
-            default:
-                break
-            }
-        }
     }
 }

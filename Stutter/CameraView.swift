@@ -13,6 +13,7 @@ let DEFAULT_PROGRESS = CGFloat(30)
 protocol CameraViewDelegate {
     func recordingHasStoppedWithLength(time: Int)
     func recordingHasBegun()
+    func recordButtonPressed()
 }
 
 class CameraView : UIView {
@@ -168,17 +169,19 @@ extension CameraView {
         } else if (gestureRecognizer.view == self.importButton) {
             print("import videos")
         } else {
-            if (self.timer != nil) {
-                self.delegate?.recordingHasStoppedWithLength(time: Int(100 * self.currentTime))
-                self.currentTime = 0
-                self.timer.invalidate()
-                self.timer = nil
-            } else {
-                self.delegate?.recordingHasBegun()
-                self.recordProgressLayoutConstraint.constant = DEFAULT_PROGRESS
-                self.recordProgressLayoutConstraint.constant = 1
-                self.timer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
-            }
+            self.delegate?.recordButtonPressed()
+            
+//            if (self.timer != nil) {
+//                self.delegate?.recordingHasStoppedWithLength(time: Int(100 * self.currentTime))
+//                self.currentTime = 0
+//                self.timer.invalidate()
+//                self.timer = nil
+//            } else {
+//                self.delegate?.recordingHasBegun()
+//                self.recordProgressLayoutConstraint.constant = DEFAULT_PROGRESS
+//                self.recordProgressLayoutConstraint.constant = 1
+//                self.timer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(updateProgress), userInfo: nil, repeats: true)
+//            }
         }
     }
     

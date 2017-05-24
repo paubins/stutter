@@ -17,7 +17,6 @@ class PreviewFinalVideoView : UIView {
             return playerLayer.player
         }
         set {
-            playerLayer.videoGravity = AVLayerVideoGravityResize
             playerLayer.player = newValue
             NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem)
         }
