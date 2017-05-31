@@ -39,7 +39,7 @@ class ProgressView: UIView {
         super.init(frame : frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = UIColor.green
+        self.backgroundColor = UIColor(rgbColorCodeRed: 155, green: 193, blue: 255, alpha: 1.0)
         
         self.tickContainer.translatesAutoresizingMaskIntoConstraints = false
         self.tickContainer.addSubview(self.tick)

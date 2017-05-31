@@ -11,9 +11,21 @@ import AssetsLibrary
 import AVFoundation
 import Photos
 
-let WIDTH_CONSTANT = CGFloat(20.0)
+let WIDTH_CONSTANT = CGFloat(10.0)
 
 var TIMES = [0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0]
+
+extension UIColor {
+    
+    convenience init(rgbColorCodeRed red: Int, green: Int, blue: Int, alpha: CGFloat) {
+        
+        let redPart: CGFloat = CGFloat(red) / 255
+        let greenPart: CGFloat = CGFloat(green) / 255
+        let bluePart: CGFloat = CGFloat(blue) / 255
+        
+        self.init(red: redPart, green: greenPart, blue: bluePart, alpha: alpha)
+    }
+}
 
 class ViewController: UIViewController {
     
@@ -25,8 +37,13 @@ class ViewController: UIViewController {
     let playButtonsView:PlayButtonsView = PlayButtonsView(frame: CGRect.zero)
     let playerView:PlayerView = PlayerView(frame: CGRect.zero)
     let previewFinalVideoView:PreviewFinalVideoView = PreviewFinalVideoView(frame: CGRect.zero)
+    let cameraScrubberPreviewView:CameraScrubberPreviewView = CameraScrubberPreviewView(frame: CGRect.zero)
     
-    var currentPlayTimeInSeconds:Float = 0
+    let secondProgressBar:SegmentedProgressBar = SegmentedProgressBar(numberOfSegments: 5, duration: 5)
+    
+    var cameraScrubberPreviewConstraint:NSLayoutConstraint!
+    
+    var currentPlayTimeInSeconds:CMTime = kCMTimeZero
     var currentPlayTimer:Timer!
     var currentAssetDuration:Float64 = 0
     var lastSelectedIndex:Int = 0
@@ -34,9 +51,16 @@ class ViewController: UIViewController {
     var imagePickerViewController:UIImagePickerController!
     
     var asset:AVAsset = AVAsset.init(url: Bundle.main.url(forResource: "test", withExtension: "mp4")!)
-    let mutableComposition:AVMutableComposition = AVMutableComposition()
+    var mutableComposition:AVMutableComposition = AVMutableComposition()
     
     var exporter:AVAssetExportSession! = nil
+    
+    var started:Bool = true
+    
+    var previousFrameRelativeStartTime:Float64!
+    var previousFrameTime:CFTimeInterval!
+    var currentMediaTime:CFTimeInterval!
+    var currentInterval:CFTimeInterval!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +74,7 @@ class ViewController: UIViewController {
         self.view.addSubview(self.progressView)
         self.view.addSubview(self.playerView)
         self.view.addSubview(self.previewFinalVideoView)
+        self.view.addSubview(self.cameraScrubberPreviewView)
         
         self.exportButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.exportButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
@@ -71,7 +96,26 @@ class ViewController: UIViewController {
         self.scrubberView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.scrubberView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        self.cameraView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
+        let secondProgressBarContainerView:UIView = UIView(frame: .zero)
+        secondProgressBarContainerView.translatesAutoresizingMaskIntoConstraints = false
+        secondProgressBarContainerView.addSubview(self.secondProgressBar)
+        secondProgressBarContainerView.isHidden = true
+        
+        self.view.addSubview(secondProgressBarContainerView)
+        
+        self.secondProgressBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.secondProgressBar.heightAnchor.constraint(equalToConstant: 4).isActive = true
+        self.secondProgressBar.leftAnchor.constraint(equalTo: secondProgressBarContainerView.leftAnchor).isActive = true
+        self.secondProgressBar.rightAnchor.constraint(equalTo: secondProgressBarContainerView.rightAnchor).isActive = true
+        self.secondProgressBar.centerYAnchor.constraint(equalTo: secondProgressBarContainerView.centerYAnchor).isActive = true
+        
+        secondProgressBarContainerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        secondProgressBarContainerView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        secondProgressBarContainerView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
+        secondProgressBarContainerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        
+        self.cameraView.bottomAnchor.constraint(equalTo: self.secondProgressBar.topAnchor).isActive = true
         self.cameraView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.cameraView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.cameraView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -88,10 +132,19 @@ class ViewController: UIViewController {
         self.previewFinalVideoView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.previewFinalVideoView.isHidden = true
         
+        self.cameraScrubberPreviewView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.cameraScrubberPreviewView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
+        self.cameraScrubberPreviewView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.cameraScrubberPreviewView.isHidden = true
+        
+        self.cameraScrubberPreviewConstraint = self.cameraScrubberPreviewView.widthAnchor.constraint(equalToConstant: 50)
+        self.cameraScrubberPreviewConstraint.isActive = true
+
         self.cameraView.delegate = self
         self.scrubberView.delegate = self
         self.playButtonsView.delegate = self
         self.exportButton.delegate = self
+        
     }
 
     func checkPhotoLibraryPermission() {
@@ -116,8 +169,32 @@ class ViewController: UIViewController {
         }
     }
     
+    var path:UIBezierPath!
+    var i:Int = 0
+    
+    func drawLineFromPointToPoint(startX: Int, toEndingX endX: Int, startingY startY: Int, toEndingY endY: Int, ofColor lineColor: UIColor, widthOfLine lineWidth: CGFloat, inView view: UIView) {
+    
+        if (self.path == nil ) {
+            self.path = UIBezierPath()
+            
+        }
+        
+        self.path.addLine(to: CGPoint(x: endX, y: endY))
+        self.path.move(to: CGPoint(x: startX, y: startY))
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = self.path.cgPath
+        
+        shapeLayer.strokeColor = lineColor.cgColor
+        shapeLayer.lineWidth = lineWidth
+        self.view.layer.addSublayer(shapeLayer)
+    }
+    
     func export(composition: AVMutableComposition) throws {
-        self.exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetMediumQuality)
+        let videoCompositonTrack:AVMutableCompositionTrack = composition.tracks(withMediaType: AVMediaTypeVideo).last!
+        videoCompositonTrack.preferredTransform = CGAffineTransform(rotationAngle:  CGFloat(Measurement(value: 90, unit: UnitAngle.degrees).converted(to: .radians).value))
+        
+        self.exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)
+        
         let filename = "composition.mp4"
         let outputPath = NSTemporaryDirectory().appending(filename)
         
@@ -141,6 +218,9 @@ class ViewController: UIViewController {
                     
                     self.exportButton.resetExportButton()
                     self.resetButtonWasTapped()
+                    self.mutableComposition = AVMutableComposition()
+                    self.lastSelectedIndex = 0
+                    self.lastInsertedTime = kCMTimeZero
                 }
                 else {
                     print(self.exporter.error?.localizedDescription)
@@ -150,61 +230,50 @@ class ViewController: UIViewController {
         })
     }
     
-    func insertNewEdit(index: Int, duration: Float) throws {
-         try mutableComposition.insertTimeRange(CMTimeRangeMake(CMTimeMakeWithSeconds(TIMES[index]!, 30),
-                                                                CMTimeMakeWithSeconds(Float64(duration), 30)),
-                                                of: self.asset, at: self.lastInsertedTime)
-        
-        self.lastInsertedTime = CMTimeAdd(self.lastInsertedTime, CMTimeMakeWithSeconds(Float64(duration), 30))
-    }
-    
-    func updateCurrentTime(timer: Timer) {
-        self.currentPlayTimeInSeconds += 0.01
-        
-        if(self.currentAssetDuration < Double(self.currentPlayTimeInSeconds)) {
-            do {
-                try self.insertNewEdit(index: self.lastSelectedIndex, duration: self.currentPlayTimeInSeconds)
-            } catch {
-                print("something fucked up")
-            }
-            
-            self.currentPlayTimeInSeconds = 0
-            self.lastSelectedIndex = 0
-        }
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func storeEdit(index: Int) {
+        self.currentMediaTime = CACurrentMediaTime()
+        
+        if (self.started) {
+            self.previousFrameTime = self.currentMediaTime
+            self.started = false
+        } else {
+            self.previousFrameRelativeStartTime = Float64(TIMES[index]!)
+            self.currentInterval = self.currentMediaTime - self.previousFrameTime
+            
+            let maxDurationInterval:Float64 = self.currentAssetDuration - self.previousFrameRelativeStartTime
+            let durationInterval:CMTime = CMTimeMakeWithSeconds(min(self.currentInterval, maxDurationInterval), 600)
+            
+            let timeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(Float64(self.previousFrameRelativeStartTime), 600), durationInterval)
+            
+            do {
+                print(timeRange)
+                try mutableComposition.insertTimeRange(timeRange, of: self.asset, at: self.lastInsertedTime)
+                self.lastInsertedTime = CMTimeAdd(self.lastInsertedTime, timeRange.duration)
+            } catch {
+                print("something fucked up")
+            }
+        }
     }
 }
 
 extension ViewController : PlayButtonViewDelegate {
     func playButtonWasTapped(index: Int) {
-        self.lastSelectedIndex = index
-        
         self.scrubberView.blowUpSliceAt(index: index)
         self.progressView.updateProgress(index: index)
-        
-        self.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 30),
+
+        self.storeEdit(index: index)
+
+        self.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 600),
                                      toleranceBefore: CMTimeMake(1, 600), toleranceAfter: CMTimeMake(1, 600))
         self.playerView.player?.play()
         
-        if(self.currentPlayTimer != nil) {
-            self.currentPlayTimer.invalidate()
-            self.currentPlayTimer = nil
-            
-            do {
-                try self.insertNewEdit(index: index, duration: self.currentPlayTimeInSeconds)
-            } catch {
-                print("something fucked up")
-            }
-            
-            self.currentPlayTimeInSeconds = 0.0
-        }
-        
-        self.currentPlayTimer = Timer.scheduledTimer(timeInterval: 0.01, target: self,
-                                                    selector: #selector(updateCurrentTime), userInfo: nil, repeats: true)
+        self.previousFrameTime = self.currentMediaTime
+        self.lastSelectedIndex = index
     }
     
     func presentImagePickerViewController() {
@@ -230,6 +299,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
 
         self.playerView.isHidden = false
         self.playerView.player = AVPlayer(playerItem: AVPlayerItem(asset: self.asset))
+        self.cameraScrubberPreviewView.playerView.player = AVPlayer(playerItem: AVPlayerItem(asset: self.asset))
         
         var time:Float64!
         
@@ -239,7 +309,6 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
                 time = CMTimeGetSeconds(self.asset.duration)
                 self.scrubberView.length = Int(floor(time * 100))
                 self.currentAssetDuration = time
-                
                 break
             default:
                 break
@@ -255,6 +324,8 @@ extension ViewController : ExportViewDelegate {
         
         self.checkPhotoLibraryPermission()
         do {
+            self.storeEdit(index: lastSelectedIndex) // stores final edit
+            
             try self.export(composition: self.mutableComposition)
         } catch {
             
@@ -287,17 +358,22 @@ extension ViewController : ExportViewDelegate {
 }
 
 extension ViewController : ScrubberViewDelegate {
-    func sliceWasMovedTo(index: Int, time: Int) {
-        
-        if (self.playerView.player?.rate != 0) {
-            self.playerView.player?.rate = 0
-        }
-        
+    func draggingHasBegun() {
+        self.cameraScrubberPreviewView.isHidden = false
+    }
+    
+    func sliceWasMovedTo(index: Int, time: Int, distance: Int) {
         TIMES[index] = Double(time)*0.01
         
-        self.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 30),
-                                     toleranceBefore: CMTimeMake(1, 600),
-                                     toleranceAfter: CMTimeMake(1, 600))
+        self.cameraScrubberPreviewView.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 60),
+                                     toleranceBefore: CMTimeMake(1, 60),
+                                     toleranceAfter: CMTimeMake(1, 60))
+        
+        self.cameraScrubberPreviewConstraint.constant = 20 + CGFloat(distance)
+    }
+    
+    func draggingHasEnded() {
+        self.cameraScrubberPreviewView.isHidden = true
     }
 }
 

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SwiftyButton
+import DynamicButton
+import GlitchLabel
 
 let DEFAULT_PROGRESS = CGFloat(30)
 
@@ -26,10 +29,15 @@ class CameraView : UIView {
     
     var delegate: CameraViewDelegate?
     
-    let recordButtonProgressView:UIView = {
-        let view = UIView(frame: CGRect.zero)
+    let recordButtonProgressView:PressableButton = {
+        let view = PressableButton(frame: CGRect.zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.red
+        view.backgroundColor = UIColor.clear
+        
+        view.colors = .init(button: UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
+                              shadow: .blue)
+        view.shadowHeight = 5
+        view.cornerRadius = 28
         
         return view
     }()
@@ -38,17 +46,19 @@ class CameraView : UIView {
         let container = UIView(frame: CGRect.zero)
         container.translatesAutoresizingMaskIntoConstraints = false
         
-        let view = UIView(frame: CGRect.zero)
+        let view:DynamicButton = DynamicButton(style: .reload)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.magenta
         
         container.addSubview(view)
         
         view.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
         view.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
         
-        view.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        view.strokeColor = .black
+        view.highlightStokeColor = .gray
         
         return container
     }()
@@ -57,17 +67,17 @@ class CameraView : UIView {
         let container = UIView(frame: CGRect.zero)
         container.translatesAutoresizingMaskIntoConstraints = false
         
-        let view = UIView(frame: CGRect.zero)
+        let view = DynamicButton(style: .stop)
+        
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.magenta
         
         container.addSubview(view)
         
         view.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
         view.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
         
-        view.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         return container
     }()
@@ -102,15 +112,15 @@ class CameraView : UIView {
         super.init(frame : frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.clear
         
         let container = UIView(frame: CGRect.zero)
         container.translatesAutoresizingMaskIntoConstraints = false
         
         let view = UIView(frame: CGRect.zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.white
-        
+        view.backgroundColor = UIColor.clear
+
         container.addSubview(view)
         
         view.addSubview(self.recordButtonProgressView)
@@ -124,12 +134,17 @@ class CameraView : UIView {
         view.widthAnchor.constraint(equalToConstant: 60).isActive = true
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        self.recordProgressLayoutConstraint = recordButtonProgressView.widthAnchor.constraint(equalToConstant: DEFAULT_PROGRESS)
+        self.recordProgressLayoutConstraint = self.recordButtonProgressView.widthAnchor.constraint(equalTo: view.widthAnchor)
         self.recordProgressLayoutConstraint.isActive = true
         
         self.recordButton = container
         
-        self.recordButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
+        container.layer.cornerRadius = 50;
+        container.layer.masksToBounds = true;
+        container.clipsToBounds = true
+        
+        self.recordButtonProgressView.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
+//        self.recordButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         self.flipButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         self.importButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
 
@@ -137,6 +152,17 @@ class CameraView : UIView {
         self.addSubview(self.importButton)
         self.addSubview(self.recordButton)
         
+//        let glitchLabel:GlitchLabel = GlitchLabel()
+//        glitchLabel.translatesAutoresizingMaskIntoConstraints = false
+//        glitchLabel.text = "Stutter"
+//        glitchLabel.font = UIFont.boldSystemFont(ofSize: 80)
+//        glitchLabel.blendMode = .multiply
+//        glitchLabel.sizeToFit()
+//        self.addSubview(glitchLabel)
+//        
+//        glitchLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+//        glitchLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+
         self.recordButton.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         self.recordButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         self.recordButton.heightAnchor.constraint(equalToConstant: 120).isActive = true
@@ -151,8 +177,8 @@ class CameraView : UIView {
         self.importButton.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         self.importButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        self.importButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        self.importButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        self.importButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        self.importButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -161,6 +187,10 @@ class CameraView : UIView {
 }
 
 extension CameraView {
+    func recordButtonPressed(sender: PressableButton) {
+        self.delegate?.recordButtonPressed()
+    }
+    
     func tapped(gestureRecognizer: UITapGestureRecognizer) {
         if (gestureRecognizer.view == self.backButton) {
             print("go back")
@@ -169,7 +199,7 @@ extension CameraView {
         } else if (gestureRecognizer.view == self.importButton) {
             print("import videos")
         } else {
-            self.delegate?.recordButtonPressed()
+            
             
 //            if (self.timer != nil) {
 //                self.delegate?.recordingHasStoppedWithLength(time: Int(100 * self.currentTime))

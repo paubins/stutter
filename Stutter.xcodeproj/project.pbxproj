@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */; };
 		5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */; };
 		5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8321ED3A8AB0027348C /* ViewController.swift */; };
 		5FE3C8361ED3A8AB0027348C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FE3C8341ED3A8AB0027348C /* Main.storyboard */; };
@@ -23,9 +24,15 @@
 		5FE3C85A1ED4A1860027348C /* VideoCompositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */; };
 		5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C85B1ED4DAF00027348C /* PlayerView.swift */; };
 		5FE3C85E1ED4F3E90027348C /* PreviewFinalVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C85D1ED4F3E90027348C /* PreviewFinalVideoView.swift */; };
+		5FE6E8D71EDE1D87004BEC52 /* stars.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE6E8D61EDE1D87004BEC52 /* stars.png */; };
+		5FE6E8D91EDE21D5004BEC52 /* SegmentedProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE6E8D81EDE21D5004BEC52 /* SegmentedProgressBar.swift */; };
+		5FE6E8DB1EDE3946004BEC52 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */; };
+		992D748284C8A31E932DFF0B /* Pods_Stutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraScrubberPreviewView.swift; sourceTree = "<group>"; };
+		5FAFB85D1EDDAC6E0025B1BB /* Stutter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stutter-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FE3C82D1ED3A8AB0027348C /* Stutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FE3C8321ED3A8AB0027348C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -45,6 +52,12 @@
 		5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCompositionController.swift; sourceTree = "<group>"; };
 		5FE3C85B1ED4DAF00027348C /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		5FE3C85D1ED4F3E90027348C /* PreviewFinalVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewFinalVideoView.swift; sourceTree = "<group>"; };
+		5FE6E8D61EDE1D87004BEC52 /* stars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stars.png; sourceTree = "<group>"; };
+		5FE6E8D81EDE21D5004BEC52 /* SegmentedProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedProgressBar.swift; sourceTree = "<group>"; };
+		5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stutter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFB0443D5265F82478482DD7 /* Pods-Stutter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stutter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Stutter/Pods-Stutter.debug.xcconfig"; sourceTree = "<group>"; };
+		F623781087091ED05D14AA74 /* Pods-Stutter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stutter.release.xcconfig"; path = "Pods/Target Support Files/Pods-Stutter/Pods-Stutter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				992D748284C8A31E932DFF0B /* Pods_Stutter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +77,9 @@
 			children = (
 				5FE3C82F1ED3A8AB0027348C /* Stutter */,
 				5FE3C82E1ED3A8AB0027348C /* Products */,
+				CEE9E5C6BD9AC16F81408305 /* Pods */,
+				C29651156981427818E3D7B4 /* Frameworks */,
+				5FAFB85D1EDDAC6E0025B1BB /* Stutter-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +111,7 @@
 		5FE3C8421ED3DE680027348C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5FE6E8D81EDE21D5004BEC52 /* SegmentedProgressBar.swift */,
 				5FE3C8431ED3DE840027348C /* FlipperView.swift */,
 				5FE3C8451ED3E6C30027348C /* CameraView.swift */,
 				5FE3C8471ED3E7970027348C /* ExportView.swift */,
@@ -103,6 +121,7 @@
 				5FE3C8531ED41F6C0027348C /* PlaybackBarView.swift */,
 				5FE3C85B1ED4DAF00027348C /* PlayerView.swift */,
 				5FE3C85D1ED4F3E90027348C /* PreviewFinalVideoView.swift */,
+				5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -110,6 +129,7 @@
 		5FE3C84F1ED3F42F0027348C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */,
 				5FE3C8321ED3A8AB0027348C /* ViewController.swift */,
 			);
 			name = "View Controllers";
@@ -126,6 +146,7 @@
 		5FE3C8561ED48E050027348C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5FE6E8D61EDE1D87004BEC52 /* stars.png */,
 				5FE3C8551ED48E000027348C /* test.mp4 */,
 			);
 			name = Resources;
@@ -139,6 +160,23 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		C29651156981427818E3D7B4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEE9E5C6BD9AC16F81408305 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DFB0443D5265F82478482DD7 /* Pods-Stutter.debug.xcconfig */,
+				F623781087091ED05D14AA74 /* Pods-Stutter.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -146,9 +184,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5FE3C83F1ED3A8AB0027348C /* Build configuration list for PBXNativeTarget "Stutter" */;
 			buildPhases = (
+				A6C4E14E51E4406097B7853D /* [CP] Check Pods Manifest.lock */,
 				5FE3C8291ED3A8AB0027348C /* Sources */,
 				5FE3C82A1ED3A8AB0027348C /* Frameworks */,
 				5FE3C82B1ED3A8AB0027348C /* Resources */,
+				3CDB2D57F3FB8C91C2F38BFF /* [CP] Embed Pods Frameworks */,
+				F2B5703EC2B47AD1EA7D3A63 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -172,6 +213,7 @@
 					5FE3C82C1ED3A8AB0027348C = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = 3XSPEUHQ6Y;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -202,11 +244,60 @@
 				5FE3C8571ED48E220027348C /* test.mp4 in Resources */,
 				5FE3C83B1ED3A8AB0027348C /* LaunchScreen.storyboard in Resources */,
 				5FE3C8381ED3A8AB0027348C /* Assets.xcassets in Resources */,
+				5FE6E8D71EDE1D87004BEC52 /* stars.png in Resources */,
 				5FE3C8361ED3A8AB0027348C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3CDB2D57F3FB8C91C2F38BFF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Stutter/Pods-Stutter-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A6C4E14E51E4406097B7853D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F2B5703EC2B47AD1EA7D3A63 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Stutter/Pods-Stutter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5FE3C8291ED3A8AB0027348C /* Sources */ = {
@@ -214,6 +305,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FE3C84C1ED3E8940027348C /* ScrubberView.swift in Sources */,
+				5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */,
+				5FE6E8DB1EDE3946004BEC52 /* LoadingViewController.swift in Sources */,
 				5FE3C8481ED3E7970027348C /* ExportView.swift in Sources */,
 				5FE3C8461ED3E6C30027348C /* CameraView.swift in Sources */,
 				5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */,
@@ -225,6 +318,7 @@
 				5FE3C8541ED41F6C0027348C /* PlaybackBarView.swift in Sources */,
 				5FE3C85A1ED4A1860027348C /* VideoCompositionController.swift in Sources */,
 				5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */,
+				5FE6E8D91EDE21D5004BEC52 /* SegmentedProgressBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,26 +447,33 @@
 		};
 		5FE3C8401ED3A8AB0027348C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DFB0443D5265F82478482DD7 /* Pods-Stutter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 3XSPEUHQ6Y;
 				INFOPLIST_FILE = Stutter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.Stutter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Stutter-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		5FE3C8411ED3A8AB0027348C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F623781087091ED05D14AA74 /* Pods-Stutter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 3XSPEUHQ6Y;
 				INFOPLIST_FILE = Stutter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.Stutter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Stutter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -396,6 +497,7 @@
 				5FE3C8411ED3A8AB0027348C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,0 +1,10 @@
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/AHKBendableView" "$PODS_CONFIGURATION_BUILD_DIR/ComplimentaryGradientView" "$PODS_CONFIGURATION_BUILD_DIR/DynamicButton" "$PODS_CONFIGURATION_BUILD_DIR/GlitchLabel" "$PODS_CONFIGURATION_BUILD_DIR/HTPressableButton" "$PODS_CONFIGURATION_BUILD_DIR/ParticlesLoadingView" "$PODS_CONFIGURATION_BUILD_DIR/SwiftyButton" "$PODS_CONFIGURATION_BUILD_DIR/WobbleView"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/AHKBendableView/AHKBendableView.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/ComplimentaryGradientView/ComplimentaryGradientView.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/DynamicButton/DynamicButton.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/GlitchLabel/GlitchLabel.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/HTPressableButton/HTPressableButton.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/ParticlesLoadingView/ParticlesLoadingView.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/SwiftyButton/SwiftyButton.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/WobbleView/WobbleView.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "AHKBendableView" -framework "ComplimentaryGradientView" -framework "DynamicButton" -framework "GlitchLabel" -framework "HTPressableButton" -framework "ParticlesLoadingView" -framework "SwiftyButton" -framework "WobbleView"
+OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+PODS_BUILD_DIR = $BUILD_DIR
+PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_ROOT = ${SRCROOT}/Pods

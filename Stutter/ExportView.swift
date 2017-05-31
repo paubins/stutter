@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyButton
 
 let NEW_WIDTH_CONSTANT = CGFloat(10)
 
@@ -20,75 +21,98 @@ class ExportView : UIView {
     var delegate: ExportViewDelegate?
     
     var activityLoader:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-    var exportlabel:UILabel!
     
     override init (frame : CGRect) {
         super.init(frame : frame)
         
+        let containerView:UIView = UIView(frame: .zero)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(containerView)
+        
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = UIColor.cyan
+        self.backgroundColor = UIColor.clear
         
-        let playButton = UIView(frame: CGRect.zero)
-        playButton.backgroundColor = UIColor.orange
+        containerView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        containerView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        containerView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        containerView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        
+        let playButton:PressableButton = PressableButton()
+        playButton.colors = .init(button: UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
+                                  shadow: UIColor.black)
+        playButton.shadowHeight = 3
+        playButton.cornerRadius = 5
+        playButton.setTitle("Play", for: .normal)
+        
         playButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        var label = UILabel(frame: CGRect.zero)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Play"
         
         activityLoader.translatesAutoresizingMaskIntoConstraints = false
         activityLoader.isHidden = true
+     
+        containerView.addSubview(playButton)
+        containerView.addSubview(activityLoader)
         
-        playButton.addSubview(label)
+        let spacer:UIView = UIView(frame: .zero)
+        containerView.addSubview(spacer)
         
-        self.addSubview(playButton)
-        self.addSubview(activityLoader)
+        spacer.translatesAutoresizingMaskIntoConstraints = false
+        spacer.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        spacer.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
         
-        label.centerXAnchor.constraint(equalTo: playButton.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: playButton.centerYAnchor).isActive = true
+        playButton.leftAnchor.constraint(equalTo: spacer.rightAnchor).isActive = true
+        playButton.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        playButton.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
         
-        playButton.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        playButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        playButton.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        playButton.widthAnchor.constraint(greaterThanOrEqualToConstant: NEW_WIDTH_CONSTANT).isActive = true
+        let resetButton:PressableButton = PressableButton()
+        containerView.addSubview(resetButton)
         
-        let resetButton = UIView(frame: CGRect.zero)
-        resetButton.backgroundColor = UIColor.darkGray
+        resetButton.colors = .init(button: UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
+                                   shadow: UIColor.black)
+        resetButton.shadowHeight = 3
+        resetButton.cornerRadius = 5
+        resetButton.setTitle("Reset", for: .normal)
+        
         resetButton.translatesAutoresizingMaskIntoConstraints = false
         
-        label = UILabel(frame: CGRect.zero)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Reset"
+        let spacer0:UIView = UIView(frame: .zero)
+        containerView.addSubview(spacer0)
         
-        resetButton.addSubview(label)
-        self.addSubview(resetButton)
+        spacer0.translatesAutoresizingMaskIntoConstraints = false
+        spacer0.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        spacer0.leftAnchor.constraint(equalTo: playButton.rightAnchor).isActive = true
         
-        label.centerXAnchor.constraint(equalTo: resetButton.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: resetButton.centerYAnchor).isActive = true
+        resetButton.leftAnchor.constraint(equalTo: spacer0.rightAnchor).isActive = true
+        resetButton.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        resetButton.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
         
-        resetButton.leftAnchor.constraint(equalTo: playButton.rightAnchor).isActive = true
-        resetButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        resetButton.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        resetButton.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
+        let spacer1:UIView = UIView(frame: .zero)
+        containerView.addSubview(spacer1)
         
-        let exportButton = UIView(frame: CGRect.zero)
-        exportButton.translatesAutoresizingMaskIntoConstraints = false
+        spacer1.translatesAutoresizingMaskIntoConstraints = false
+        spacer1.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        spacer1.leftAnchor.constraint(equalTo: resetButton.rightAnchor).isActive = true
 
-        exportlabel = UILabel(frame: CGRect.zero)
-        exportlabel.translatesAutoresizingMaskIntoConstraints = false
-        exportlabel.text = "Export"
+        let exportButton:PressableButton = PressableButton()
+        exportButton.translatesAutoresizingMaskIntoConstraints = false
+        exportButton.colors = .init(button: UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
+                                    shadow: UIColor.black)
+        exportButton.shadowHeight = 3
+        exportButton.cornerRadius = 5
+        exportButton.setTitle("Export", for: .normal)
+
+        containerView.addSubview(exportButton)
         
-        exportButton.addSubview(exportlabel)
-        self.addSubview(exportButton)
+        let spacer2:UIView = UIView(frame: .zero)
+        spacer2.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(spacer2)
         
-        exportButton.leftAnchor.constraint(equalTo: resetButton.rightAnchor).isActive = true
-        exportButton.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        exportButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        exportButton.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        exportButton.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
+        exportButton.leftAnchor.constraint(equalTo: spacer1.rightAnchor).isActive = true
+        exportButton.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        exportButton.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
         
-        exportlabel.centerXAnchor.constraint(equalTo: exportButton.centerXAnchor).isActive = true
-        exportlabel.centerYAnchor.constraint(equalTo: exportButton.centerYAnchor).isActive = true
+        spacer2.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        spacer2.leftAnchor.constraint(equalTo: exportButton.rightAnchor).isActive = true
+        spacer2.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
         
         activityLoader.centerXAnchor.constraint(equalTo: exportButton.centerXAnchor).isActive = true
         activityLoader.centerYAnchor.constraint(equalTo: exportButton.centerYAnchor).isActive = true
@@ -107,11 +131,9 @@ class ExportView : UIView {
     }
     
     func resetExportButton() {
-        self.exportlabel.isHidden = false
         self.activityLoader.isHidden = true
         self.activityLoader.stopAnimating()
     }
-
 }
 
 extension ExportView {
@@ -127,7 +149,6 @@ extension ExportView {
     func exportButtonWasTapped() {
         self.activityLoader.isHidden = false
         self.activityLoader.startAnimating()
-        self.exportlabel.isHidden = true
         
         self.delegate?.exportButtonWasTapped()
     }

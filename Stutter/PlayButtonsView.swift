@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyButton
 
 protocol PlayButtonViewDelegate {
     func playButtonWasTapped(index: Int)
@@ -16,11 +17,66 @@ class PlayButtonsView: UIView {
     
     let padding = 0
     
-    let button0 = UIView(frame: CGRect.zero)
-    let button1 = UIView(frame: CGRect.zero)
-    let button2 = UIView(frame: CGRect.zero)
-    let button3 = UIView(frame: CGRect.zero)
-    let button4 = UIView(frame: CGRect.zero)
+    let button0:PressableButton = {
+        let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.colors = .init(button: UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
+                                  shadow: .blue)
+        button.shadowHeight = 5
+        button.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return button
+    }()
+    
+    let button1:PressableButton = {
+        let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.colors = .init(button: UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
+                              shadow: .blue)
+        button.shadowHeight = 5
+        button.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return button
+    }()
+    
+    let button2:PressableButton = {
+        let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.colors = .init(button: UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
+                              shadow: .blue)
+        button.shadowHeight = 5
+        button.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return button
+    }()
+    
+    let button3:PressableButton = {
+        let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.colors = .init(button: UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
+                              shadow: .blue)
+        button.shadowHeight = 5
+        button.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
+    let button4:PressableButton = {
+        let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.colors = .init(button: UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0),
+                              shadow: .blue)
+        button.shadowHeight = 5
+        button.cornerRadius = 5
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return button
+    }()
+    
+    let colors = [UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
+                  UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
+                  UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
+                  UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
+                  UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0)]
     
     var delegate: PlayButtonViewDelegate?
     
@@ -28,79 +84,105 @@ class PlayButtonsView: UIView {
         super.init(frame : frame)
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = UIColor.red
+        self.backgroundColor = UIColor.clear
         
-        button0.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(button0)
+        let view:UIView = UIView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(self.button0)
+        view.addSubview(self.button1)
+        view.addSubview(self.button2)
+        view.addSubview(self.button3)
+        view.addSubview(self.button4)
         
-        button0.backgroundColor = UIColor.black
-        button0.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        button0.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        button0.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        button0.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
+        self.addSubview(view)
+        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        button1.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(button1)
+        view.clipsToBounds = false
+        view.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        view.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1).isActive = true
+        view.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        view.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
-        button1.backgroundColor = UIColor.gray
-        button1.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        button1.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        button1.leftAnchor.constraint(equalTo: button0.rightAnchor).isActive = true
-        button1.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
-        button1.backgroundColor = UIColor.gray
+        let spacer = UIView(frame: .zero)
+        spacer.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(spacer)
         
-        button2.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(button2)
+        spacer.widthAnchor.constraint(equalToConstant: 3).isActive = true
+        spacer.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        spacer.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         
-        button2.backgroundColor = UIColor.blue
-        button2.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        button2.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        button2.leftAnchor.constraint(equalTo: button1.rightAnchor).isActive = true
-        button2.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
+        button0.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        button0.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        button0.leftAnchor.constraint(equalTo: spacer.rightAnchor).isActive = true
         
-        button3.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(button3)
+        let spacer0 = UIView(frame: .zero)
+        spacer0.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(spacer0)
         
-        button3.backgroundColor = UIColor.darkGray
-        button3.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        button3.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        button3.leftAnchor.constraint(equalTo: button2.rightAnchor).isActive = true
-        button3.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
+        spacer0.widthAnchor.constraint(equalToConstant: 3).isActive = true
+        spacer0.leftAnchor.constraint(equalTo: button0.rightAnchor).isActive = true
         
+        button1.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        button1.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        button1.leftAnchor.constraint(equalTo: spacer0.rightAnchor).isActive = true
         
-        button4.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(button4)
+        let spacer1 = UIView(frame: .zero)
+        spacer1.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(spacer1)
         
-        button4.backgroundColor = UIColor.brown
-        button4.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        button4.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        button4.leftAnchor.constraint(equalTo: button3.rightAnchor).isActive = true
-        button4.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        button4.widthAnchor.constraint(greaterThanOrEqualToConstant: WIDTH_CONSTANT).isActive = true
+        spacer1.widthAnchor.constraint(equalToConstant: 3).isActive = true
+        spacer1.leftAnchor.constraint(equalTo: button1.rightAnchor).isActive = true
         
-        button1.widthAnchor.constraint(equalTo: button2.widthAnchor, multiplier: 1, constant: 0).isActive = true
-        button2.widthAnchor.constraint(equalTo: button3.widthAnchor, multiplier: 1, constant: 0).isActive = true
-        button3.widthAnchor.constraint(equalTo: button4.widthAnchor, multiplier: 1, constant: 0).isActive = true
+        button2.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        button2.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        button2.leftAnchor.constraint(equalTo: spacer1.rightAnchor).isActive = true
+        
+        let spacer2 = UIView(frame: .zero)
+        spacer2.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(spacer2)
+        
+        spacer2.widthAnchor.constraint(equalToConstant: 3).isActive = true
+        spacer2.leftAnchor.constraint(equalTo: button2.rightAnchor).isActive = true
+
+        button3.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        button3.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        button3.leftAnchor.constraint(equalTo: spacer2.rightAnchor).isActive = true
+        
+        let spacer3 = UIView(frame: .zero)
+        spacer3.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(spacer3)
+        
+        spacer3.widthAnchor.constraint(equalToConstant: 3).isActive = true
+        spacer3.leftAnchor.constraint(equalTo: button3.rightAnchor).isActive = true
+        
+        button4.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        button4.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        button4.leftAnchor.constraint(equalTo: spacer3.rightAnchor).isActive = true
+        
+        let spacer4 = UIView(frame: .zero)
+        spacer4.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(spacer4)
+        
+        spacer4.widthAnchor.constraint(equalToConstant: 3).isActive = true
+        spacer4.leftAnchor.constraint(equalTo: button4.rightAnchor).isActive = true
+        spacer4.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         button0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         button1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         button2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         button3.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
         button4.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
+        
+        button0.widthAnchor.constraint(equalTo: button1.widthAnchor, multiplier: 1, constant: 0).isActive = true
+        button1.widthAnchor.constraint(equalTo: button2.widthAnchor, multiplier: 1, constant: 0).isActive = true
+        button2.widthAnchor.constraint(equalTo: button3.widthAnchor, multiplier: 1, constant: 0).isActive = true
+        button3.widthAnchor.constraint(equalTo: button4.widthAnchor, multiplier: 1, constant: 0).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    /*
-     // Only override draw() if you perform custom drawing.
-     // An empty implementation adversely affects performance during animation.
-     override func draw(_ rect: CGRect) {
-     // Drawing code
-     }
-     */
-    
 }
 
 extension PlayButtonsView {
