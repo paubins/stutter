@@ -1,44 +1,115 @@
 PODS:
   - AHKBendableView (1.1)
+  - AMPopTip (2.1.5)
+  - AnimatablePlayButton (1.0.0)
+  - CameraManager (3.1.3)
   - ComplimentaryGradientView (0.1.6)
   - DynamicButton (4.0.0)
+  - EasyTipView (1.0.2)
+  - ElasticTransition (3.1.1):
+    - MotionAnimation (~> 0.1.2)
+  - EZSwipeController (0.6.1)
+  - FDWaveformView (2.2.0)
+  - Gecco (1.0.0)
   - GlitchLabel (2.0.0)
   - HTPressableButton (1.3.3):
     - HTPressableButton/All (= 1.3.3)
   - HTPressableButton/All (1.3.3)
+  - LLSpinner (0.0.1)
+  - MBProgressHUD (1.0.0)
+  - MIBadgeButton-Swift (0.5)
+  - MotionAnimation (0.1.2)
+  - Overlap (0.4.0)
   - ParticlesLoadingView (0.4)
+  - PKHUD (4.2.2)
+  - RevealingSplashView (0.2.0)
   - SwiftyButton (0.6.0)
+  - SwiftyCam (2.3.0)
+  - TKRubberPageControl (1.3.1)
+  - Transition (1.0.1)
   - WobbleView (1.1)
 
 DEPENDENCIES:
   - AHKBendableView
+  - AMPopTip
+  - AnimatablePlayButton (from `https://github.com/paubins/AnimatablePlayButton`)
+  - CameraManager (~> 3.1)
   - ComplimentaryGradientView
   - DynamicButton (~> 4.0.0)
+  - EasyTipView (~> 1.0.2)
+  - ElasticTransition
+  - EZSwipeController
+  - FDWaveformView
+  - Gecco
   - GlitchLabel (~> 2.0.0)
   - HTPressableButton
+  - LLSpinner
+  - MBProgressHUD (~> 1.0.0)
+  - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
+  - Overlap
   - ParticlesLoadingView
+  - PKHUD (~> 4.0)
+  - RevealingSplashView
   - SwiftyButton
+  - SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `2.4.0`)
+  - TKRubberPageControl
+  - Transition
   - WobbleView (from `git@github.com:paubins/WobbleView.git`)
 
 EXTERNAL SOURCES:
+  AnimatablePlayButton:
+    :git: https://github.com/paubins/AnimatablePlayButton
+  MIBadgeButton-Swift:
+    :branch: master
+    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
+  SwiftyCam:
+    :branch: 2.4.0
+    :git: git@github.com:Awalz/SwiftyCam.git
   WobbleView:
     :git: git@github.com:paubins/WobbleView.git
 
 CHECKOUT OPTIONS:
+  AnimatablePlayButton:
+    :commit: 380f6272e0b0262d475c6bc58755744d0aa3237b
+    :git: https://github.com/paubins/AnimatablePlayButton
+  MIBadgeButton-Swift:
+    :commit: 3c2638d2e6e46ec2e6dd978d8ada8863df3df5e6
+    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
+  SwiftyCam:
+    :commit: 9b8e7fd95131d98d145c956c925267c0a674d7bf
+    :git: git@github.com:Awalz/SwiftyCam.git
   WobbleView:
     :commit: fef44549f7338b09e64f2d9d11ebd40c66713aa9
     :git: git@github.com:paubins/WobbleView.git
 
 SPEC CHECKSUMS:
   AHKBendableView: ce81dc973f5e59367641e769404a9a8ad99f606e
+  AMPopTip: 32d7a89af3d9e111c535ce397b9907ecb443dcd8
+  AnimatablePlayButton: 529c208dc98499c8fcfca52fff26fee2316d3e82
+  CameraManager: f99859328bfecb21e65378e8cbd79980577700c4
   ComplimentaryGradientView: 6b54dc8d29717a009ec61978a884325686a395e0
   DynamicButton: ddc1e8d79e37f2761ab64df0c02e89061b05d812
+  EasyTipView: b93a19be981cc2221d6d7191d49872f547e0bebf
+  ElasticTransition: 6c4e4739e32480c864217db912100f3657f6447a
+  EZSwipeController: 255b0f8aed31963b0236802c926e27dd006a2532
+  FDWaveformView: 21127c3dab35b522e87a799ec96fe3b4f868ab0e
+  Gecco: e662f949821e742997787bad7b730ccc0052e43c
   GlitchLabel: 65773d1df358ef66c8daa40428eb79bd04e7a976
   HTPressableButton: 3109ba7972247ddbd387c8a22b0341b02369b31e
+  LLSpinner: 0ed607d59b3a447ddd157c29ef684de7a5a285ad
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
+  MotionAnimation: ff5c8fc2e429d7e10d46ae86819ba9759846c343
+  Overlap: 7c0520cb9110287643e8c64a7b36463e4e16d894
   ParticlesLoadingView: 48e27632598bb27f23077fce88974729fca7b1d4
+  PKHUD: 9a3599e04d57676ec14746c40e423a52fb6588c0
+  RevealingSplashView: a19962358db66188841c73afd51eb663a29f75cd
   SwiftyButton: 4c9b61c499f172971a1b8c2eebbbdc20a26d8a08
+  SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
+  TKRubberPageControl: 28fd820fa39f2da2794536583c5054e48de3067c
+  Transition: c5106dddcb76b8070e9a226cdc513efb94a90de4
   WobbleView: 220071f2705e29c1103c6497ba780d8872b6629d
 
-PODFILE CHECKSUM: 7af09db102c5c3ea8ad658ffb2f3a09b6e79cbb8
+PODFILE CHECKSUM: e759f3de74c4ee97dc18aba5f544f6f3f13a8d60
 
 COCOAPODS: 1.2.0

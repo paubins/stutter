@@ -34,6 +34,8 @@
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Can we export the video you created?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Can we use your location?</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

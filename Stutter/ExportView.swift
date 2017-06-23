@@ -101,6 +101,7 @@ class ExportView : UIView {
         exportButton.setTitle("Export", for: .normal)
 
         containerView.addSubview(exportButton)
+
         
         let spacer2:UIView = UIView(frame: .zero)
         spacer2.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +113,14 @@ class ExportView : UIView {
         
         spacer2.widthAnchor.constraint(equalToConstant: 10).isActive = true
         spacer2.leftAnchor.constraint(equalTo: exportButton.rightAnchor).isActive = true
-        spacer2.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
+        
+        let spacer3:UIView = UIView(frame: .zero)
+        spacer3.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(spacer3)
+        
+        spacer3.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        spacer3.leftAnchor.constraint(equalTo: exportButton.rightAnchor).isActive = true
+        spacer3.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
         
         activityLoader.centerXAnchor.constraint(equalTo: exportButton.centerXAnchor).isActive = true
         activityLoader.centerYAnchor.constraint(equalTo: exportButton.centerYAnchor).isActive = true

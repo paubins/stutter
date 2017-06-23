@@ -6,3 +6,7 @@
 //#import "HTPressableButton.h"
 #import "HTPressableButton/HTPressableButton.h"
 #import "HTPressableButton/UIColor+HTColor.h"
+
+#import "DazTouchController.h"
+#import "DazFireController.h"
+#import "AudioExporter.h"

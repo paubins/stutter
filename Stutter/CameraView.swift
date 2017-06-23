@@ -17,6 +17,7 @@ protocol CameraViewDelegate {
     func recordingHasStoppedWithLength(time: Int)
     func recordingHasBegun()
     func recordButtonPressed()
+    func cameraFlipButtonPressed()
 }
 
 class CameraView : UIView {
@@ -48,7 +49,7 @@ class CameraView : UIView {
         
         let view:DynamicButton = DynamicButton(style: .reload)
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+        view.addTarget(self, action: #selector(flipCamera), for: .touchUpInside)
         container.addSubview(view)
         
         view.centerXAnchor.constraint(equalTo: container.centerXAnchor).isActive = true
@@ -229,5 +230,9 @@ extension CameraView {
             print("timer over")
             self.timer.invalidate()
         }
+    }
+    
+    func flipCamera(sender: UIButton) {
+        self.delegate?.cameraFlipButtonPressed()
     }
 }

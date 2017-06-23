@@ -7,7 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F16CE801EFC829600486F0D /* SDevCircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */; };
+		5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CE821EFC9BE500486F0D /* DazTouchController.m */; };
+		5F16CF331EFC9FB800486F0D /* DazTriangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2C1EFC9FB700486F0D /* DazTriangle.png */; };
+		5F16CF341EFC9FB800486F0D /* DazRing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2D1EFC9FB700486F0D /* DazRing.png */; };
+		5F16CF351EFC9FB800486F0D /* DazSmoke.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2E1EFC9FB700486F0D /* DazSmoke.png */; };
+		5F16CF361EFC9FB800486F0D /* DazStarOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2F1EFC9FB800486F0D /* DazStarOutline.png */; };
+		5F16CF371EFC9FB800486F0D /* DazHeart.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF301EFC9FB800486F0D /* DazHeart.png */; };
+		5F16CF381EFC9FB800486F0D /* DazFire.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF311EFC9FB800486F0D /* DazFire.png */; };
+		5F16CF391EFC9FB800486F0D /* DazFlake.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF321EFC9FB800486F0D /* DazFlake.png */; };
+		5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CF3C1EFCA26200486F0D /* DazFireController.m */; };
 		5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */; };
+		5F3B37821EEAFC770019ED66 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B37811EEAFC770019ED66 /* CameraViewController.swift */; };
+		5F6790B01EFCB31F00524100 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790AF1EFCB31F00524100 /* WaveformView.swift */; };
+		5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B21EFCB5D000524100 /* AudioExporter.m */; };
+		5F6A57261EFC4A8E007ADD18 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A57241EFC4A8E007ADD18 /* SnapContainerViewController.swift */; };
+		5F6A57271EFC4A8E007ADD18 /* VerticalScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A57251EFC4A8E007ADD18 /* VerticalScrollViewController.swift */; };
 		5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */; };
 		5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8321ED3A8AB0027348C /* ViewController.swift */; };
 		5FE3C8361ED3A8AB0027348C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FE3C8341ED3A8AB0027348C /* Main.storyboard */; };
@@ -24,14 +39,31 @@
 		5FE3C85A1ED4A1860027348C /* VideoCompositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */; };
 		5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C85B1ED4DAF00027348C /* PlayerView.swift */; };
 		5FE3C85E1ED4F3E90027348C /* PreviewFinalVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C85D1ED4F3E90027348C /* PreviewFinalVideoView.swift */; };
-		5FE6E8D71EDE1D87004BEC52 /* stars.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE6E8D61EDE1D87004BEC52 /* stars.png */; };
 		5FE6E8D91EDE21D5004BEC52 /* SegmentedProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE6E8D81EDE21D5004BEC52 /* SegmentedProgressBar.swift */; };
 		5FE6E8DB1EDE3946004BEC52 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */; };
 		992D748284C8A31E932DFF0B /* Pods_Stutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SDevCircleButton.swift; path = ../../SDevCircleButton/SDevCircleButton/SDevCircleButton.swift; sourceTree = "<group>"; };
+		5F16CE811EFC9BE500486F0D /* DazTouchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazTouchController.h; path = ../../Dazzle/Dazzle/DazTouchController.h; sourceTree = "<group>"; };
+		5F16CE821EFC9BE500486F0D /* DazTouchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazTouchController.m; path = ../../Dazzle/Dazzle/DazTouchController.m; sourceTree = "<group>"; };
+		5F16CF2C1EFC9FB700486F0D /* DazTriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazTriangle.png; path = ../../Dazzle/Dazzle/DazTriangle.png; sourceTree = "<group>"; };
+		5F16CF2D1EFC9FB700486F0D /* DazRing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazRing.png; path = ../../Dazzle/Dazzle/DazRing.png; sourceTree = "<group>"; };
+		5F16CF2E1EFC9FB700486F0D /* DazSmoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazSmoke.png; path = ../../Dazzle/Dazzle/DazSmoke.png; sourceTree = "<group>"; };
+		5F16CF2F1EFC9FB800486F0D /* DazStarOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazStarOutline.png; path = ../../Dazzle/Dazzle/DazStarOutline.png; sourceTree = "<group>"; };
+		5F16CF301EFC9FB800486F0D /* DazHeart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazHeart.png; path = ../../Dazzle/Dazzle/DazHeart.png; sourceTree = "<group>"; };
+		5F16CF311EFC9FB800486F0D /* DazFire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFire.png; path = ../../Dazzle/Dazzle/DazFire.png; sourceTree = "<group>"; };
+		5F16CF321EFC9FB800486F0D /* DazFlake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFlake.png; path = ../../Dazzle/Dazzle/DazFlake.png; sourceTree = "<group>"; };
+		5F16CF3B1EFCA26200486F0D /* DazFireController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazFireController.h; path = ../../Dazzle/Dazzle/DazFireController.h; sourceTree = "<group>"; };
+		5F16CF3C1EFCA26200486F0D /* DazFireController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazFireController.m; path = ../../Dazzle/Dazzle/DazFireController.m; sourceTree = "<group>"; };
 		5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraScrubberPreviewView.swift; sourceTree = "<group>"; };
+		5F3B37811EEAFC770019ED66 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		5F6790AF1EFCB31F00524100 /* WaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformView.swift; path = ../../SoundCloudWaveformSwift/avassetReader/WaveformView.swift; sourceTree = "<group>"; };
+		5F6790B11EFCB5D000524100 /* AudioExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioExporter.h; sourceTree = "<group>"; };
+		5F6790B21EFCB5D000524100 /* AudioExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioExporter.m; sourceTree = "<group>"; };
+		5F6A57241EFC4A8E007ADD18 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapContainerViewController.swift; path = ../../../Downloads/SnapContainerViewController.swift; sourceTree = "<group>"; };
+		5F6A57251EFC4A8E007ADD18 /* VerticalScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VerticalScrollViewController.swift; path = ../../../Downloads/VerticalScrollViewController.swift; sourceTree = "<group>"; };
 		5FAFB85D1EDDAC6E0025B1BB /* Stutter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stutter-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FE3C82D1ED3A8AB0027348C /* Stutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,7 +84,6 @@
 		5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCompositionController.swift; sourceTree = "<group>"; };
 		5FE3C85B1ED4DAF00027348C /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		5FE3C85D1ED4F3E90027348C /* PreviewFinalVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewFinalVideoView.swift; sourceTree = "<group>"; };
-		5FE6E8D61EDE1D87004BEC52 /* stars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stars.png; sourceTree = "<group>"; };
 		5FE6E8D81EDE21D5004BEC52 /* SegmentedProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedProgressBar.swift; sourceTree = "<group>"; };
 		5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stutter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +103,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F16CF3A1EFC9FBD00486F0D /* Sprites */ = {
+			isa = PBXGroup;
+			children = (
+				5F16CF311EFC9FB800486F0D /* DazFire.png */,
+				5F16CF2E1EFC9FB700486F0D /* DazSmoke.png */,
+				5F16CF301EFC9FB800486F0D /* DazHeart.png */,
+				5F16CF321EFC9FB800486F0D /* DazFlake.png */,
+				5F16CF2F1EFC9FB800486F0D /* DazStarOutline.png */,
+				5F16CF2C1EFC9FB700486F0D /* DazTriangle.png */,
+				5F16CF2D1EFC9FB700486F0D /* DazRing.png */,
+			);
+			name = Sprites;
+			sourceTree = "<group>";
+		};
 		5FE3C8241ED3A8AB0027348C = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +156,8 @@
 		5FE3C8421ED3DE680027348C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5F6790AF1EFCB31F00524100 /* WaveformView.swift */,
+				5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */,
 				5FE6E8D81EDE21D5004BEC52 /* SegmentedProgressBar.swift */,
 				5FE3C8431ED3DE840027348C /* FlipperView.swift */,
 				5FE3C8451ED3E6C30027348C /* CameraView.swift */,
@@ -129,8 +176,11 @@
 		5FE3C84F1ED3F42F0027348C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5F6A57241EFC4A8E007ADD18 /* SnapContainerViewController.swift */,
+				5F6A57251EFC4A8E007ADD18 /* VerticalScrollViewController.swift */,
 				5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */,
 				5FE3C8321ED3A8AB0027348C /* ViewController.swift */,
+				5F3B37811EEAFC770019ED66 /* CameraViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -146,7 +196,7 @@
 		5FE3C8561ED48E050027348C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5FE6E8D61EDE1D87004BEC52 /* stars.png */,
+				5F16CF3A1EFC9FBD00486F0D /* Sprites */,
 				5FE3C8551ED48E000027348C /* test.mp4 */,
 			);
 			name = Resources;
@@ -155,7 +205,13 @@
 		5FE3C8581ED4A1770027348C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5F16CE811EFC9BE500486F0D /* DazTouchController.h */,
+				5F16CE821EFC9BE500486F0D /* DazTouchController.m */,
+				5F16CF3B1EFCA26200486F0D /* DazFireController.h */,
+				5F16CF3C1EFCA26200486F0D /* DazFireController.m */,
 				5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */,
+				5F6790B11EFCB5D000524100 /* AudioExporter.h */,
+				5F6790B21EFCB5D000524100 /* AudioExporter.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -207,7 +263,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = com.paubins.Stutter;
 				TargetAttributes = {
 					5FE3C82C1ED3A8AB0027348C = {
@@ -242,10 +298,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FE3C8571ED48E220027348C /* test.mp4 in Resources */,
+				5F16CF331EFC9FB800486F0D /* DazTriangle.png in Resources */,
 				5FE3C83B1ED3A8AB0027348C /* LaunchScreen.storyboard in Resources */,
+				5F16CF391EFC9FB800486F0D /* DazFlake.png in Resources */,
+				5F16CF351EFC9FB800486F0D /* DazSmoke.png in Resources */,
 				5FE3C8381ED3A8AB0027348C /* Assets.xcassets in Resources */,
-				5FE6E8D71EDE1D87004BEC52 /* stars.png in Resources */,
+				5F16CF381EFC9FB800486F0D /* DazFire.png in Resources */,
 				5FE3C8361ED3A8AB0027348C /* Main.storyboard in Resources */,
+				5F16CF361EFC9FB800486F0D /* DazStarOutline.png in Resources */,
+				5F16CF371EFC9FB800486F0D /* DazHeart.png in Resources */,
+				5F16CF341EFC9FB800486F0D /* DazRing.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,17 +368,25 @@
 			files = (
 				5FE3C84C1ED3E8940027348C /* ScrubberView.swift in Sources */,
 				5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */,
+				5F6A57261EFC4A8E007ADD18 /* SnapContainerViewController.swift in Sources */,
 				5FE6E8DB1EDE3946004BEC52 /* LoadingViewController.swift in Sources */,
+				5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */,
+				5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */,
 				5FE3C8481ED3E7970027348C /* ExportView.swift in Sources */,
+				5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */,
 				5FE3C8461ED3E6C30027348C /* CameraView.swift in Sources */,
 				5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */,
+				5F6A57271EFC4A8E007ADD18 /* VerticalScrollViewController.swift in Sources */,
 				5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */,
 				5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */,
 				5FE3C84E1ED3E8F40027348C /* ProgressView.swift in Sources */,
 				5FE3C84A1ED3E8110027348C /* PlayButtonsView.swift in Sources */,
+				5F6790B01EFCB31F00524100 /* WaveformView.swift in Sources */,
+				5F16CE801EFC829600486F0D /* SDevCircleButton.swift in Sources */,
 				5FE3C85E1ED4F3E90027348C /* PreviewFinalVideoView.swift in Sources */,
 				5FE3C8541ED41F6C0027348C /* PlaybackBarView.swift in Sources */,
 				5FE3C85A1ED4A1860027348C /* VideoCompositionController.swift in Sources */,
+				5F3B37821EEAFC770019ED66 /* CameraViewController.swift in Sources */,
 				5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */,
 				5FE6E8D91EDE21D5004BEC52 /* SegmentedProgressBar.swift in Sources */,
 			);
@@ -362,7 +432,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -370,7 +442,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -412,7 +488,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -420,7 +498,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -459,6 +541,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Stutter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -475,6 +558,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stutter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

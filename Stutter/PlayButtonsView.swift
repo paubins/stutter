@@ -11,6 +11,7 @@ import SwiftyButton
 
 protocol PlayButtonViewDelegate {
     func playButtonWasTapped(index: Int)
+    func badgedEarned(badge: Int, index: Int)
 }
 
 class PlayButtonsView: UIView {
@@ -20,8 +21,8 @@ class PlayButtonsView: UIView {
     let button0:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
         button.colors = .init(button: UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
-                                  shadow: .blue)
-        button.shadowHeight = 5
+                                  shadow: .white)
+        button.shadowHeight = 2
         button.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
 
@@ -31,8 +32,8 @@ class PlayButtonsView: UIView {
     let button1:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
         button.colors = .init(button: UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
-                              shadow: .blue)
-        button.shadowHeight = 5
+                              shadow: .white)
+        button.shadowHeight = 2
         button.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
 
@@ -42,8 +43,8 @@ class PlayButtonsView: UIView {
     let button2:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
         button.colors = .init(button: UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
-                              shadow: .blue)
-        button.shadowHeight = 5
+                              shadow: .white)
+        button.shadowHeight = 2
         button.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
 
@@ -53,8 +54,8 @@ class PlayButtonsView: UIView {
     let button3:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
         button.colors = .init(button: UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
-                              shadow: .blue)
-        button.shadowHeight = 5
+                              shadow: .white)
+        button.shadowHeight = 2
         button.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
         
@@ -64,13 +65,31 @@ class PlayButtonsView: UIView {
     let button4:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
         button.colors = .init(button: UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0),
-                              shadow: .blue)
-        button.shadowHeight = 5
+                              shadow: .white)
+        button.shadowHeight = 2
         button.cornerRadius = 5
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
     }()
+    
+    var buttonScores:[Int] = [0, 0, 0, 0, 0] {
+        didSet(newScores) {
+            for (index, score) in newScores.enumerated() {
+                if 25 < score {
+                    self.delegate?.badgedEarned(badge: 5, index: index)
+                } else if 15 < score {
+                    self.delegate?.badgedEarned(badge: 4, index: index)
+                } else if 10 < score {
+                    self.delegate?.badgedEarned(badge: 3, index: index)
+                } else if 5 < score {
+                    self.delegate?.badgedEarned(badge: 2, index: index)
+                } else if 3 < score {
+                    self.delegate?.badgedEarned(badge: 1, index: index)
+                }
+            }
+        }
+    }
     
     let colors = [UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
                   UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
@@ -96,10 +115,20 @@ class PlayButtonsView: UIView {
         view.addSubview(self.button4)
         
         self.addSubview(view)
-        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            self.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        } else {
+            self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        }
         
         view.clipsToBounds = false
-        view.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            view.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        } else {
+            view.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        }
+
         view.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1).isActive = true
         view.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         view.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -186,17 +215,23 @@ class PlayButtonsView: UIView {
 }
 
 extension PlayButtonsView {
+    
     func tapped(gesturerecognizer:UITapGestureRecognizer) {
         let tappedView = gesturerecognizer.view
         if (tappedView == self.button0) {
+            self.buttonScores[0] += 1
             self.delegate?.playButtonWasTapped(index: 0)
         } else if (tappedView == self.button1) {
+            self.buttonScores[1] += 1
             self.delegate?.playButtonWasTapped(index: 1)
         } else if (tappedView == self.button2) {
+            self.buttonScores[2] += 1
             self.delegate?.playButtonWasTapped(index: 2)
         } else if (tappedView == self.button3) {
+            self.buttonScores[3] += 1
             self.delegate?.playButtonWasTapped(index: 3)
         } else if (tappedView == self.button4) {
+            self.buttonScores[4] += 1
             self.delegate?.playButtonWasTapped(index: 4)
         }
     }

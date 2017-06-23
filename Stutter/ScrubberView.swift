@@ -9,6 +9,8 @@
 import UIKit
 import AHKBendableView
 
+let NUMBER_OF_FRAMES = 10
+
 protocol ScrubberViewDelegate {
     func sliceWasMovedTo(index: Int, time: Int, distance: Int)
     func draggingHasBegun()
@@ -20,16 +22,26 @@ class ScrubberView : UIView {
     var slices:[BendableView] = []
     
     var length:Int = 0
-    
+    var imageView:UIView!
     var delegate: ScrubberViewDelegate?
+    
+    var previousThumbnail:UIImageView!
+    var thumbnails:[UIImageView] = []
     
     override init (frame : CGRect) {
         super.init(frame : frame)
         
+        self.imageView = UIView(frame: .zero)
+        self.imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         self.translatesAutoresizingMaskIntoConstraints = false
+
+        self.addSubview(self.imageView)
         
-//        self.backgroundColor = UIColor(rgbColorCodeRed: 155, green: 193, blue: 255, alpha: 1.0)
+        self.imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
+        self.imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+
         var i = 0
         var padding = CGFloat(0)
         
@@ -58,7 +70,7 @@ class ScrubberView : UIView {
             slice.widthAnchor.constraint(equalToConstant: 5).isActive = true
             slice.heightAnchor.constraint(equalTo: flipper.heightAnchor).isActive = true
             slice.centerXAnchor.constraint(equalTo: flipper.centerXAnchor).isActive = true
-            
+
             slices.append(slice)
             
             self.addSubview(flipper)
@@ -78,9 +90,11 @@ class ScrubberView : UIView {
             layoutConstraint.isActive = true
             
             flippers.append(layoutConstraint)
-            
+
             if (i != 0) {
-                flipper.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(self.tapped)))
+                let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.tapped))
+                gestureRecognizer.delegate = self
+                flipper.addGestureRecognizer(gestureRecognizer)
             }
             
             padding += CGFloat(50.0)
@@ -104,6 +118,28 @@ class ScrubberView : UIView {
 
 extension ScrubberView {
     
+    func addImage(image: UIImage) {
+        let newThumbnail:UIImageView = UIImageView(image: image)
+        newThumbnail.translatesAutoresizingMaskIntoConstraints = false
+        self.imageView.addSubview(newThumbnail)
+        
+        newThumbnail.widthAnchor.constraint(equalToConstant: self.frame.size.width / 10).isActive = true
+        newThumbnail.heightAnchor.constraint(equalTo: self.imageView.heightAnchor).isActive = true
+        newThumbnail.bottomAnchor.constraint(equalTo: self.imageView.bottomAnchor).isActive = true
+        
+        if (self.thumbnails.count != 0) {
+            newThumbnail.leftAnchor.constraint(equalTo: (self.thumbnails.last?.rightAnchor)!).isActive = true
+        } else {
+            newThumbnail.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        }
+
+        self.thumbnails.append(newThumbnail)
+    }
+    
+    func getSlicePosition(index:Int) -> CGFloat {
+        return slices[index].superview!.frame.origin.x
+    }
+    
     func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
         print("tapped")
         
@@ -122,5 +158,26 @@ extension ScrubberView {
             let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
             self.delegate?.sliceWasMovedTo(index: (view?.tag)!, time: currentTime, distance: Int(gestureRecognizer.location(in: self.superview).x))
         }
+    }
+    
+    func resetTimes() {
+        for slice:UIView in self.slices {
+            let currentTime = Int(floor(Float(self.length) * Float(((slice.superview?.frame.origin.x)!/(UIScreen.main.bounds.width - 10.0)))))
+            self.delegate?.sliceWasMovedTo(index: (slice.tag), time: currentTime, distance: Int((slice.superview?.frame.origin.x)!))
+        }
+    }
+    
+    func clearThumbnails() {
+        self.thumbnails = []
+        
+        for view in self.imageView.subviews {
+            view.removeFromSuperview()
+        }
+    }
+}
+
+extension ScrubberView : UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return true
     }
 }
