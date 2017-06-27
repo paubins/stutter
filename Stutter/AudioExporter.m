@@ -11,12 +11,12 @@
 @implementation AudioExporter
 
 + (NSString *)getAudioFromVideo:(AVAsset *)asset handler:(void (^)(AVAssetExportSession*))handler {
-    NSString *audioPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"audio.m4a"];
+    NSString *audioPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"audio.caf"];
     
-    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset presetName:AVAssetExportPresetAppleM4A];
+    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset presetName:AVAssetExportPresetPassthrough];
     
     exportSession.outputURL = [NSURL fileURLWithPath:audioPath];
-    exportSession.outputFileType = AVFileTypeAppleM4A;
+    exportSession.outputFileType = AVFileTypeCoreAudioFormat;
     exportSession.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:audioPath]) {

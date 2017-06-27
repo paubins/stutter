@@ -12,6 +12,7 @@ import SwiftyButton
 let NEW_WIDTH_CONSTANT = CGFloat(10)
 
 protocol ExportViewDelegate {
+    func stopButtonWasTapped()
     func exportButtonWasTapped()
     func resetButtonWasTapped()
     func playButtonWasTapped()
@@ -50,6 +51,16 @@ class ExportView : UIView {
         activityLoader.isHidden = true
      
         containerView.addSubview(playButton)
+        
+        let stopButton:PressableButton = PressableButton()
+        stopButton.colors = .init(button: UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
+                                  shadow: UIColor.black)
+        stopButton.shadowHeight = 3
+        stopButton.cornerRadius = 5
+        stopButton.setTitle("Stop", for: .normal)
+        stopButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.addSubview(stopButton)
         containerView.addSubview(activityLoader)
         
         let spacer:UIView = UIView(frame: .zero)
@@ -62,6 +73,17 @@ class ExportView : UIView {
         playButton.leftAnchor.constraint(equalTo: spacer.rightAnchor).isActive = true
         playButton.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
         playButton.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
+        
+        let spacer9:UIView = UIView(frame: .zero)
+        containerView.addSubview(spacer9)
+        
+        spacer9.translatesAutoresizingMaskIntoConstraints = false
+        spacer9.widthAnchor.constraint(equalToConstant: 10).isActive = true
+        spacer9.leftAnchor.constraint(equalTo: playButton.rightAnchor).isActive = true
+        
+        stopButton.leftAnchor.constraint(equalTo: spacer9.rightAnchor).isActive = true
+        stopButton.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        stopButton.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
         
         let resetButton:PressableButton = PressableButton()
         containerView.addSubview(resetButton)
@@ -79,7 +101,7 @@ class ExportView : UIView {
         
         spacer0.translatesAutoresizingMaskIntoConstraints = false
         spacer0.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        spacer0.leftAnchor.constraint(equalTo: playButton.rightAnchor).isActive = true
+        spacer0.leftAnchor.constraint(equalTo: stopButton.rightAnchor).isActive = true
         
         resetButton.leftAnchor.constraint(equalTo: spacer0.rightAnchor).isActive = true
         resetButton.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
@@ -98,7 +120,7 @@ class ExportView : UIView {
                                     shadow: UIColor.black)
         exportButton.shadowHeight = 3
         exportButton.cornerRadius = 5
-        exportButton.setTitle("Export", for: .normal)
+        exportButton.setTitle("Save", for: .normal)
 
         containerView.addSubview(exportButton)
 
@@ -126,9 +148,12 @@ class ExportView : UIView {
         activityLoader.centerYAnchor.constraint(equalTo: exportButton.centerYAnchor).isActive = true
         
         playButton.widthAnchor.constraint(equalTo: resetButton.widthAnchor, multiplier: 1, constant: 0).isActive = true
+        stopButton.widthAnchor.constraint(equalTo: playButton.widthAnchor, multiplier: 1, constant: 0).isActive = true
         resetButton.widthAnchor.constraint(equalTo: exportButton.widthAnchor, multiplier: 1, constant: 0).isActive = true
         
-        playButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.playButtonWasTapped)))
+        playButton.addTarget(self, action: #selector(self.playButtonWasTapped), for: [.touchUpInside])
+        stopButton.addTarget(self, action: #selector(self.stopButtonWasTapped), for: [.touchUpInside])
+        
         resetButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.resetButtonWasTapped)))
         exportButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.exportButtonWasTapped)))
 
@@ -145,8 +170,11 @@ class ExportView : UIView {
 }
 
 extension ExportView {
+    func stopButtonWasTapped(sender: PressableButton) {
+        self.delegate?.stopButtonWasTapped()
+    }
     
-    func playButtonWasTapped() {
+    func playButtonWasTapped(sender: PressableButton) {
         self.delegate?.playButtonWasTapped()
     }
     

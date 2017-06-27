@@ -10,3 +10,11 @@
 #import "DazTouchController.h"
 #import "DazFireController.h"
 #import "AudioExporter.h"
+
+//#import "BezierController.h"
+#import "UIBezierPath+LxThroughPointsBezier.h"
+#import "PointView.h"
+#import "BezierViewController.h"
+
+
+#import "UIView+YGPulseView.h"

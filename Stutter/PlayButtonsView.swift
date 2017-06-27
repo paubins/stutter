@@ -14,13 +14,20 @@ protocol PlayButtonViewDelegate {
     func badgedEarned(badge: Int, index: Int)
 }
 
+let COLORS:[UIColor] = [UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
+                        UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
+                        UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
+                        UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
+                        UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0)
+                        ]
+
 class PlayButtonsView: UIView {
     
     let padding = 0
     
     let button0:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
+        button.colors = .init(button: COLORS[0],
                                   shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -31,7 +38,7 @@ class PlayButtonsView: UIView {
     
     let button1:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
+        button.colors = .init(button: COLORS[1],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -42,7 +49,7 @@ class PlayButtonsView: UIView {
     
     let button2:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
+        button.colors = .init(button: COLORS[2],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -53,7 +60,7 @@ class PlayButtonsView: UIView {
     
     let button3:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
+        button.colors = .init(button: COLORS[3],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -64,7 +71,7 @@ class PlayButtonsView: UIView {
     
     let button4:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0),
+        button.colors = .init(button: COLORS[4],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -207,6 +214,27 @@ class PlayButtonsView: UIView {
         button1.widthAnchor.constraint(equalTo: button2.widthAnchor, multiplier: 1, constant: 0).isActive = true
         button2.widthAnchor.constraint(equalTo: button3.widthAnchor, multiplier: 1, constant: 0).isActive = true
         button3.widthAnchor.constraint(equalTo: button4.widthAnchor, multiplier: 1, constant: 0).isActive = true
+    }
+    
+    func buttonCenter(atIndex: Int) -> CGPoint {
+        
+        let widthOffset = button0.frame.size.width/2
+        let heightOffset = button0.frame.size.height/2
+        
+        switch atIndex {
+        case 0:
+            return CGPoint(x: button0.frame.origin.x + widthOffset, y: self.frame.origin.y + heightOffset)
+        case 1:
+            return CGPoint(x: button1.frame.origin.x + widthOffset, y: self.frame.origin.y + heightOffset)
+        case 2:
+            return CGPoint(x: button2.frame.origin.x + widthOffset, y: self.frame.origin.y + heightOffset)
+        case 3:
+            return CGPoint(x: button3.frame.origin.x + widthOffset, y: self.frame.origin.y + heightOffset)
+        case 4:
+            return CGPoint(x: button4.frame.origin.x + widthOffset, y: self.frame.origin.y + heightOffset)
+        default:
+            return CGPoint(dictionaryRepresentation: 0.0 as! CFDictionary)!
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

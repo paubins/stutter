@@ -8,6 +8,7 @@
 
 import UIKit
 import AHKBendableView
+import FDWaveformView
 
 let NUMBER_OF_FRAMES = 10
 
@@ -28,6 +29,15 @@ class ScrubberView : UIView {
     var previousThumbnail:UIImageView!
     var thumbnails:[UIImageView] = []
     
+    var waveformView:FDWaveformView = {
+        let newWaveForm:FDWaveformView = FDWaveformView()
+        newWaveForm.backgroundColor = UIColor.clear
+        newWaveForm.translatesAutoresizingMaskIntoConstraints = false
+        newWaveForm.wavesColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+        
+        return newWaveForm
+    }()
+    
     override init (frame : CGRect) {
         super.init(frame : frame)
         
@@ -37,9 +47,14 @@ class ScrubberView : UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(self.imageView)
+        self.addSubview(self.waveformView)
+        
+        self.waveformView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        self.waveformView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        self.waveformView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        self.waveformView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
         self.imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
         self.imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 
         var i = 0
@@ -145,10 +160,12 @@ extension ScrubberView {
         
         if (gestureRecognizer.state == UIGestureRecognizerState.began) {
             self.delegate?.draggingHasBegun()
+//            gestureRecognizer.view?.stopPulse()
         }
         
         if (gestureRecognizer.state == .ended) {
             self.delegate?.draggingHasEnded()
+//            gestureRecognizer.view?.startPulse(with: .orange, animation: .radarPulsing)
         }
         
         let view = gestureRecognizer.view

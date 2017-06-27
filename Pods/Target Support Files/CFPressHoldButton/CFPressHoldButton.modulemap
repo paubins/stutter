@@ -1,0 +1,6 @@
+framework module CFPressHoldButton {
+  umbrella header "CFPressHoldButton-umbrella.h"
+
+  export *
+  module * { export * }
+}

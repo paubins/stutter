@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import EZSwipeController
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,14 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-//        let snapContainer = SnapContainerViewController.containerViewWith(CameraViewController(),
-//                                                                          middleVC: ViewController(),
-//                                                                          rightVC: LoadingViewController(),
-//                                                                          topVC: UIViewController(),
-//                                                                          bottomVC: UIViewController())
-//
-//        self.window?.rootViewController = snapContainer
-//        self.window?.makeKeyAndVisible()
+
         
         return true
     }

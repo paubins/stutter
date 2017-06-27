@@ -13,13 +13,14 @@ import Photos
 import CameraManager
 import SwiftyCam
 import SwiftyButton
-//import RevealingSplashView
-import EasyTipView
-import AMPopTip
 import Gecco
-import PKHUD
 import ElasticTransition
 import LLSpinner
+import FDWaveformView
+import KnobGestureRecognizer
+import VideoViewController
+import DynamicButton
+import Overlap
 
 let WIDTH_CONSTANT = CGFloat(10.0)
 
@@ -44,9 +45,60 @@ class ViewController: UIViewController {
     let playButtonsView:PlayButtonsView = PlayButtonsView(frame: CGRect.zero)
     let playerView:PlayerView = PlayerView(frame: CGRect.zero)
     
-    let cameraScrubberPreviewView:CameraScrubberPreviewView = CameraScrubberPreviewView(frame: CGRect.zero)
+    let resetButtons:UIView = {
+        let containerView:UIView = UIView(frame: .zero)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let playStopBackButton:DynamicButton = DynamicButton(style: .close)
+        playStopBackButton.strokeColor         = .black
+        playStopBackButton.highlightStokeColor = .gray
+        playStopBackButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.addSubview(playStopBackButton)
+        
+        playStopBackButton.heightAnchor.constraint(equalToConstant: 50)
+        playStopBackButton.widthAnchor.constraint(equalToConstant: 50)
+        
+        playStopBackButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        playStopBackButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        
+        return containerView
+    }()
     
-    let secondProgressBar:SegmentedProgressBar = SegmentedProgressBar(numberOfSegments: 5, duration: 5)
+    let saveButtons:UIView = {
+        let containerView:UIView = UIView(frame: .zero)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let playStopBackButton:DynamicButton = DynamicButton(style: .fastForward)
+        playStopBackButton.strokeColor         = .black
+        playStopBackButton.highlightStokeColor = .gray
+        playStopBackButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.addSubview(playStopBackButton)
+        
+        playStopBackButton.heightAnchor.constraint(equalToConstant: 50)
+        playStopBackButton.widthAnchor.constraint(equalToConstant: 50)
+        
+        playStopBackButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        playStopBackButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        
+        return containerView
+    }()
+    
+    let bezierView:UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    let spacerView:UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let cameraScrubberPreviewView:CameraScrubberPreviewView = CameraScrubberPreviewView(frame: CGRect.zero)
     
     let dazzleController:DazTouchController = DazTouchController()
     let fireController:DazFireController = DazFireController()
@@ -74,6 +126,8 @@ class ViewController: UIViewController {
     var recordingCounter:UILabel!
     
     var audioPlayer:AVAudioPlayer!
+    
+    var bezierViewController:BezierViewController!
     
     var transition:ElasticTransition = {
         var transition = ElasticTransition()
@@ -113,24 +167,66 @@ class ViewController: UIViewController {
         return cameraViewController
     }()
     
+    var path:UIBezierPath!
+    var i:Int = 0
+    var pointViewArray:[PointView] = []
+
+    var alreadyAppeared:Bool = false
+    
+    var overlapView:MLWOverlapView<UIView>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.overlapView = MLWOverlapView(overlapsCount: 5) { (overlapIndex) -> UIView in
+            let view = UIView(frame: .zero)
+            
+            
+            return view
+        }
+        
         self.view.translatesAutoresizingMaskIntoConstraints = true
+        
+        self.exportButton.delegate = self
+        
+        self.playerView.player?.addPeriodicTimeObserver(forInterval: CMTimeMake(10, 30), queue: DispatchQueue.main, using: { (time) in
+            self.scrubberView.waveformView.progressSamples = Int(CGFloat(time.value/self.asset.duration.value) * CGFloat(self.scrubberView.waveformView.totalSamples))
+        })
         
         self.view.addSubview(self.playerView)
         self.view.addSubview(self.scrubberView)
+        self.view.addSubview(self.bezierView)
         self.view.addSubview(self.playButtonsView)
-        self.view.addSubview(self.exportButton)
 
         self.view.addSubview(self.cameraScrubberPreviewView)
+        
+        self.view.addSubview(self.spacerView)
+        
+        self.view.addSubview(self.resetButtons)
+        self.view.addSubview(self.saveButtons)
+        
+        self.resetButtons.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.resetButtons.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.resetButtons.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        self.resetButtons.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        self.saveButtons.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.saveButtons.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.saveButtons.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        self.saveButtons.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        self.bezierView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.bezierView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.bezierView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.bezierView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        
 
-        self.exportButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        self.exportButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.exportButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.exportButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        self.exportButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+//        self.exportButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+//        self.exportButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+//        self.exportButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
-        self.playButtonsView.bottomAnchor.constraint(equalTo: self.exportButton.topAnchor).isActive = true
+//        self.playButtonsView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
         self.playButtonsView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.playButtonsView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
@@ -140,42 +236,26 @@ class ViewController: UIViewController {
             self.playButtonsView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
         
-        self.scrubberView.bottomAnchor.constraint(equalTo: self.playButtonsView.topAnchor).isActive = true
+        self.spacerView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        self.spacerView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.spacerView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
+        self.spacerView.topAnchor.constraint(equalTo: self.playButtonsView.bottomAnchor).isActive = true
+        
+        self.scrubberView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+//        self.scrubberView.topAnchor.constraint(equalTo: self.playButtonsView.bottomAnchor).isActive = true
         self.scrubberView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.scrubberView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.scrubberView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        
         
         self.playerView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.playerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.playerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.playerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
-        let secondProgressBarContainerView:UIView = UIView(frame: .zero)
-        secondProgressBarContainerView.translatesAutoresizingMaskIntoConstraints = false
-        secondProgressBarContainerView.addSubview(self.secondProgressBar)
-        secondProgressBarContainerView.isHidden = true
-        
-        self.view.addSubview(secondProgressBarContainerView)
-
-        self.secondProgressBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.secondProgressBar.heightAnchor.constraint(equalToConstant: 4).isActive = true
-        self.secondProgressBar.leftAnchor.constraint(equalTo: secondProgressBarContainerView.leftAnchor).isActive = true
-        self.secondProgressBar.rightAnchor.constraint(equalTo: secondProgressBarContainerView.rightAnchor).isActive = true
-        self.secondProgressBar.centerYAnchor.constraint(equalTo: secondProgressBarContainerView.centerYAnchor).isActive = true
-        
-        secondProgressBarContainerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        secondProgressBarContainerView.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        secondProgressBarContainerView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
-        secondProgressBarContainerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        
         self.cameraScrubberPreviewView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.cameraScrubberPreviewView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
+        self.cameraScrubberPreviewView.bottomAnchor.constraint(equalTo: self.playButtonsView.topAnchor).isActive = true
         self.cameraScrubberPreviewView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.cameraScrubberPreviewView.isHidden = true
-        
         
         self.dazzleController.view.bounds = self.view.bounds
         self.fireController.view.bounds = self.view.bounds
@@ -191,33 +271,15 @@ class ViewController: UIViewController {
         self.exportButton.delegate = self
 
         self.view.isUserInteractionEnabled = true
+
+        let gesture = KnobGestureRecognizer(target: self, action: #selector(rotationAction(_:)), to: self.view)
         
-//        let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "stars")!,
-//                                                      iconInitialSize: CGSize(width: 70, height: 70),
-//                                                      backgroundColor: UIColor(red:0.11, green:0.56, blue:0.95, alpha:1.0))
-//        
-//        //Adds the revealing splash view as a sub view
-//        self.view.addSubview(revealingSplashView)
-//        
-//        //Starts animation
-//        revealingSplashView.startAnimation(){
-//            print("Completed")
-//        }
-        
-        var preferences = EasyTipView.Preferences()
-        preferences.drawing.font = UIFont(name: "Futura-Medium", size: 13)!
-        preferences.drawing.foregroundColor = UIColor.white
-        preferences.drawing.backgroundColor = UIColor(hue:0.46, saturation:0.99, brightness:0.6, alpha:1)
-        preferences.drawing.arrowPosition = EasyTipView.ArrowPosition.top
-        
-        /*
-         * Optionally you can make these preferences global for all future EasyTipViews
-         */
-        EasyTipView.globalPreferences = preferences
+        gesture.delegate = self
+        self.view.addGestureRecognizer(gesture)
     }
     
-    var alreadyAppeared:Bool = false
-    
+    var bezierViewControllers:[BezierViewController] = []
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -234,11 +296,71 @@ class ViewController: UIViewController {
             }
         }
         
+        for index in 0..<5 {
+            let viewController:BezierViewController = BezierViewController(points: self.generatePoints(index: index), with: COLORS[index])
+            self.bezierViewControllers.append(viewController)
+            self.bezierView.addSubview(viewController.view)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+    }
+    
+    var shapes:[CAShapeLayer] = []
+    var curves:[UIBezierPath] = []
+    
+    func moveBezierPaths() {
+        for pointView in self.pointViewArray {
+            pointView.removeFromSuperview()
+        }
+        
+        for shapeLayer in self.shapes {
+            shapeLayer.removeFromSuperlayer()
+        }
+        
+        for curve in self.curves {
+            curve.removeAllPoints()
+        }
+        
+        self.shapes = []
+        self.curves = []
+        self.pointViewArray = []
+    }
+    
+    func generatePoints(index: Int) -> [NSValue] {
+        var points:[NSValue] = []
+        let buttonHeight = self.playButtonsView.button0.frame.height
+        
+        let slicePositionX:CGFloat = self.scrubberView.getSlicePosition(index: index) + 10
+        let slicePositionY:CGFloat = self.scrubberView.frame.origin.y - 150
+        
+        // original slice position
+        points.append(NSValue(cgPoint: CGPoint(x: self.scrubberView.getSlicePosition(index: index) + 10,
+                                               y: self.scrubberView.frame.origin.y)))
+        
+        // just above the slice position
+        points.append(NSValue(cgPoint: CGPoint(x: self.scrubberView.getSlicePosition(index: index) + 10,
+                                               y: self.scrubberView.frame.origin.y - 10)))
+        
+        // just below the play buttons
+        points.append(NSValue(cgPoint: CGPoint(x: self.playButtonsView.buttonCenter(atIndex: index).x,
+                                               y: self.playButtonsView.buttonCenter(atIndex: index).y + buttonHeight/2 + 10)))
+        
+        // the middle of the play button position
+        points.append(NSValue(cgPoint: CGPoint(x: self.playButtonsView.buttonCenter(atIndex: index).x,
+                                               y: self.playButtonsView.buttonCenter(atIndex: index).y)))
+        
+        // just above the play button position
+        points.append(NSValue(cgPoint: CGPoint(x: self.playButtonsView.buttonCenter(atIndex: index).x,
+                                               y: self.playButtonsView.buttonCenter(atIndex: index).y - 50)))
+        
+        points.append(NSValue(cgPoint: CGPoint(x: slicePositionX,
+                                               y: slicePositionY)))
+            
+        
+        return points
     }
 
     func showSpotlight() {
@@ -269,14 +391,10 @@ class ViewController: UIViewController {
         }
     }
     
-    var path:UIBezierPath!
-    var i:Int = 0
-    
     func drawLineFromPointToPoint(startX: Int, toEndingX endX: Int, startingY startY: Int, toEndingY endY: Int, ofColor lineColor: UIColor, widthOfLine lineWidth: CGFloat, inView view: UIView) {
     
         if (self.path == nil ) {
             self.path = UIBezierPath()
-            
         }
         
         self.path.addLine(to: CGPoint(x: endX, y: endY))
@@ -286,7 +404,8 @@ class ViewController: UIViewController {
         
         shapeLayer.strokeColor = lineColor.cgColor
         shapeLayer.lineWidth = lineWidth
-        self.view.layer.addSublayer(shapeLayer)
+        
+        view.layer.addSublayer(shapeLayer)
     }
     
     func export(composition: AVMutableComposition) throws {
@@ -303,7 +422,7 @@ class ViewController: UIViewController {
 
         let manager = FileManager.default
         if manager.fileExists(atPath: outputPath) {
-            var error: NSError? = nil
+            var _: NSError? = nil
             try manager.removeItem(atPath: outputPath)
         }
         
@@ -315,6 +434,8 @@ class ViewController: UIViewController {
                 if self.exporter.status == AVAssetExportSessionStatus.completed {
                     UISaveVideoAtPathToSavedPhotosAlbum(outputPath, self, nil, nil)
                     print("Success")
+                    
+                    let viewController = VideoViewController(videoURL: self.exporter.outputURL!)
                     
                     self.exportButton.resetExportButton()
                     
@@ -328,16 +449,12 @@ class ViewController: UIViewController {
                     self.lastSelectedIndex = 0
                     self.lastInsertedTime = kCMTimeZero
                     
-                    let viewController = LoadingViewController()
-                    viewController.transitioningDelegate = self.transition
-                    viewController.modalPresentationStyle = .custom
-                    
                     self.present(viewController, animated: true, completion: {
                         LLSpinner.stop()
                     })
                 }
                 else {
-                    print(self.exporter.error?.localizedDescription)
+                    print(self.exporter.error?.localizedDescription ?? "error")
                     //The requested URL was not found on this server.
                 }
             })
@@ -375,15 +492,22 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : PlayButtonViewDelegate {
+    
     func playButtonWasTapped(index: Int) {
         
         self.scrubberView.blowUpSliceAt(index: index)
         
         let distance = self.scrubberView.getSlicePosition(index: index)
-        let y =  self.scrubberView.frame.origin.y + self.scrubberView.frame.size.height/2
-        self.dazzleController.touch(atPosition: CGPoint(x: distance, y:y))
         
-
+        self.scrubberView.waveformView.progressSamples = Int((distance + 10)/self.scrubberView.frame.width * CGFloat(self.scrubberView.waveformView.totalSamples))
+        
+        _ =  self.scrubberView.frame.origin.y + self.scrubberView.frame.size.height/2
+        
+        let slicePositionX:CGFloat = self.scrubberView.getSlicePosition(index: index) + 10
+        let slicePositionY:CGFloat = self.scrubberView.frame.origin.y + self.scrubberView.frame.size.height - 150
+        
+        self.dazzleController.touch(atPosition: CGPoint(x: slicePositionX, y: slicePositionY))
+        
         self.storeEdit(index: index)
 
         self.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 600),
@@ -395,10 +519,10 @@ extension ViewController : PlayButtonViewDelegate {
     }
     
     func badgedEarned(badge: Int, index: Int) {
-        let distance = self.scrubberView.getSlicePosition(index: index)
-        let y =  self.scrubberView.frame.origin.y + self.scrubberView.frame.size.height/2
+        _ = self.scrubberView.getSlicePosition(index: index)
+        _ =  self.scrubberView.frame.origin.y + self.scrubberView.frame.size.height/2
         
-        self.fireController.controlFireLocation(CGPoint(x: distance, y:self.scrubberView.frame.origin.y), withBadge: badge)
+//        self.fireController.controlFireLocation(CGPoint(x: distance, y:self.scrubberView.frame.origin.y), withBadge: badge)
     }
 }
 
@@ -415,7 +539,7 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
             i += 1
         }
         
-        var images:[UIImage] = []
+        var _:[UIImage] = []
         
         let assetGenerator:AVAssetImageGenerator = AVAssetImageGenerator(asset: self.asset)
         assetGenerator.appliesPreferredTrackTransform = true
@@ -442,10 +566,10 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         let audioTrack:AVAssetTrack = self.asset.tracks(withMediaCharacteristic: AVMediaCharacteristicAudible)[0]
         
         let desc = audioTrack.formatDescriptions[0] as! CMAudioFormatDescription
-        let basic = CMAudioFormatDescriptionGetStreamBasicDescription(desc)
+        _ = CMAudioFormatDescriptionGetStreamBasicDescription(desc)
         
         do {
-            self.audioPlayer = try? AVAudioPlayer(contentsOf: (self.asset as! AVURLAsset).url)
+            self.audioPlayer = try AVAudioPlayer(contentsOf: (self.asset as! AVURLAsset).url)
         } catch {
             
         }
@@ -475,7 +599,12 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
 }
 
 extension ViewController : ExportViewDelegate {
-
+    
+    
+    func stopButtonWasTapped() {
+        self.playerView.player?.rate = 0
+    }
+    
     func exportButtonWasTapped() {
         print("exporting")
         
@@ -495,7 +624,7 @@ extension ViewController : ExportViewDelegate {
     }
     
     func playButtonWasTapped() {
-        print("play new one")
+        self.playerView.player?.play()
     }
     
     func resetButtonWasTapped() {
@@ -521,6 +650,9 @@ extension ViewController : ScrubberViewDelegate {
     
     func sliceWasMovedTo(index: Int, time: Int, distance: Int) {
         TIMES[index] = Double(time)*0.01
+    
+        self.bezierViewControllers[index].points = self.generatePoints(index: index)
+        self.bezierViewControllers[index].pointsChanged()
         
         self.cameraScrubberPreviewView.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 60),
                                      toleranceBefore: CMTimeMake(1, 60),
@@ -533,6 +665,7 @@ extension ViewController : ScrubberViewDelegate {
     func draggingHasEnded() {
         self.cameraScrubberPreviewView.isHidden = true
     }
+
 }
 
 
@@ -547,6 +680,8 @@ extension ViewController : SwiftyCamViewControllerDelegate {
         // Called when startVideoRecording() is called
         // Called if a SwiftyCamButton begins a long press gesture
         print("started recording")
+        
+        
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
@@ -569,15 +704,7 @@ extension ViewController : SwiftyCamViewControllerDelegate {
         
         AudioExporter.getAudioFromVideo(self.asset) { (exportSession) in
             let url:URL = (exportSession?.outputURL)!
-            
-            let file = try! AVAudioFile(forReading: url)
-            let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: file.fileFormat.sampleRate, channels: file.fileFormat.channelCount, interleaved: false)
-            print(file.fileFormat.channelCount)
-            let buf = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: UInt32(file.length))
-            try! file.read(into: buf)
-            
-            // this makes a copy, you might not want that
-            readFile.arrayFloatValues = Array(UnsafeBufferPointer(start: buf.floatChannelData?[0], count:Int(buf.frameLength)))
+            self.scrubberView.waveformView.audioURL = url
         }
     }
     
@@ -596,6 +723,12 @@ extension ViewController : SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
         // Called when user switches between cameras
         // Returns current camera selection
+    }
+}
+
+extension ViewController : UIGestureRecognizerDelegate {
+    func rotationAction(_ sender: KnobGestureRecognizer) {
+        print(sender.rotation)
     }
 }
 
