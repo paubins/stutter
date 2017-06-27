@@ -10,17 +10,13 @@ import UIKit
 import AssetsLibrary
 import AVFoundation
 import Photos
-import CameraManager
 import SwiftyCam
 import SwiftyButton
-import Gecco
 import ElasticTransition
 import LLSpinner
 import FDWaveformView
-import KnobGestureRecognizer
 import VideoViewController
 import DynamicButton
-import Overlap
 
 let WIDTH_CONSTANT = CGFloat(10.0)
 
@@ -37,11 +33,7 @@ extension UIColor {
 }
 
 class ViewController: UIViewController {
-    let progressView:ProgressView = ProgressView(frame: CGRect.zero)
     var scrubberView:ScrubberView = ScrubberView(frame: CGRect.zero)
-    
-    let cameraView:CameraView = CameraView(frame: CGRect.zero)
-    let exportButton:ExportView = ExportView(frame: CGRect.zero)
     let playButtonsView:PlayButtonsView = PlayButtonsView(frame: CGRect.zero)
     let playerView:PlayerView = PlayerView(frame: CGRect.zero)
     
@@ -129,6 +121,11 @@ class ViewController: UIViewController {
     
     var bezierViewController:BezierViewController!
     
+    var path:UIBezierPath!
+    var i:Int = 0
+    
+    var alreadyAppeared:Bool = false
+    
     var transition:ElasticTransition = {
         var transition = ElasticTransition()
         transition.edge = .right
@@ -167,27 +164,10 @@ class ViewController: UIViewController {
         return cameraViewController
     }()
     
-    var path:UIBezierPath!
-    var i:Int = 0
-    var pointViewArray:[PointView] = []
-
-    var alreadyAppeared:Bool = false
-    
-    var overlapView:MLWOverlapView<UIView>!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.overlapView = MLWOverlapView(overlapsCount: 5) { (overlapIndex) -> UIView in
-            let view = UIView(frame: .zero)
-            
-            
-            return view
-        }
-        
         self.view.translatesAutoresizingMaskIntoConstraints = true
-        
-        self.exportButton.delegate = self
         
         self.playerView.player?.addPeriodicTimeObserver(forInterval: CMTimeMake(10, 30), queue: DispatchQueue.main, using: { (time) in
             self.scrubberView.waveformView.progressSamples = Int(CGFloat(time.value/self.asset.duration.value) * CGFloat(self.scrubberView.waveformView.totalSamples))
@@ -220,13 +200,6 @@ class ViewController: UIViewController {
         self.bezierView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.bezierView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         
-
-//        self.exportButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-//        self.exportButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-//        self.exportButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-//        self.exportButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-//        self.playButtonsView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
         self.playButtonsView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.playButtonsView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
@@ -268,14 +241,8 @@ class ViewController: UIViewController {
 
         self.scrubberView.delegate = self
         self.playButtonsView.delegate = self
-        self.exportButton.delegate = self
 
         self.view.isUserInteractionEnabled = true
-
-        let gesture = KnobGestureRecognizer(target: self, action: #selector(rotationAction(_:)), to: self.view)
-        
-        gesture.delegate = self
-        self.view.addGestureRecognizer(gesture)
     }
     
     var bezierViewControllers:[BezierViewController] = []
@@ -312,10 +279,6 @@ class ViewController: UIViewController {
     var curves:[UIBezierPath] = []
     
     func moveBezierPaths() {
-        for pointView in self.pointViewArray {
-            pointView.removeFromSuperview()
-        }
-        
         for shapeLayer in self.shapes {
             shapeLayer.removeFromSuperlayer()
         }
@@ -326,7 +289,6 @@ class ViewController: UIViewController {
         
         self.shapes = []
         self.curves = []
-        self.pointViewArray = []
     }
     
     func generatePoints(index: Int) -> [NSValue] {
@@ -361,12 +323,6 @@ class ViewController: UIViewController {
             
         
         return points
-    }
-
-    func showSpotlight() {
-        let spotlightViewController = SpotlightViewController()
-        self.present(spotlightViewController, animated: true, completion: nil)
-        spotlightViewController.spotlightView.appear(Spotlight.Oval(center: CGPoint(x: 100, y: 100), diameter: 100))
     }
     
     func checkPhotoLibraryPermission() {
@@ -436,8 +392,6 @@ class ViewController: UIViewController {
                     print("Success")
                     
                     let viewController = VideoViewController(videoURL: self.exporter.outputURL!)
-                    
-                    self.exportButton.resetExportButton()
                     
                     self.playerView.player?.pause()
                     self.playerView.player = nil
@@ -598,51 +552,6 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
     }
 }
 
-extension ViewController : ExportViewDelegate {
-    
-    
-    func stopButtonWasTapped() {
-        self.playerView.player?.rate = 0
-    }
-    
-    func exportButtonWasTapped() {
-        print("exporting")
-        
-        self.checkPhotoLibraryPermission()
-
-        self.storeEdit(index: lastSelectedIndex) // stores final edit
-        
-        LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor(white: 0, alpha: 0.2)) {
-            
-        }
-        
-        do {
-            try self.export(composition: self.mutableComposition)
-        } catch {
-            
-        }
-    }
-    
-    func playButtonWasTapped() {
-        self.playerView.player?.play()
-    }
-    
-    func resetButtonWasTapped() {
-        print("Reseting scrubs")
-        
-        self.present(self.cameraViewController, animated: true) {
-            print("camera shown")
-            self.alreadyAppeared = true
-            
-            self.playerView.player?.pause()
-            self.playerView.player = nil
-            self.playerView.isHidden = true
-            
-            self.scrubberView.clearThumbnails()
-        }
-    }
-}
-
 extension ViewController : ScrubberViewDelegate {
     func draggingHasBegun() {
         self.cameraScrubberPreviewView.isHidden = false
@@ -725,10 +634,3 @@ extension ViewController : SwiftyCamViewControllerDelegate {
         // Returns current camera selection
     }
 }
-
-extension ViewController : UIGestureRecognizerDelegate {
-    func rotationAction(_ sender: KnobGestureRecognizer) {
-        print(sender.rotation)
-    }
-}
-

@@ -19,13 +19,11 @@
 		5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CF3C1EFCA26200486F0D /* DazFireController.m */; };
 		5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */; };
 		5F3B37821EEAFC770019ED66 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B37811EEAFC770019ED66 /* CameraViewController.swift */; };
-		5F6790B01EFCB31F00524100 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790AF1EFCB31F00524100 /* WaveformView.swift */; };
 		5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B21EFCB5D000524100 /* AudioExporter.m */; };
 		5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B41EFCC12F00524100 /* RecorderController.swift */; };
 		5F6A57261EFC4A8E007ADD18 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A57241EFC4A8E007ADD18 /* SnapContainerViewController.swift */; };
 		5F6A57271EFC4A8E007ADD18 /* VerticalScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A57251EFC4A8E007ADD18 /* VerticalScrollViewController.swift */; };
 		5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */; };
-		5FBFBCD51F016FB400AEA188 /* PointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCD31F016FB400AEA188 /* PointView.m */; };
 		5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCD61F016FC900AEA188 /* BezierViewController.m */; };
 		5FBFBCDE1F01A96000AEA188 /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCDD1F01A96000AEA188 /* UIView+YGPulseView.m */; };
 		5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */; };
@@ -33,17 +31,12 @@
 		5FE3C8361ED3A8AB0027348C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FE3C8341ED3A8AB0027348C /* Main.storyboard */; };
 		5FE3C8381ED3A8AB0027348C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FE3C8371ED3A8AB0027348C /* Assets.xcassets */; };
 		5FE3C83B1ED3A8AB0027348C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FE3C8391ED3A8AB0027348C /* LaunchScreen.storyboard */; };
-		5FE3C8461ED3E6C30027348C /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8451ED3E6C30027348C /* CameraView.swift */; };
-		5FE3C8481ED3E7970027348C /* ExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8471ED3E7970027348C /* ExportView.swift */; };
 		5FE3C84A1ED3E8110027348C /* PlayButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8491ED3E8110027348C /* PlayButtonsView.swift */; };
 		5FE3C84C1ED3E8940027348C /* ScrubberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C84B1ED3E8940027348C /* ScrubberView.swift */; };
-		5FE3C84E1ED3E8F40027348C /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C84D1ED3E8F40027348C /* ProgressView.swift */; };
 		5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8511ED40CBD0027348C /* UIView+.swift */; };
-		5FE3C8541ED41F6C0027348C /* PlaybackBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8531ED41F6C0027348C /* PlaybackBarView.swift */; };
 		5FE3C8571ED48E220027348C /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5FE3C8551ED48E000027348C /* test.mp4 */; };
 		5FE3C85A1ED4A1860027348C /* VideoCompositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */; };
 		5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C85B1ED4DAF00027348C /* PlayerView.swift */; };
-		5FE3C85E1ED4F3E90027348C /* PreviewFinalVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C85D1ED4F3E90027348C /* PreviewFinalVideoView.swift */; };
 		5FE6E8DB1EDE3946004BEC52 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */; };
 		992D748284C8A31E932DFF0B /* Pods_Stutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */; };
 /* End PBXBuildFile section */
@@ -63,7 +56,6 @@
 		5F16CF3C1EFCA26200486F0D /* DazFireController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazFireController.m; path = ../../Dazzle/Dazzle/DazFireController.m; sourceTree = "<group>"; };
 		5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraScrubberPreviewView.swift; sourceTree = "<group>"; };
 		5F3B37811EEAFC770019ED66 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		5F6790AF1EFCB31F00524100 /* WaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WaveformView.swift; path = ../../SoundCloudWaveformSwift/avassetReader/WaveformView.swift; sourceTree = "<group>"; };
 		5F6790B11EFCB5D000524100 /* AudioExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioExporter.h; sourceTree = "<group>"; };
 		5F6790B21EFCB5D000524100 /* AudioExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioExporter.m; sourceTree = "<group>"; };
 		5F6790B41EFCC12F00524100 /* RecorderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecorderController.swift; path = ../../Beethoven/Example/GuitarTuner/GuitarTuner/Source/RecorderController.swift; sourceTree = "<group>"; };
@@ -73,8 +65,6 @@
 		5FBFBCCE1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBezierPath+LxThroughPointsBezier.h"; path = "../../LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.h"; sourceTree = "<group>"; };
 		5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBezierPath+LxThroughPointsBezier.m"; path = "../../LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.m"; sourceTree = "<group>"; };
 		5FBFBCD11F016FB400AEA188 /* BezierViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BezierViewController.h; path = ../../LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/BezierViewController.h; sourceTree = "<group>"; };
-		5FBFBCD21F016FB400AEA188 /* PointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointView.h; path = ../../LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/PointView.h; sourceTree = "<group>"; };
-		5FBFBCD31F016FB400AEA188 /* PointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointView.m; path = ../../LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/PointView.m; sourceTree = "<group>"; };
 		5FBFBCD61F016FC900AEA188 /* BezierViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BezierViewController.m; path = ../../LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/BezierViewController.m; sourceTree = "<group>"; };
 		5FBFBCDC1F01A96000AEA188 /* UIView+YGPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+YGPulseView.h"; path = "../../YGPulseView/YGPulseView/UIView+YGPulseView.h"; sourceTree = "<group>"; };
 		5FBFBCDD1F01A96000AEA188 /* UIView+YGPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+YGPulseView.m"; path = "../../YGPulseView/YGPulseView/UIView+YGPulseView.m"; sourceTree = "<group>"; };
@@ -85,18 +75,12 @@
 		5FE3C8371ED3A8AB0027348C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5FE3C83A1ED3A8AB0027348C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5FE3C83C1ED3A8AB0027348C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FE3C8441ED3DE840027348C /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = Base.lproj/FlipperView.swift; sourceTree = "<group>"; };
-		5FE3C8451ED3E6C30027348C /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		5FE3C8471ED3E7970027348C /* ExportView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportView.swift; sourceTree = "<group>"; };
 		5FE3C8491ED3E8110027348C /* PlayButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButtonsView.swift; sourceTree = "<group>"; };
 		5FE3C84B1ED3E8940027348C /* ScrubberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrubberView.swift; sourceTree = "<group>"; };
-		5FE3C84D1ED3E8F40027348C /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		5FE3C8511ED40CBD0027348C /* UIView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
-		5FE3C8531ED41F6C0027348C /* PlaybackBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaybackBarView.swift; sourceTree = "<group>"; };
 		5FE3C8551ED48E000027348C /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
 		5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCompositionController.swift; sourceTree = "<group>"; };
 		5FE3C85B1ED4DAF00027348C /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
-		5FE3C85D1ED4F3E90027348C /* PreviewFinalVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewFinalVideoView.swift; sourceTree = "<group>"; };
 		5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stutter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB0443D5265F82478482DD7 /* Pods-Stutter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stutter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Stutter/Pods-Stutter.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,19 +160,10 @@
 		5FE3C8421ED3DE680027348C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5FBFBCD21F016FB400AEA188 /* PointView.h */,
-				5FBFBCD31F016FB400AEA188 /* PointView.m */,
-				5F6790AF1EFCB31F00524100 /* WaveformView.swift */,
 				5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */,
-				5FE3C8431ED3DE840027348C /* FlipperView.swift */,
-				5FE3C8451ED3E6C30027348C /* CameraView.swift */,
-				5FE3C8471ED3E7970027348C /* ExportView.swift */,
 				5FE3C8491ED3E8110027348C /* PlayButtonsView.swift */,
 				5FE3C84B1ED3E8940027348C /* ScrubberView.swift */,
-				5FE3C84D1ED3E8F40027348C /* ProgressView.swift */,
-				5FE3C8531ED41F6C0027348C /* PlaybackBarView.swift */,
 				5FE3C85B1ED4DAF00027348C /* PlayerView.swift */,
-				5FE3C85D1ED4F3E90027348C /* PreviewFinalVideoView.swift */,
 				5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */,
 			);
 			name = Views;
@@ -401,23 +376,16 @@
 				5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */,
 				5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */,
 				5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */,
-				5FE3C8481ED3E7970027348C /* ExportView.swift in Sources */,
 				5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */,
-				5FE3C8461ED3E6C30027348C /* CameraView.swift in Sources */,
-				5FBFBCD51F016FB400AEA188 /* PointView.m in Sources */,
 				5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */,
 				5F6A57271EFC4A8E007ADD18 /* VerticalScrollViewController.swift in Sources */,
 				5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */,
 				5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */,
 				5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */,
-				5FE3C84E1ED3E8F40027348C /* ProgressView.swift in Sources */,
 				5FE3C84A1ED3E8110027348C /* PlayButtonsView.swift in Sources */,
-				5F6790B01EFCB31F00524100 /* WaveformView.swift in Sources */,
 				5FBFBCDE1F01A96000AEA188 /* UIView+YGPulseView.m in Sources */,
 				5F16CE801EFC829600486F0D /* SDevCircleButton.swift in Sources */,
 				5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */,
-				5FE3C85E1ED4F3E90027348C /* PreviewFinalVideoView.swift in Sources */,
-				5FE3C8541ED41F6C0027348C /* PlaybackBarView.swift in Sources */,
 				5FE3C85A1ED4A1860027348C /* VideoCompositionController.swift in Sources */,
 				5F3B37821EEAFC770019ED66 /* CameraViewController.swift in Sources */,
 				5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */,
@@ -441,14 +409,6 @@
 				5FE3C83A1ED3A8AB0027348C /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		5FE3C8431ED3DE840027348C /* FlipperView.swift */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5FE3C8441ED3DE840027348C /* Base */,
-			);
-			name = FlipperView.swift;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

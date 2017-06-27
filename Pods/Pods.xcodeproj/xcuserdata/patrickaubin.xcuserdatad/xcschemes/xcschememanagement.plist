@@ -19,16 +19,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>CFPressHoldButton.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>CameraManager.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Cartography.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -49,27 +39,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Gecco.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>GlitchLabel.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>HTPressableButton.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Hue.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>KnobGestureRecognizer.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -79,17 +49,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>MIBadgeButton-Swift.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>MotionAnimation.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Overlap.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -114,11 +74,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>TKRubberPageControl.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>VIMVideoPlayer.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -129,25 +84,15 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>WobbleView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>044D24CD957C7BD215506693AF4433A7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>100EAFCCC6E91DEC79D9911111EC3E1D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>131D7114AFD67BE676276B3D260CCA27</key>
+		<key>297FE424E38E7DD9321B5D8897CC5ECB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -157,32 +102,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2FF5F473ECC3D5C0A5576CBD3840F577</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>349C7332321D4913AA51D6D1AD4E81EA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>34E1BEE5B9151B6FF42B51C88D1AF746</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4129815CFCD2883866A447326F7CC7F3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>442354F8C109936E1BD122BD0198A6D8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>44803A9C26A84D121A04C4A248FC9B70</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -192,42 +112,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>657B89B0C8A0AF7703D08A78CD23853C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6666538677EC0DAE80CC51B47269B2B1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>687FB79904C0D0497C3222D8C17B9CAD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>6BC3E8FBAD56AD03A1F952B604615D34</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6C1BDE8AD25111E7C8D34E7969DF6CA2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6FDC108346C040613D44ADA802FAEAB8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>744DAA523CCBF99D20003FDBAD04F55B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>75011B4A06FA13D36860DCE077FE2D6A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -242,6 +127,16 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>92C29A4993539983BD049F64E108F297</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9C95C5D37EB9E18F90D9AB0BA0B69B73</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B2542602E50EDF091ADB18B4688DF34F</key>
 		<dict>
 			<key>primary</key>
@@ -252,17 +147,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>C71EBE310553598A06E857DBC841F4AF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>DA4F7A0E685C646D038E3BAF31DA699D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ED347253791613F820AB764013457A24</key>
+		<key>DCA79F0E98635BD0A801915205C56CD7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FFBE657764C9F6D8E01DDE2949BD2E64</key>
+		<key>ED347253791613F820AB764013457A24</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -1,6 +1,0 @@
-framework module KnobGestureRecognizer {
-  umbrella header "KnobGestureRecognizer-umbrella.h"
-
-  export *
-  module * { export * }
-}

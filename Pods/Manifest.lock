@@ -3,115 +3,67 @@ PODS:
   - AnimatablePlayButton (1.0.0)
   - Beethoven (3.0.1):
     - Pitchy
-  - CameraManager (3.1.3)
   - Cartography (1.1.0)
-  - CFPressHoldButton (0.1.2)
   - DynamicButton (4.0.0)
   - ElasticTransition (3.1.1):
     - MotionAnimation (~> 0.1.2)
   - FDWaveformView (2.2.0)
-  - Gecco (1.0.0)
-  - GlitchLabel (2.0.0)
-  - HTPressableButton (1.3.3):
-    - HTPressableButton/All (= 1.3.3)
-  - HTPressableButton/All (1.3.3)
   - Hue (2.0.1)
-  - KnobGestureRecognizer (1.0.0)
   - LLSpinner (0.0.1)
-  - MIBadgeButton-Swift (0.5)
   - MotionAnimation (0.1.2)
-  - Overlap (0.4.0)
   - Pitchy (2.0.1)
   - SwiftyButton (0.6.0)
   - SwiftyCam (2.3.0)
-  - TKRubberPageControl (1.3.1)
   - VideoViewController (1.1)
   - VIMVideoPlayer (6.0.1)
-  - WobbleView (1.1)
 
 DEPENDENCIES:
   - AHKBendableView
   - AnimatablePlayButton (from `https://github.com/paubins/AnimatablePlayButton`)
   - Beethoven
-  - CameraManager (~> 3.1)
   - Cartography
-  - CFPressHoldButton (from `https://github.com/cflatinc/CFPressHoldButton.git`)
   - DynamicButton (~> 4.0.0)
   - ElasticTransition
   - FDWaveformView
-  - Gecco
-  - GlitchLabel (~> 2.0.0)
-  - HTPressableButton
   - Hue
-  - KnobGestureRecognizer
   - LLSpinner
-  - MIBadgeButton-Swift (from `https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git`, branch `master`)
-  - Overlap
   - SwiftyButton
   - SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `2.4.0`)
-  - TKRubberPageControl
   - VideoViewController
   - VIMVideoPlayer
-  - WobbleView (from `git@github.com:paubins/WobbleView.git`)
 
 EXTERNAL SOURCES:
   AnimatablePlayButton:
     :git: https://github.com/paubins/AnimatablePlayButton
-  CFPressHoldButton:
-    :git: https://github.com/cflatinc/CFPressHoldButton.git
-  MIBadgeButton-Swift:
-    :branch: master
-    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
   SwiftyCam:
     :branch: 2.4.0
     :git: git@github.com:Awalz/SwiftyCam.git
-  WobbleView:
-    :git: git@github.com:paubins/WobbleView.git
 
 CHECKOUT OPTIONS:
   AnimatablePlayButton:
     :commit: 380f6272e0b0262d475c6bc58755744d0aa3237b
     :git: https://github.com/paubins/AnimatablePlayButton
-  CFPressHoldButton:
-    :commit: 63a2a5502be385cecae39256636122e49208853c
-    :git: https://github.com/cflatinc/CFPressHoldButton.git
-  MIBadgeButton-Swift:
-    :commit: 3c2638d2e6e46ec2e6dd978d8ada8863df3df5e6
-    :git: https://github.com/mustafaibrahim989/MIBadgeButton-Swift.git
   SwiftyCam:
     :commit: 9b8e7fd95131d98d145c956c925267c0a674d7bf
     :git: git@github.com:Awalz/SwiftyCam.git
-  WobbleView:
-    :commit: fef44549f7338b09e64f2d9d11ebd40c66713aa9
-    :git: git@github.com:paubins/WobbleView.git
 
 SPEC CHECKSUMS:
   AHKBendableView: ce81dc973f5e59367641e769404a9a8ad99f606e
   AnimatablePlayButton: 529c208dc98499c8fcfca52fff26fee2316d3e82
   Beethoven: 2530f27d1881f24f9e5d757aeb7f654b735f1080
-  CameraManager: f99859328bfecb21e65378e8cbd79980577700c4
   Cartography: 0538ccb4044acbbda2266335fc58cb4228794d90
-  CFPressHoldButton: 359342a7cf4106b4dd589713ae908c8f62c8327c
   DynamicButton: ddc1e8d79e37f2761ab64df0c02e89061b05d812
   ElasticTransition: 6c4e4739e32480c864217db912100f3657f6447a
   FDWaveformView: 21127c3dab35b522e87a799ec96fe3b4f868ab0e
-  Gecco: e662f949821e742997787bad7b730ccc0052e43c
-  GlitchLabel: 65773d1df358ef66c8daa40428eb79bd04e7a976
-  HTPressableButton: 3109ba7972247ddbd387c8a22b0341b02369b31e
   Hue: 354caec055fdc9d38b5ef33ca2e7224721843baf
-  KnobGestureRecognizer: 146a38716a088e3fb8a3c77f33d7fe05e47eaa21
   LLSpinner: 0ed607d59b3a447ddd157c29ef684de7a5a285ad
-  MIBadgeButton-Swift: 9e57309b00b168d75ca8fecb45bc75124a8ffddf
   MotionAnimation: ff5c8fc2e429d7e10d46ae86819ba9759846c343
-  Overlap: 7c0520cb9110287643e8c64a7b36463e4e16d894
   Pitchy: 00dbe7cb7ac87fd9c32cb2aa6ce50d11f931289f
   SwiftyButton: 4c9b61c499f172971a1b8c2eebbbdc20a26d8a08
   SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
-  TKRubberPageControl: 28fd820fa39f2da2794536583c5054e48de3067c
   VideoViewController: b251689d8b1cd51b65f718c9bc6109c02078e273
   VIMVideoPlayer: f4ed0a9986294ec3684a2e6bdc738e30051ef4ef
-  WobbleView: 220071f2705e29c1103c6497ba780d8872b6629d
 
-PODFILE CHECKSUM: 2b07e159c11edd726b1de151c86de6080311747f
+PODFILE CHECKSUM: b2c57b7540a558cc0bbbbb384e570c7b8daf501c
 
 COCOAPODS: 1.2.0
