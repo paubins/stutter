@@ -20,22 +20,14 @@ import DynamicButton
 
 let WIDTH_CONSTANT = CGFloat(10.0)
 
-extension UIColor {
-    
-    convenience init(rgbColorCodeRed red: Int, green: Int, blue: Int, alpha: CGFloat) {
-        
-        let redPart: CGFloat = CGFloat(red) / 255
-        let greenPart: CGFloat = CGFloat(green) / 255
-        let bluePart: CGFloat = CGFloat(blue) / 255
-        
-        self.init(red: redPart, green: greenPart, blue: bluePart, alpha: alpha)
-    }
-}
-
 class ViewController: UIViewController {
     var scrubberView:ScrubberView = ScrubberView(frame: CGRect.zero)
     let playButtonsView:PlayButtonsView = PlayButtonsView(frame: CGRect.zero)
     let playerView:PlayerView = PlayerView(frame: CGRect.zero)
+    
+    let menuViewController:MenuViewController = MenuViewController()
+    
+    let recordButtonView:RecordButtonsView = RecordButtonsView(frame: CGRect.zero)
     
     let resetButtons:UIView = {
         let containerView:UIView = UIView(frame: .zero)
@@ -45,6 +37,8 @@ class ViewController: UIViewController {
         playStopBackButton.strokeColor         = .black
         playStopBackButton.highlightStokeColor = .gray
         playStopBackButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        playStopBackButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
         
@@ -65,6 +59,8 @@ class ViewController: UIViewController {
         playStopBackButton.strokeColor         = .black
         playStopBackButton.highlightStokeColor = .gray
         playStopBackButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        playStopBackButton.addTarget(self, action: #selector(saveVideo), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
         
@@ -118,9 +114,7 @@ class ViewController: UIViewController {
     var recordingCounter:UILabel!
     
     var audioPlayer:AVAudioPlayer!
-    
-    var bezierViewController:BezierViewController!
-    
+
     var path:UIBezierPath!
     var i:Int = 0
     
@@ -156,6 +150,8 @@ class ViewController: UIViewController {
         return transition
     }()
     
+    var bezierViewControllers:[BezierViewController] = []
+    
     var TIMES = [0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0]
     var originalVolume:Float = 0
     let cameraViewController:CameraViewController = {
@@ -164,36 +160,59 @@ class ViewController: UIViewController {
         return cameraViewController
     }()
     
+    func goBack() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func saveVideo() {
+        self.playerView.player?.rate = 0
+        
+        do {
+            try self.export(composition: self.mutableComposition)
+            
+            LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor.black) {
+            
+            }
+        } catch {
+        
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.translatesAutoresizingMaskIntoConstraints = true
         
-        self.playerView.player?.addPeriodicTimeObserver(forInterval: CMTimeMake(10, 30), queue: DispatchQueue.main, using: { (time) in
-            self.scrubberView.waveformView.progressSamples = Int(CGFloat(time.value/self.asset.duration.value) * CGFloat(self.scrubberView.waveformView.totalSamples))
-        })
+//        self.playerView.player?.addPeriodicTimeObserver(forInterval: CMTimeMake(100, 600), queue: DispatchQueue.main, using: { (time) in
+//            self.scrubberView.waveformView.progressSamples = Int(CGFloat(time.value/self.asset.duration.value) * CGFloat(self.scrubberView.waveformView.totalSamples))
+//        })
         
         self.view.addSubview(self.playerView)
+        self.view.addSubview(self.menuViewController.view)
         self.view.addSubview(self.scrubberView)
         self.view.addSubview(self.bezierView)
         self.view.addSubview(self.playButtonsView)
 
         self.view.addSubview(self.cameraScrubberPreviewView)
-        
+    
         self.view.addSubview(self.spacerView)
         
         self.view.addSubview(self.resetButtons)
         self.view.addSubview(self.saveButtons)
+        self.view.addSubview(self.recordButtonView)
+        
+        self.recordButtonView.delegate = self
         
         self.resetButtons.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.resetButtons.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.resetButtons.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        self.resetButtons.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        self.resetButtons.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        self.resetButtons.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         self.saveButtons.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.saveButtons.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.saveButtons.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        self.saveButtons.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        self.saveButtons.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        self.saveButtons.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         self.bezierView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.bezierView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
@@ -214,6 +233,17 @@ class ViewController: UIViewController {
         self.spacerView.bottomAnchor.constraint(equalTo: self.scrubberView.topAnchor).isActive = true
         self.spacerView.topAnchor.constraint(equalTo: self.playButtonsView.bottomAnchor).isActive = true
         
+        self.recordButtonView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.recordButtonView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.recordButtonView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.recordButtonView.bottomAnchor.constraint(equalTo: self.playButtonsView.topAnchor).isActive = true
+        
+        self.menuViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.menuViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.menuViewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.menuViewController.view.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        
+        
         self.scrubberView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 //        self.scrubberView.topAnchor.constraint(equalTo: self.playButtonsView.bottomAnchor).isActive = true
         self.scrubberView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
@@ -226,7 +256,7 @@ class ViewController: UIViewController {
         self.playerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
         self.cameraScrubberPreviewView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.cameraScrubberPreviewView.bottomAnchor.constraint(equalTo: self.playButtonsView.topAnchor).isActive = true
+        self.cameraScrubberPreviewView.bottomAnchor.constraint(equalTo: self.recordButtonView.topAnchor).isActive = true
         self.cameraScrubberPreviewView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.cameraScrubberPreviewView.isHidden = true
         
@@ -234,7 +264,7 @@ class ViewController: UIViewController {
         self.fireController.view.bounds = self.view.bounds
         
         self.view.insertSubview(self.dazzleController.view, aboveSubview: self.playerView)
-        self.view.insertSubview(self.fireController.view, aboveSubview: self.dazzleController.view)
+//        self.view.insertSubview(self.fireController.view, aboveSubview: self.dazzleController.view)
         
         self.cameraScrubberPreviewConstraint = self.cameraScrubberPreviewView.widthAnchor.constraint(equalToConstant: 50)
         self.cameraScrubberPreviewConstraint.isActive = true
@@ -243,30 +273,30 @@ class ViewController: UIViewController {
         self.playButtonsView.delegate = self
 
         self.view.isUserInteractionEnabled = true
+        
+        
+        let tapGestureRecognizer:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        
+        self.menuViewController.view.addGestureRecognizer(tapGestureRecognizer)
     }
-    
-    var bezierViewControllers:[BezierViewController] = []
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if(!self.alreadyAppeared) {
-            self.cameraViewController.cameraDelegate = self
-            self.cameraViewController.transitioningDelegate = leftTransition
-            self.cameraViewController.modalPresentationStyle = .custom
             
-            self.cameraViewController.shouldUseDeviceOrientation = true
+            self.alreadyAppeared = true
             
-            self.present(self.cameraViewController, animated: true) {
-                print("camera shown")
-                self.alreadyAppeared = true
+            for index in 0..<5 {
+                let slicePositionX:CGFloat = self.scrubberView.getSlicePosition(index: index)
+                let slicePositionY:CGFloat = self.scrubberView.frame.origin.y
+                
+                let viewController:BezierViewController = BezierViewController(points: self.generatePoints(index: index, slicePositionX: slicePositionX, slicePositionY: slicePositionY), with: Constant.COLORS[index])
+                self.bezierViewControllers.append(viewController)
+                self.bezierView.addSubview(viewController.view)
+                
+                self.sliceWasMovedTo(index: index, time: Int(self.currentAssetDuration/Float64(5)), distance: Int(slicePositionX))
             }
-        }
-        
-        for index in 0..<5 {
-            let viewController:BezierViewController = BezierViewController(points: self.generatePoints(index: index), with: COLORS[index])
-            self.bezierViewControllers.append(viewController)
-            self.bezierView.addSubview(viewController.view)
         }
     }
     
@@ -275,36 +305,29 @@ class ViewController: UIViewController {
         
     }
     
-    var shapes:[CAShapeLayer] = []
-    var curves:[UIBezierPath] = []
-    
-    func moveBezierPaths() {
-        for shapeLayer in self.shapes {
-            shapeLayer.removeFromSuperlayer()
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-        for curve in self.curves {
-            curve.removeAllPoints()
-        }
+        print("disappeared")
         
-        self.shapes = []
-        self.curves = []
+        self.reset()
     }
     
-    func generatePoints(index: Int) -> [NSValue] {
+    func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
+        self.playerView.player?.rate = 0
+    }
+    
+    func generatePoints(index: Int, slicePositionX: CGFloat, slicePositionY: CGFloat) -> [NSValue] {
         var points:[NSValue] = []
         let buttonHeight = self.playButtonsView.button0.frame.height
         
-        let slicePositionX:CGFloat = self.scrubberView.getSlicePosition(index: index) + 10
-        let slicePositionY:CGFloat = self.scrubberView.frame.origin.y - 150
-        
         // original slice position
-        points.append(NSValue(cgPoint: CGPoint(x: self.scrubberView.getSlicePosition(index: index) + 10,
-                                               y: self.scrubberView.frame.origin.y)))
+        points.append(NSValue(cgPoint: CGPoint(x: slicePositionX + 10,
+                                               y: slicePositionY)))
         
         // just above the slice position
-        points.append(NSValue(cgPoint: CGPoint(x: self.scrubberView.getSlicePosition(index: index) + 10,
-                                               y: self.scrubberView.frame.origin.y - 10)))
+        points.append(NSValue(cgPoint: CGPoint(x: slicePositionX + 10,
+                                               y: slicePositionY - 10)))
         
         // just below the play buttons
         points.append(NSValue(cgPoint: CGPoint(x: self.playButtonsView.buttonCenter(atIndex: index).x,
@@ -318,8 +341,15 @@ class ViewController: UIViewController {
         points.append(NSValue(cgPoint: CGPoint(x: self.playButtonsView.buttonCenter(atIndex: index).x,
                                                y: self.playButtonsView.buttonCenter(atIndex: index).y - 50)))
         
-        points.append(NSValue(cgPoint: CGPoint(x: slicePositionX,
-                                               y: slicePositionY)))
+        var offset = CGFloat(index*10)
+        if (index == 0) {
+            offset = CGFloat((index+1) * 10)
+        } else {
+            offset = CGFloat(index*10)
+        }
+        
+        points.append(NSValue(cgPoint: CGPoint(x: slicePositionX + 10,
+                                               y: slicePositionY - 100 + offset)))
             
         
         return points
@@ -391,8 +421,6 @@ class ViewController: UIViewController {
                     UISaveVideoAtPathToSavedPhotosAlbum(outputPath, self, nil, nil)
                     print("Success")
                     
-                    let viewController = VideoViewController(videoURL: self.exporter.outputURL!)
-                    
                     self.playerView.player?.pause()
                     self.playerView.player = nil
                     self.playerView.isHidden = true
@@ -403,9 +431,8 @@ class ViewController: UIViewController {
                     self.lastSelectedIndex = 0
                     self.lastInsertedTime = kCMTimeZero
                     
-                    self.present(viewController, animated: true, completion: {
-                        LLSpinner.stop()
-                    })
+                    LLSpinner.stop()
+                    self.navigationController?.popToRootViewController(animated: false)
                 }
                 else {
                     print(self.exporter.error?.localizedDescription ?? "error")
@@ -457,10 +484,7 @@ extension ViewController : PlayButtonViewDelegate {
         
         _ =  self.scrubberView.frame.origin.y + self.scrubberView.frame.size.height/2
         
-        let slicePositionX:CGFloat = self.scrubberView.getSlicePosition(index: index) + 10
-        let slicePositionY:CGFloat = self.scrubberView.frame.origin.y + self.scrubberView.frame.size.height - 150
-        
-        self.dazzleController.touch(atPosition: CGPoint(x: slicePositionX, y: slicePositionY))
+        self.dazzleController.touch(atPosition: CGPoint(x: self.recordButtonView.getSlicePosition(index: index) + 10, y: self.recordButtonView.frame.origin.y + CGFloat(index*10)))
         
         self.storeEdit(index: index)
 
@@ -533,6 +557,8 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
             case AVKeyValueStatus.loaded:
                 time = CMTimeGetSeconds(self.asset.duration)
                 self.scrubberView.length = Int(floor(time * 100))
+                self.recordButtonView.length = Int(floor(time * 100))
+                
                 self.scrubberView.resetTimes()
                 self.currentAssetDuration = time
                 
@@ -550,6 +576,12 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
         
         LLSpinner.stop()
     }
+    
+    func reset() {
+        self.scrubberView.removeAllImages()
+        self.playerView.player?.rate = 0
+        self.playerView.player = nil
+    }
 }
 
 extension ViewController : ScrubberViewDelegate {
@@ -560,8 +592,14 @@ extension ViewController : ScrubberViewDelegate {
     func sliceWasMovedTo(index: Int, time: Int, distance: Int) {
         TIMES[index] = Double(time)*0.01
     
-        self.bezierViewControllers[index].points = self.generatePoints(index: index)
+        let slicePositionX:CGFloat = self.scrubberView.getSlicePosition(index: index)
+        let slicePositionY:CGFloat = self.scrubberView.frame.origin.y
+        
+        self.bezierViewControllers[index].points = self.generatePoints(index: index, slicePositionX: slicePositionX, slicePositionY: slicePositionY)
+        
         self.bezierViewControllers[index].pointsChanged()
+        
+        self.recordButtonView.updateFlipper(index: index, distance: CGFloat(distance))
         
         self.cameraScrubberPreviewView.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 60),
                                      toleranceBefore: CMTimeMake(1, 60),
@@ -577,60 +615,35 @@ extension ViewController : ScrubberViewDelegate {
 
 }
 
-
-extension ViewController : SwiftyCamViewControllerDelegate {
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        // Called when takePhoto() is called or if a SwiftyCamButton initiates a tap gesture
-        // Returns a UIImage captured from the current session
-        print("photo")
+extension ViewController : RecordButtonsViewDelegate {
+    func recordButtonDraggingHasBegun() {
+        self.cameraScrubberPreviewView.isHidden = false
     }
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        // Called when startVideoRecording() is called
-        // Called if a SwiftyCamButton begins a long press gesture
-        print("started recording")
+    func recordButtonSliceWasMovedTo(index: Int, time: Int, distance: Int) {
+        TIMES[index] = Double(time)*0.01
+        print("go")
+        
+        let slicePositionX:CGFloat = self.recordButtonView.getSlicePosition(index: index)
+        let slicePositionY:CGFloat = self.scrubberView.frame.origin.y
+        
+        self.bezierViewControllers[index].points = self.generatePoints(index: index, slicePositionX: slicePositionX, slicePositionY: slicePositionY)
+        
+        self.bezierViewControllers[index].pointsChanged()
+        
+        self.scrubberView.updateFlipper(index: index, distance: CGFloat(distance))
+        
+        self.cameraScrubberPreviewView.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 60),
+                                                               toleranceBefore: CMTimeMake(1, 60),
+                                                               toleranceAfter: CMTimeMake(1, 60))
         
         
+        self.cameraScrubberPreviewConstraint.constant = 20 + CGFloat(distance)
     }
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        // Called when stopVideoRecording() is called
-        // Called if a SwiftyCamButton ends a long press gesture
-        print("finished recording")
-        
-        LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor(white: 0, alpha: 0.2)) {
-            
-        }
+    func recordButtonDraggingHasEnded() {
+        self.cameraScrubberPreviewView.isHidden = true
     }
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
-        // Called when stopVideoRecording() is called and the video is finished processing
-        // Returns a URL in the temporary directory where video is stored
-        print("did finish recording")
-        
-        self.asset = AVAsset(url: url)
-        self.processAsset()
-        
-        AudioExporter.getAudioFromVideo(self.asset) { (exportSession) in
-            let url:URL = (exportSession?.outputURL)!
-            self.scrubberView.waveformView.audioURL = url
-        }
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
-        // Called when a user initiates a tap gesture on the preview layer
-        // Will only be called if tapToFocus = true
-        // Returns a CGPoint of the tap location on the preview layer
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
-        // Called when a user initiates a pinch gesture on the preview layer
-        // Will only be called if pinchToZoomn = true
-        // Returns a CGFloat of the current zoom level
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
-        // Called when user switches between cameras
-        // Returns current camera selection
-    }
 }
+

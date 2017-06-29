@@ -10,8 +10,6 @@ import UIKit
 import AHKBendableView
 import FDWaveformView
 
-let NUMBER_OF_FRAMES = 10
-
 protocol ScrubberViewDelegate {
     func sliceWasMovedTo(index: Int, time: Int, distance: Int)
     func draggingHasBegun()
@@ -33,7 +31,10 @@ class ScrubberView : UIView {
         let newWaveForm:FDWaveformView = FDWaveformView()
         newWaveForm.backgroundColor = UIColor.clear
         newWaveForm.translatesAutoresizingMaskIntoConstraints = false
-        newWaveForm.wavesColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+        newWaveForm.wavesColor = Constant.wavesColor
+        newWaveForm.doesAllowScrubbing = false
+        newWaveForm.doesAllowScroll = false
+        newWaveForm.doesAllowStretch = false
         
         return newWaveForm
     }()
@@ -54,17 +55,11 @@ class ScrubberView : UIView {
         self.waveformView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         self.waveformView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        self.imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.imageView.heightAnchor.constraint(equalToConstant: Constant.scrubberViewHeight).isActive = true
         self.imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 
         var i = 0
         var padding = CGFloat(0)
-        
-        let colors = [UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
-                      UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
-                      UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
-                      UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
-                      UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0)]
         
         while(i < 5) {
             let flipper:UIView = UIView(frame: CGRect.zero)
@@ -73,13 +68,13 @@ class ScrubberView : UIView {
             
             let slice:BendableView = BendableView(frame: .zero)
             slice.translatesAutoresizingMaskIntoConstraints = false
-            slice.backgroundColor = colors[i]
+            slice.backgroundColor = Constant.COLORS[i]
             
             flipper.addSubview(slice)
             
-            slice.fillColor = colors[i]
-            slice.damping = 0.7
-            slice.initialSpringVelocity = 0.8
+            slice.fillColor = Constant.COLORS[i]
+            slice.damping = Constant.scrubberSliceDamping
+            slice.initialSpringVelocity = Constant.scrubberSpringVelocity
             
             slice.topAnchor.constraint(equalTo: flipper.topAnchor).isActive = true
             slice.widthAnchor.constraint(equalToConstant: 5).isActive = true
@@ -90,13 +85,14 @@ class ScrubberView : UIView {
             
             self.addSubview(flipper)
             
+            slice.tag = i
             flipper.tag = i
             flipper.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
             
             if (i == 0) {
-                flipper.widthAnchor.constraint(equalToConstant: 5).isActive = true
+                flipper.widthAnchor.constraint(equalToConstant: Constant.flipperWidthFirst).isActive = true
             } else {
-                flipper.widthAnchor.constraint(equalToConstant: 20).isActive = true
+                flipper.widthAnchor.constraint(equalToConstant: Constant.flipperWidth).isActive = true
             }
             
             flipper.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
@@ -112,13 +108,15 @@ class ScrubberView : UIView {
                 flipper.addGestureRecognizer(gestureRecognizer)
             }
             
-            padding += CGFloat(50.0)
+            padding += Constant.flipperPadding
             i += 1
         }
     }
     
     func blowUpSliceAt(index: Int) {
         self.slices[index].shake()
+        
+        self.waveformView.progressColor = Constant.COLORS[index]
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: .allowUserInteraction, animations: {
             self.slices[index].frame.origin.x += 5
@@ -132,6 +130,14 @@ class ScrubberView : UIView {
 }
 
 extension ScrubberView {
+    
+    func removeAllImages() {
+        for subview in self.imageView.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        self.thumbnails = []
+    }
     
     func addImage(image: UIImage) {
         let newThumbnail:UIImageView = UIImageView(image: image)
@@ -160,12 +166,10 @@ extension ScrubberView {
         
         if (gestureRecognizer.state == UIGestureRecognizerState.began) {
             self.delegate?.draggingHasBegun()
-//            gestureRecognizer.view?.stopPulse()
         }
         
         if (gestureRecognizer.state == .ended) {
             self.delegate?.draggingHasEnded()
-//            gestureRecognizer.view?.startPulse(with: .orange, animation: .radarPulsing)
         }
         
         let view = gestureRecognizer.view
@@ -175,6 +179,11 @@ extension ScrubberView {
             let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
             self.delegate?.sliceWasMovedTo(index: (view?.tag)!, time: currentTime, distance: Int(gestureRecognizer.location(in: self.superview).x))
         }
+    }
+    
+    func updateFlipper(index:Int, distance: CGFloat) {
+        let layoutConstraint:NSLayoutConstraint = self.flippers[index]
+        layoutConstraint.constant = distance
     }
     
     func resetTimes() {

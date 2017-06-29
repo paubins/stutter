@@ -54,12 +54,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Overlap.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pitchy.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-Stutter.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pulsator.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -92,17 +102,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>297FE424E38E7DD9321B5D8897CC5ECB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2A1C063ECF7DF3146537A4F9A375F476</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>34870B6BFD3AA039B46441166C0A76B3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>349C7332321D4913AA51D6D1AD4E81EA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4E38F0359B34C05721E355691394BC99</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5075AC130478B246B495D890F36890D3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,6 +137,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>75011B4A06FA13D36860DCE077FE2D6A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>800F39573EA188EF47EAF7DCF2B5E7B5</key>
 		<dict>
 			<key>primary</key>
@@ -127,12 +152,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>92C29A4993539983BD049F64E108F297</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9C95C5D37EB9E18F90D9AB0BA0B69B73</key>
+		<key>AC72908653DDAF4E3AA4FC337368F3DB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -147,17 +167,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C71EBE310553598A06E857DBC841F4AF</key>
+		<key>C12BF899B7D8DA989A1456DB3E629F60</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D20DCE0034BE68F8F6E118F2A255BB90</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>DA4F7A0E685C646D038E3BAF31DA699D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DCA79F0E98635BD0A801915205C56CD7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

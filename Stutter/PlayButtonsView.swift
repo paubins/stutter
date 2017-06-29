@@ -14,20 +14,13 @@ protocol PlayButtonViewDelegate {
     func badgedEarned(badge: Int, index: Int)
 }
 
-let COLORS:[UIColor] = [UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
-                        UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
-                        UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
-                        UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
-                        UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0)
-                        ]
-
 class PlayButtonsView: UIView {
     
     let padding = 0
     
     let button0:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: COLORS[0],
+        button.colors = .init(button: Constant.COLORS[0],
                                   shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -38,7 +31,7 @@ class PlayButtonsView: UIView {
     
     let button1:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: COLORS[1],
+        button.colors = .init(button: Constant.COLORS[1],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -49,7 +42,7 @@ class PlayButtonsView: UIView {
     
     let button2:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: COLORS[2],
+        button.colors = .init(button: Constant.COLORS[2],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -60,7 +53,7 @@ class PlayButtonsView: UIView {
     
     let button3:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: COLORS[3],
+        button.colors = .init(button: Constant.COLORS[3],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -71,7 +64,7 @@ class PlayButtonsView: UIView {
     
     let button4:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
-        button.colors = .init(button: COLORS[4],
+        button.colors = .init(button: Constant.COLORS[4],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
@@ -97,12 +90,6 @@ class PlayButtonsView: UIView {
             }
         }
     }
-    
-    let colors = [UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
-                  UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
-                  UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
-                  UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
-                  UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0)]
     
     var delegate: PlayButtonViewDelegate?
     

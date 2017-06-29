@@ -23,8 +23,8 @@ class CameraScrubberPreviewView : UIView {
         self.playerView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         self.playerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
-        self.playerView.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        self.playerView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        self.playerView.widthAnchor.constraint(equalToConstant: Constant.scrubberFramePreviewHeight).isActive = true
+        self.playerView.heightAnchor.constraint(equalToConstant: Constant.scrubberFramePreviewHeight).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

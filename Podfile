@@ -22,5 +22,7 @@ target 'Stutter' do
   pod 'Cartography'
   pod 'VIMVideoPlayer'
   pod 'VideoViewController'
+  pod "Pulsator"
+  pod 'Overlap'
 
 end

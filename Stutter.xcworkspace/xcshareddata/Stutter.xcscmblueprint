@@ -4,9 +4,10 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "0C28035231BE5F940C9386D5D10F240077711ED0" : 9223372036854775807,
-    "9790934A122E949598EB24462201A3DBD17F692C" : 9223372036854775807,
     "1C068F102269D4303D3A9EFBCB3EC94732CC6E0C" : 9223372036854775807,
+    "9790934A122E949598EB24462201A3DBD17F692C" : 9223372036854775807,
+    "0C28035231BE5F940C9386D5D10F240077711ED0" : 9223372036854775807,
+    "1C12E4924D7CEF3E005AB3014DDB70B7886A2B80" : 9223372036854775807,
     "352AF8FC895BB1335FF5AB87E1EB8EA1E92BE1D1" : 9223372036854775807,
     "E059F1839464D133F39F3AE8BF2DD0AD74E8A2A8" : 9223372036854775807,
     "BCFD22ECBFCB727E9E93BD957D8F4D8E84B23178" : 9223372036854775807,
@@ -15,9 +16,10 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D518FA11-8CE9-45DD-B7FC-987F273D2B28",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "0C28035231BE5F940C9386D5D10F240077711ED0" : "SoundCloudWaveformSwift\/",
-    "9790934A122E949598EB24462201A3DBD17F692C" : "Stutter\/",
     "1C068F102269D4303D3A9EFBCB3EC94732CC6E0C" : "CircleBinder\/",
+    "9790934A122E949598EB24462201A3DBD17F692C" : "Stutter\/",
+    "0C28035231BE5F940C9386D5D10F240077711ED0" : "SoundCloudWaveformSwift\/",
+    "1C12E4924D7CEF3E005AB3014DDB70B7886A2B80" : "Snapseed\/",
     "352AF8FC895BB1335FF5AB87E1EB8EA1E92BE1D1" : "LxThroughPointsBezier\/",
     "E059F1839464D133F39F3AE8BF2DD0AD74E8A2A8" : "Dazzle\/",
     "BCFD22ECBFCB727E9E93BD957D8F4D8E84B23178" : "YGPulseView\/",
@@ -42,6 +44,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Maheshme\/CircleBinder.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1C068F102269D4303D3A9EFBCB3EC94732CC6E0C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:HarrisHan\/Snapseed.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1C12E4924D7CEF3E005AB3014DDB70B7886A2B80"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:DeveloperLx\/LxThroughPointsBezier.git",

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '92C29A4993539983BD049F64E108F297'
+               BlueprintIdentifier = 'AC72908653DDAF4E3AA4FC337368F3DB'
                BlueprintName = 'VideoViewController'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'VideoViewController.framework'>

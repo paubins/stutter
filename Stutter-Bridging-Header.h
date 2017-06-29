@@ -14,3 +14,4 @@
 
 
 #import "UIView+YGPulseView.h"
+#import "BAPulseView.h"

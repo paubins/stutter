@@ -21,11 +21,15 @@
 		5F3B37821EEAFC770019ED66 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B37811EEAFC770019ED66 /* CameraViewController.swift */; };
 		5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B21EFCB5D000524100 /* AudioExporter.m */; };
 		5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B41EFCC12F00524100 /* RecorderController.swift */; };
-		5F6A57261EFC4A8E007ADD18 /* SnapContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A57241EFC4A8E007ADD18 /* SnapContainerViewController.swift */; };
-		5F6A57271EFC4A8E007ADD18 /* VerticalScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A57251EFC4A8E007ADD18 /* VerticalScrollViewController.swift */; };
 		5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */; };
 		5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCD61F016FC900AEA188 /* BezierViewController.m */; };
 		5FBFBCDE1F01A96000AEA188 /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCDD1F01A96000AEA188 /* UIView+YGPulseView.m */; };
+		5FBFBCE61F02F2E700AEA188 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCE51F02F2E700AEA188 /* UIColor+.swift */; };
+		5FBFBCE91F02F39E00AEA188 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCE81F02F39E00AEA188 /* Constants.swift */; };
+		5FCE23B01F0435E700B39D29 /* SnapPanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE23AB1F0435E700B39D29 /* SnapPanGestureRecognizer.swift */; };
+		5FCE23B11F0435E700B39D29 /* SnapMenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE23AC1F0435E700B39D29 /* SnapMenue.swift */; };
+		5FCE23B21F0435E700B39D29 /* SnapTopSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE23AD1F0435E700B39D29 /* SnapTopSlider.swift */; };
+		5FCE23B31F0435E700B39D29 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE23AF1F0435E700B39D29 /* MenuViewController.swift */; };
 		5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */; };
 		5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8321ED3A8AB0027348C /* ViewController.swift */; };
 		5FE3C8361ED3A8AB0027348C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FE3C8341ED3A8AB0027348C /* Main.storyboard */; };
@@ -38,6 +42,8 @@
 		5FE3C85A1ED4A1860027348C /* VideoCompositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */; };
 		5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C85B1ED4DAF00027348C /* PlayerView.swift */; };
 		5FE6E8DB1EDE3946004BEC52 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */; };
+		5FF10DC61F02FD61001205B6 /* RecordButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF10DC51F02FD61001205B6 /* RecordButtonsView.swift */; };
+		5FF10DC91F030B08001205B6 /* BAPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF10DC81F030B08001205B6 /* BAPulseView.m */; };
 		992D748284C8A31E932DFF0B /* Pods_Stutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,8 +65,6 @@
 		5F6790B11EFCB5D000524100 /* AudioExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioExporter.h; sourceTree = "<group>"; };
 		5F6790B21EFCB5D000524100 /* AudioExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioExporter.m; sourceTree = "<group>"; };
 		5F6790B41EFCC12F00524100 /* RecorderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecorderController.swift; path = ../../Beethoven/Example/GuitarTuner/GuitarTuner/Source/RecorderController.swift; sourceTree = "<group>"; };
-		5F6A57241EFC4A8E007ADD18 /* SnapContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapContainerViewController.swift; path = ../../../Downloads/SnapContainerViewController.swift; sourceTree = "<group>"; };
-		5F6A57251EFC4A8E007ADD18 /* VerticalScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VerticalScrollViewController.swift; path = ../../../Downloads/VerticalScrollViewController.swift; sourceTree = "<group>"; };
 		5FAFB85D1EDDAC6E0025B1BB /* Stutter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stutter-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FBFBCCE1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBezierPath+LxThroughPointsBezier.h"; path = "../../LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.h"; sourceTree = "<group>"; };
 		5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBezierPath+LxThroughPointsBezier.m"; path = "../../LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.m"; sourceTree = "<group>"; };
@@ -68,6 +72,12 @@
 		5FBFBCD61F016FC900AEA188 /* BezierViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BezierViewController.m; path = ../../LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/BezierViewController.m; sourceTree = "<group>"; };
 		5FBFBCDC1F01A96000AEA188 /* UIView+YGPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+YGPulseView.h"; path = "../../YGPulseView/YGPulseView/UIView+YGPulseView.h"; sourceTree = "<group>"; };
 		5FBFBCDD1F01A96000AEA188 /* UIView+YGPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+YGPulseView.m"; path = "../../YGPulseView/YGPulseView/UIView+YGPulseView.m"; sourceTree = "<group>"; };
+		5FBFBCE51F02F2E700AEA188 /* UIColor+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		5FBFBCE81F02F39E00AEA188 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5FCE23AB1F0435E700B39D29 /* SnapPanGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapPanGestureRecognizer.swift; sourceTree = "<group>"; };
+		5FCE23AC1F0435E700B39D29 /* SnapMenue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapMenue.swift; sourceTree = "<group>"; };
+		5FCE23AD1F0435E700B39D29 /* SnapTopSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapTopSlider.swift; sourceTree = "<group>"; };
+		5FCE23AF1F0435E700B39D29 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = ../../Snapseed/Snapseed/MenuViewController.swift; sourceTree = "<group>"; };
 		5FE3C82D1ED3A8AB0027348C /* Stutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FE3C8321ED3A8AB0027348C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +92,9 @@
 		5FE3C8591ED4A1860027348C /* VideoCompositionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCompositionController.swift; sourceTree = "<group>"; };
 		5FE3C85B1ED4DAF00027348C /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		5FF10DC51F02FD61001205B6 /* RecordButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButtonsView.swift; sourceTree = "<group>"; };
+		5FF10DC71F030B08001205B6 /* BAPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAPulseView.h; sourceTree = "<group>"; };
+		5FF10DC81F030B08001205B6 /* BAPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BAPulseView.m; sourceTree = "<group>"; };
 		7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stutter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFB0443D5265F82478482DD7 /* Pods-Stutter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stutter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Stutter/Pods-Stutter.debug.xcconfig"; sourceTree = "<group>"; };
 		F623781087091ED05D14AA74 /* Pods-Stutter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stutter.release.xcconfig"; path = "Pods/Target Support Files/Pods-Stutter/Pods-Stutter.release.xcconfig"; sourceTree = "<group>"; };
@@ -113,11 +126,23 @@
 			name = Sprites;
 			sourceTree = "<group>";
 		};
-		5FBFBCCD1F016FA600AEA188 /* Bezier */ = {
+		5FBFBCE71F02F39600AEA188 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				5FBFBCE81F02F39E00AEA188 /* Constants.swift */,
 			);
-			name = Bezier;
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		5FCE23AE1F0435E700B39D29 /* Snapseed */ = {
+			isa = PBXGroup;
+			children = (
+				5FCE23AB1F0435E700B39D29 /* SnapPanGestureRecognizer.swift */,
+				5FCE23AC1F0435E700B39D29 /* SnapMenue.swift */,
+				5FCE23AD1F0435E700B39D29 /* SnapTopSlider.swift */,
+			);
+			name = Snapseed;
+			path = ../../Snapseed/Snapseed/Snapseed;
 			sourceTree = "<group>";
 		};
 		5FE3C8241ED3A8AB0027348C = {
@@ -142,7 +167,9 @@
 		5FE3C82F1ED3A8AB0027348C /* Stutter */ = {
 			isa = PBXGroup;
 			children = (
-				5FBFBCCD1F016FA600AEA188 /* Bezier */,
+				5FCE23AE1F0435E700B39D29 /* Snapseed */,
+				5FCE23AF1F0435E700B39D29 /* MenuViewController.swift */,
+				5FBFBCE71F02F39600AEA188 /* Constants */,
 				5FE3C8581ED4A1770027348C /* Controllers */,
 				5FE3C8561ED48E050027348C /* Resources */,
 				5FE3C8501ED40CAE0027348C /* Extensions */,
@@ -160,11 +187,14 @@
 		5FE3C8421ED3DE680027348C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5FF10DC71F030B08001205B6 /* BAPulseView.h */,
+				5FF10DC81F030B08001205B6 /* BAPulseView.m */,
 				5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */,
 				5FE3C8491ED3E8110027348C /* PlayButtonsView.swift */,
 				5FE3C84B1ED3E8940027348C /* ScrubberView.swift */,
 				5FE3C85B1ED4DAF00027348C /* PlayerView.swift */,
 				5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */,
+				5FF10DC51F02FD61001205B6 /* RecordButtonsView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -174,8 +204,6 @@
 			children = (
 				5FBFBCD11F016FB400AEA188 /* BezierViewController.h */,
 				5FBFBCD61F016FC900AEA188 /* BezierViewController.m */,
-				5F6A57241EFC4A8E007ADD18 /* SnapContainerViewController.swift */,
-				5F6A57251EFC4A8E007ADD18 /* VerticalScrollViewController.swift */,
 				5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */,
 				5FE3C8321ED3A8AB0027348C /* ViewController.swift */,
 				5F3B37811EEAFC770019ED66 /* CameraViewController.swift */,
@@ -191,6 +219,7 @@
 				5FBFBCCE1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.h */,
 				5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */,
 				5FE3C8511ED40CBD0027348C /* UIView+.swift */,
+				5FBFBCE51F02F2E700AEA188 /* UIColor+.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -370,25 +399,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FE3C84C1ED3E8940027348C /* ScrubberView.swift in Sources */,
+				5FCE23B01F0435E700B39D29 /* SnapPanGestureRecognizer.swift in Sources */,
 				5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */,
-				5F6A57261EFC4A8E007ADD18 /* SnapContainerViewController.swift in Sources */,
 				5FE6E8DB1EDE3946004BEC52 /* LoadingViewController.swift in Sources */,
 				5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */,
 				5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */,
 				5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */,
 				5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */,
+				5FCE23B31F0435E700B39D29 /* MenuViewController.swift in Sources */,
 				5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */,
-				5F6A57271EFC4A8E007ADD18 /* VerticalScrollViewController.swift in Sources */,
 				5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */,
 				5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */,
 				5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */,
 				5FE3C84A1ED3E8110027348C /* PlayButtonsView.swift in Sources */,
+				5FF10DC61F02FD61001205B6 /* RecordButtonsView.swift in Sources */,
+				5FCE23B21F0435E700B39D29 /* SnapTopSlider.swift in Sources */,
+				5FCE23B11F0435E700B39D29 /* SnapMenue.swift in Sources */,
 				5FBFBCDE1F01A96000AEA188 /* UIView+YGPulseView.m in Sources */,
 				5F16CE801EFC829600486F0D /* SDevCircleButton.swift in Sources */,
 				5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */,
+				5FBFBCE91F02F39E00AEA188 /* Constants.swift in Sources */,
 				5FE3C85A1ED4A1860027348C /* VideoCompositionController.swift in Sources */,
 				5F3B37821EEAFC770019ED66 /* CameraViewController.swift in Sources */,
 				5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */,
+				5FBFBCE61F02F2E700AEA188 /* UIColor+.swift in Sources */,
+				5FF10DC91F030B08001205B6 /* BAPulseView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,7 +563,7 @@
 				DEVELOPMENT_TEAM = 3XSPEUHQ6Y;
 				INFOPLIST_FILE = Stutter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.Stutter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.Vidmux;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stutter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -546,7 +581,7 @@
 				DEVELOPMENT_TEAM = 3XSPEUHQ6Y;
 				INFOPLIST_FILE = Stutter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.Stutter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.Vidmux;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stutter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

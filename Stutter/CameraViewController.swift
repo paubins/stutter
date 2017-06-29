@@ -15,8 +15,7 @@ import Pitchy
 
 class CameraViewController : SwiftyCamViewController {
     
-    var imagePickerViewController:UIImagePickerController!
-    
+    var buttonTimer:Timer!
     var recordButton:SDevCircleButton!
     
     var flipCameraButton:UIView = {
@@ -53,6 +52,8 @@ class CameraViewController : SwiftyCamViewController {
         return pitchEngine
     }()
     
+    var button1:SDevCircleButton! = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -60,6 +61,7 @@ class CameraViewController : SwiftyCamViewController {
         self.swipeToZoom = true
         self.swipeToZoomInverted = true
         self.defaultCamera = .front
+        self.videoGravity = .resizeAspectFill
         
         let containerView = UIView(frame: .zero)
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -67,18 +69,8 @@ class CameraViewController : SwiftyCamViewController {
         containerView.heightAnchor.constraint(equalToConstant: 220).isActive = true
         containerView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
-        //        let recordButton:PressableButton = PressableButton()
-        //        recordButton.translatesAutoresizingMaskIntoConstraints = false
-        //        recordButton.colors = .init(button: UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
-        //                                    shadow: UIColor.black)
-        //        recordButton.shadowHeight = 3
-        //        recordButton.cornerRadius = 5
-        //        recordButton.setTitle("Record", for: .normal)
-        
-        let button1 : SDevCircleButton = SDevCircleButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        self.button1 = SDevCircleButton(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         button1.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        
-//        button1.addTarget(self, action: #selector(self.recordButtonWasTapped), for: [.touchUpInside])
         
         let longPressGestureRecognizer:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(recordButtonWasTapped))
         longPressGestureRecognizer.minimumPressDuration = 0.1
@@ -86,7 +78,7 @@ class CameraViewController : SwiftyCamViewController {
         self.panGesture.delegate = self
         
         button1.addGestureRecognizer(longPressGestureRecognizer)
-        button1.addGestureRecognizer(self.panGesture)
+//        button1.addGestureRecognizer(self.panGesture)
         
         button1.setTitleColor(UIColor(white: 1, alpha: 1.0), for: UIControlState.normal)
         button1.setTitleColor(UIColor(white: 1, alpha: 1.0), for: UIControlState.selected)
@@ -126,25 +118,29 @@ class CameraViewController : SwiftyCamViewController {
         self.allowBackgroundAudio = true
         self.lowLightBoost = true
         self.doubleTapCameraSwitch = true
+        self.pinchToZoom = true
         
+        self.cameraDelegate = self
+//        self.transitioningDelegate = leftTransition
+//        self.mainViewController.modalPresentationStyle = .custom
+        
+        self.shouldUseDeviceOrientation = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.pitchEngine.start()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.pitchEngine.stop()
+        self.button1.backgroundColor = UIColor.red
     }
     
     func flipCamera() {
         self.switchCamera()
     }
-    
-//    func recordButtonWasTapped(button: SDevCircleButton) {
-//
-//
-//        if(button.state == .normal) {
-//            self.startVideoRecording()
-//        } else if (button.state == .selected) {
-//            self.stopVideoRecording()
-//        }
-//    }
-    
-    var buttonTimer:Timer!
     
     func recordButtonWasTapped(sender: UILongPressGestureRecognizer) {
         let _:SDevCircleButton = sender.view as! SDevCircleButton
@@ -152,24 +148,10 @@ class CameraViewController : SwiftyCamViewController {
         if(sender.state == UIGestureRecognizerState.began) {
             self.startVideoRecording()
         } else if (sender.state == UIGestureRecognizerState.ended) {
-            self.pitchEngine.stop()
-            self.dismiss(animated: true, completion: {
-                self.stopVideoRecording()
-            })
+            self.stopVideoRecording()
         }
     }
-    
-    func presentImagePickerViewController() {
-        self.imagePickerViewController = UIImagePickerController()
-        self.imagePickerViewController.delegate = self
-        self.imagePickerViewController.sourceType = .savedPhotosAlbum
-        self.imagePickerViewController.mediaTypes = UIImagePickerController.availableMediaTypes(for: .savedPhotosAlbum)!
-        
-        self.present(self.imagePickerViewController, animated: false) {
-            
-        }
-    }
-    
+
     func offsetColor(_ offsetPercentage: Double) -> UIColor {
         let color: UIColor
         
@@ -186,29 +168,11 @@ class CameraViewController : SwiftyCamViewController {
     }
 }
 
-extension CameraViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        let videoURL = info[UIImagePickerControllerMediaURL] as! NSURL
-//        self.asset = AVAsset(url: videoURL as URL)
-//        
-//        self.imagePickerViewController.dismiss(animated: true) {
-//            self.view.setNeedsLayout()
-//        }
-//        
-//        self.processAsset()
-    }
-}
-
-
 extension CameraViewController: PitchEngineDelegate {
     
     func pitchEngineDidReceivePitch(_ pitchEngine: PitchEngine, pitch: Pitch) {
-        //        noteLabel.text = pitch.note.string
-        
         let offsetPercentage = pitch.closestOffset.percentage
         let absOffsetPercentage = abs(offsetPercentage)
-        
-//        print("pitch : \() - percentage : \(offsetPercentage)")
         
         self.recordButton.setTitle(pitch.note.string, for: UIControlState.normal)
         
@@ -239,4 +203,74 @@ extension CameraViewController: PitchEngineDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+    
+    func reset() {
+        
+    }
 }
+
+
+extension CameraViewController : SwiftyCamViewControllerDelegate {
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
+        // Called when takePhoto() is called or if a SwiftyCamButton initiates a tap gesture
+        // Returns a UIImage captured from the current session
+        print("photo")
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+        // Called when startVideoRecording() is called
+        // Called if a SwiftyCamButton begins a long press gesture
+        print("started recording")
+        
+        
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+        // Called when stopVideoRecording() is called
+        // Called if a SwiftyCamButton ends a long press gesture
+        print("finished recording")
+        
+//        LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor(white: 0, alpha: 0.2)) {
+//            
+//        }
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
+        // Called when stopVideoRecording() is called and the video is finished processing
+        // Returns a URL in the temporary directory where video is stored
+        print("did finish recording")
+        
+        let mainViewController:ViewController = ViewController()
+        let asset = AVAsset(url: url)
+        
+        AudioExporter.getAudioFromVideo(asset) { (exportSession) in
+            let url:URL = (exportSession?.outputURL)!
+            
+            DispatchQueue.main.sync {
+                mainViewController.asset = asset
+                mainViewController.processAsset()
+                mainViewController.scrubberView.waveformView.audioURL = url
+                self.navigationController?.pushViewController(mainViewController, animated: true)
+            }
+            
+        }
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
+        // Called when a user initiates a tap gesture on the preview layer
+        // Will only be called if tapToFocus = true
+        // Returns a CGPoint of the tap location on the preview layer
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+        // Called when a user initiates a pinch gesture on the preview layer
+        // Will only be called if pinchToZoomn = true
+        // Returns a CGFloat of the current zoom level
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
+        // Called when user switches between cameras
+        // Returns current camera selection
+    }
+}
+
