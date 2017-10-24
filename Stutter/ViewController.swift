@@ -20,11 +20,13 @@ import DynamicButton
 import Player
 import Device
 import Cartography
+import Shift
 
 let WIDTH_CONSTANT = CGFloat(10.0)
 
 protocol ViewControllerDelegate {
     func displayComposition(composition: AVMutableComposition)
+    func dismissedViewController()
 }
 
 class ViewController: UIViewController {
@@ -38,6 +40,8 @@ class ViewController: UIViewController {
     let menuViewController:MenuViewController = MenuViewController()
     
     let recordButtonView:RecordButtonsView = RecordButtonsView(frame: CGRect.zero)
+    
+    var bornCoordinateSpace:UICoordinateSpace!
     
     let resetButtons:UIView = {
         let containerView:UIView = UIView(frame: .zero)
@@ -160,6 +164,17 @@ class ViewController: UIViewController {
         return transition
     }()
     
+    var backgroundShiftView:ShiftView = {
+        let v = ShiftView()
+        
+        // set colors
+        v.setColors([UIColor(hex: "#40BAB3"),
+                     UIColor(hex: "#F3C74F"),
+                     UIColor(hex: "#0081C6"),
+                     UIColor(hex: "#F0B0B7")])
+        return v
+    }()
+    
     var bezierViewControllers:[BezierViewController] = []
     
     var TIMES = [0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0]
@@ -169,6 +184,7 @@ class ViewController: UIViewController {
     func goBack() {
         self.dismiss(animated: true) { 
             print("dismissed")
+            self.delegate.dismissedViewController()
         }
     }
     
@@ -182,17 +198,8 @@ class ViewController: UIViewController {
             videoCompositonTrack.preferredTransform = assetVideoTrack.preferredTransform
             
             self.delegate.displayComposition(composition: self.mutableComposition)
+            self.delegate.dismissedViewController()
         }
-        
-//        do {
-//            try self.export(composition: self.mutableComposition)
-//            
-//            LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor.black) {
-//            
-//            }
-//        } catch {
-//        
-//        }
     }
     
     init(url: URL) {
@@ -207,10 +214,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.bornCoordinateSpace = UIScreen.main.coordinateSpace
+        
+        self.view.backgroundColor = .clear
+        
+        self.view.addSubview(self.backgroundShiftView)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChange), name:NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
         self.player.playbackDelegate = self
         self.player.view.frame = self.view.bounds
         self.player.fillMode = AVLayerVideoGravityResizeAspect
         self.player.playbackLoops = true
+        self.player.view.backgroundColor = .clear
         
         self.addChildViewController(self.player)
         
@@ -236,6 +252,13 @@ class ViewController: UIViewController {
         self.view.addSubview(self.recordButtonView)
         
         self.recordButtonView.delegate = self
+        
+        constrain(self.backgroundShiftView) { (view) in
+            view.top == view.superview!.top
+            view.left == view.superview!.left
+            view.right == view.superview!.right
+            view.bottom == view.superview!.bottom
+        }
         
         self.resetButtons.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.resetButtons.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
@@ -311,13 +334,16 @@ class ViewController: UIViewController {
         let tapGestureRecognizer:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         
         self.menuViewController.view.addGestureRecognizer(tapGestureRecognizer)
+        
+        // set animation duration
+        self.backgroundShiftView.animationDuration(3.0)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if(!self.alreadyAppeared) {
-            
+            self.backgroundShiftView.startTimedAnimation()
             self.alreadyAppeared = true
             
             for index in 0..<5 {
@@ -328,7 +354,7 @@ class ViewController: UIViewController {
                 self.bezierViewControllers.append(viewController)
                 self.bezierView.addSubview(viewController.view)
                 
-                self.sliceWasMovedTo(index: index, time: Int(self.currentAssetDuration/Float64(5)), distance: Int(slicePositionX))
+                self.sliceWasMovedTo(index: index, time: Int(self.currentAssetDuration/Float64(3)), distance: Int(slicePositionX))
             }
         }
     }
@@ -391,7 +417,30 @@ class ViewController: UIViewController {
         }
     }
 
+    func orientationChange(notification: Notification) {
+        self.scrubberView.setNeedsDisplay()
+        
+        for (i, bezierViewController) in  self.bezierViewControllers.enumerated() {
+            let slicePositionX:CGFloat = self.recordButtonView.getSlicePosition(index: i)
+            let slicePositionY:CGFloat = self.scrubberView.frame.origin.y
 
+            bezierViewController.points = self.generatePoints(index: i, slicePositionX: slicePositionX,
+                                                              slicePositionY: slicePositionY)
+            
+            bezierViewController.pointsChanged()
+        }
+    }
+    
+    func getSlicePositionBasedOnTime(index: Int) -> CGFloat {
+        if TIMES[index] == 0.01 {
+            self.recordButtonView.getSlicePosition(index: index)
+        }
+        
+        let currentSlicePosition = self.recordButtonView.getSlicePosition(index: index)
+        let currentTime:Int = Int(CGFloat(TIMES[index]!/0.01)*CGFloat(3))
+        
+        return (currentSlicePosition/CGFloat(currentTime)) * UIScreen.main.bounds.size.width
+    }
     
     func generatePoints(index: Int, slicePositionX: CGFloat, slicePositionY: CGFloat) -> [NSValue] {
         var points:[NSValue] = []
@@ -524,6 +573,7 @@ class ViewController: UIViewController {
                     
                     self.dismiss(animated: true, completion: { 
                         print("completed")
+                        self.delegate.dismissedViewController()
                     })
                 }
                 else {

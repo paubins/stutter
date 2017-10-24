@@ -253,6 +253,10 @@ extension LoaderViewController : ViewControllerDelegate {
             print("presented main viewcontroller")
         })
     }
+    
+    func dismissedViewController() {
+        self.mainViewController = nil
+    }
 }
 
 extension LoaderViewController : SwiftyCamViewControllerDelegate {
