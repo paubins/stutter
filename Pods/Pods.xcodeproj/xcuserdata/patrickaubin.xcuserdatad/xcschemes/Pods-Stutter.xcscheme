@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C12BF899B7D8DA989A1456DB3E629F60"
+               BlueprintIdentifier = "FCFF6A5FA249B85AAA88A9586AF16FD8"
                BuildableName = "Pods_Stutter.framework"
                BlueprintName = "Pods-Stutter"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -26,6 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -36,6 +37,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -45,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C12BF899B7D8DA989A1456DB3E629F60"
+            BlueprintIdentifier = "FCFF6A5FA249B85AAA88A9586AF16FD8"
             BuildableName = "Pods_Stutter.framework"
             BlueprintName = "Pods-Stutter"
             ReferencedContainer = "container:Pods.xcodeproj">

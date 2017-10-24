@@ -54,14 +54,26 @@ class CameraViewController : SwiftyCamViewController {
     
     var button1:SDevCircleButton! = nil
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init() {
+        super.init(nibName: nil, bundle: nil)
         
         self.pinchToZoom = false
         self.swipeToZoom = true
         self.swipeToZoomInverted = true
         self.defaultCamera = .front
         self.videoGravity = .resizeAspectFill
+        self.allowBackgroundAudio = true
+        self.lowLightBoost = true
+        self.doubleTapCameraSwitch = true
+        self.shouldUseDeviceOrientation = true
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         let containerView = UIView(frame: .zero)
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -114,17 +126,7 @@ class CameraViewController : SwiftyCamViewController {
         
         containerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         containerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        
-        self.allowBackgroundAudio = true
-        self.lowLightBoost = true
-        self.doubleTapCameraSwitch = true
-        self.pinchToZoom = true
-        
-        self.cameraDelegate = self
-//        self.transitioningDelegate = leftTransition
-//        self.mainViewController.modalPresentationStyle = .custom
-        
-        self.shouldUseDeviceOrientation = true
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -149,6 +151,9 @@ class CameraViewController : SwiftyCamViewController {
             self.startVideoRecording()
         } else if (sender.state == UIGestureRecognizerState.ended) {
             self.stopVideoRecording()
+            self.dismiss(animated: true, completion: { 
+                print("dismissed")
+            })
         }
     }
 
@@ -208,69 +213,3 @@ extension CameraViewController: PitchEngineDelegate {
         
     }
 }
-
-
-extension CameraViewController : SwiftyCamViewControllerDelegate {
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        // Called when takePhoto() is called or if a SwiftyCamButton initiates a tap gesture
-        // Returns a UIImage captured from the current session
-        print("photo")
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        // Called when startVideoRecording() is called
-        // Called if a SwiftyCamButton begins a long press gesture
-        print("started recording")
-        
-        
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        // Called when stopVideoRecording() is called
-        // Called if a SwiftyCamButton ends a long press gesture
-        print("finished recording")
-        
-//        LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor(white: 0, alpha: 0.2)) {
-//            
-//        }
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
-        // Called when stopVideoRecording() is called and the video is finished processing
-        // Returns a URL in the temporary directory where video is stored
-        print("did finish recording")
-        
-        let mainViewController:ViewController = ViewController()
-        let asset = AVAsset(url: url)
-        
-        AudioExporter.getAudioFromVideo(asset) { (exportSession) in
-            let url:URL = (exportSession?.outputURL)!
-            
-            DispatchQueue.main.sync {
-                mainViewController.asset = asset
-                mainViewController.processAsset()
-                mainViewController.scrubberView.waveformView.audioURL = url
-                self.navigationController?.pushViewController(mainViewController, animated: true)
-            }
-            
-        }
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
-        // Called when a user initiates a tap gesture on the preview layer
-        // Will only be called if tapToFocus = true
-        // Returns a CGPoint of the tap location on the preview layer
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
-        // Called when a user initiates a pinch gesture on the preview layer
-        // Will only be called if pinchToZoomn = true
-        // Returns a CGFloat of the current zoom level
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
-        // Called when user switches between cameras
-        // Returns current camera selection
-    }
-}
-

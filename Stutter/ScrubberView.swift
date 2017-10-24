@@ -77,7 +77,7 @@ class ScrubberView : UIView {
             slice.initialSpringVelocity = Constant.scrubberSpringVelocity
             
             slice.topAnchor.constraint(equalTo: flipper.topAnchor).isActive = true
-            slice.widthAnchor.constraint(equalToConstant: 5).isActive = true
+            slice.widthAnchor.constraint(equalToConstant: 3).isActive = true
             slice.heightAnchor.constraint(equalTo: flipper.heightAnchor).isActive = true
             slice.centerXAnchor.constraint(equalTo: flipper.centerXAnchor).isActive = true
 

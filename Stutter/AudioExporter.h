@@ -11,6 +11,6 @@
 
 @interface AudioExporter : NSObject
 
-+ (NSString *)getAudioFromVideo:(AVAsset *)asset handler:(void (^)(AVAssetExportSession*))handler;
++ (NSString *)getAudioFromVideo:(AVAsset *)asset composition:(AVMutableComposition *)composition handler:(void (^)(AVAssetExportSession*))handler;
 
 @end

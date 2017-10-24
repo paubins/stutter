@@ -10,10 +10,15 @@
 
 @implementation AudioExporter
 
-+ (NSString *)getAudioFromVideo:(AVAsset *)asset handler:(void (^)(AVAssetExportSession*))handler {
++ (NSString *)getAudioFromVideo:(AVAsset *)asset composition:(AVMutableComposition *)composition handler:(void (^)(AVAssetExportSession*))handler {
     NSString *audioPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"audio.caf"];
     
-    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset presetName:AVAssetExportPresetPassthrough];
+    
+//    let compatiblePresets = AVAssetExportSession.exportPresets(compatibleWith: composition)
+//    var preset: String = AVAssetExportPresetPassthrough
+//    if compatiblePresets.contains(AVAssetExportPreset1920x1080) { preset = AVAssetExportPreset1920x1080 }
+
+    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:composition presetName:AVAssetExportPresetPassthrough];
     
     exportSession.outputURL = [NSURL fileURLWithPath:audioPath];
     exportSession.outputFileType = AVFileTypeCoreAudioFormat;
@@ -24,13 +29,25 @@
     }
     
     [exportSession exportAsynchronouslyWithCompletionHandler:^{
-        if (exportSession.status == AVAssetExportSessionStatusFailed) {
-            NSLog(@"failed");
-            
-        }
-        else {
-            handler(exportSession);
-            NSLog(@"AudioLocation : %@", audioPath);
+        switch (exportSession.status) {
+            case AVAssetExportSessionStatusFailed:
+                NSLog(@"Export failed -> Reason: %@, User Info: %@",
+                      exportSession.error.localizedDescription,
+                      exportSession.error.userInfo.description);
+                break;
+                
+            case AVAssetExportSessionStatusCancelled:
+                NSLog(@"Export cancelled");
+                break;
+                
+            case AVAssetExportSessionStatusCompleted:
+                NSLog(@"Export finished");
+                handler(exportSession);
+                NSLog(@"AudioLocation : %@", audioPath);
+                break;
+                
+            default:
+                break;
         }
     }];
     

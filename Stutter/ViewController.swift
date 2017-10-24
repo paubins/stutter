@@ -17,13 +17,22 @@ import LLSpinner
 import FDWaveformView
 import VideoViewController
 import DynamicButton
+import Player
+import Device
 
 let WIDTH_CONSTANT = CGFloat(10.0)
+
+protocol ViewControllerDelegate {
+    func displayComposition(composition: AVMutableComposition)
+}
 
 class ViewController: UIViewController {
     var scrubberView:ScrubberView = ScrubberView(frame: CGRect.zero)
     let playButtonsView:PlayButtonsView = PlayButtonsView(frame: CGRect.zero)
-    let playerView:PlayerView = PlayerView(frame: CGRect.zero)
+    
+    var player:Player = Player()
+    
+    var delegate:ViewControllerDelegate!
     
     let menuViewController:MenuViewController = MenuViewController()
     
@@ -154,33 +163,59 @@ class ViewController: UIViewController {
     
     var TIMES = [0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0]
     var originalVolume:Float = 0
-    let cameraViewController:CameraViewController = {
-        var cameraViewController = CameraViewController()
-        cameraViewController.videoGravity = .resizeAspectFill
-        return cameraViewController
-    }()
+
     
     func goBack() {
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true) { 
+            print("dismissed")
+        }
     }
     
     func saveVideo() {
-        self.playerView.player?.rate = 0
-        
-        do {
-            try self.export(composition: self.mutableComposition)
+        self.player.stop()
+
+        self.dismiss(animated: true) {
             
-            LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor.black) {
+            let assetVideoTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).last!
+            let videoCompositonTrack:AVMutableCompositionTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).last!
+            videoCompositonTrack.preferredTransform = assetVideoTrack.preferredTransform
             
-            }
-        } catch {
-        
+            self.delegate.displayComposition(composition: self.mutableComposition)
         }
         
+//        do {
+//            try self.export(composition: self.mutableComposition)
+//            
+//            LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor.black) {
+//            
+//            }
+//        } catch {
+//        
+//        }
+    }
+    
+    init(url: URL) {
+        super.init(nibName: nil, bundle: nil)
+        self.player.url = url
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.player.playbackDelegate = self
+        self.player.view.frame = self.view.bounds
+        self.player.fillMode = AVLayerVideoGravityResizeAspect
+        self.player.playbackLoops = true
+        
+        self.addChildViewController(self.player)
+        
+        self.player.didMove(toParentViewController: self)
+        
+        self.view.addSubview(self.player.view)
         
         self.view.translatesAutoresizingMaskIntoConstraints = true
         
@@ -188,11 +223,12 @@ class ViewController: UIViewController {
 //            self.scrubberView.waveformView.progressSamples = Int(CGFloat(time.value/self.asset.duration.value) * CGFloat(self.scrubberView.waveformView.totalSamples))
 //        })
         
-        self.view.addSubview(self.playerView)
         self.view.addSubview(self.menuViewController.view)
         self.view.addSubview(self.scrubberView)
         self.view.addSubview(self.bezierView)
         self.view.addSubview(self.playButtonsView)
+        
+        self.menuViewController.view.isHidden = true
 
         self.view.addSubview(self.cameraScrubberPreviewView)
     
@@ -243,17 +279,16 @@ class ViewController: UIViewController {
         self.menuViewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.menuViewController.view.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         
-        
         self.scrubberView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 //        self.scrubberView.topAnchor.constraint(equalTo: self.playButtonsView.bottomAnchor).isActive = true
         self.scrubberView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.scrubberView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.scrubberView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        self.playerView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.playerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        self.playerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.playerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.player.view.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.player.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.player.view.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.player.view.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         
         self.cameraScrubberPreviewView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.cameraScrubberPreviewView.bottomAnchor.constraint(equalTo: self.recordButtonView.topAnchor).isActive = true
@@ -263,7 +298,7 @@ class ViewController: UIViewController {
         self.dazzleController.view.bounds = self.view.bounds
         self.fireController.view.bounds = self.view.bounds
         
-        self.view.insertSubview(self.dazzleController.view, aboveSubview: self.playerView)
+        self.view.insertSubview(self.dazzleController.view, aboveSubview: self.player.view)
 //        self.view.insertSubview(self.fireController.view, aboveSubview: self.dazzleController.view)
         
         self.cameraScrubberPreviewConstraint = self.cameraScrubberPreviewView.widthAnchor.constraint(equalToConstant: 50)
@@ -313,9 +348,52 @@ class ViewController: UIViewController {
         self.reset()
     }
     
-    func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
-        self.playerView.player?.rate = 0
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        self.dch_checkDeallocation()
+        
     }
+    func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
+        self.player.stop()
+    }
+    
+    func screenSize() {
+        /*** Display the device screen size ***/
+        switch Device.size() {
+        case .screen3_5Inch:
+            print("It's a 3.5 inch screen")
+            
+        case .screen4Inch:
+            print("It's a 4 inch screen")
+            
+        case .screen4_7Inch:
+            print("It's a 4.7 inch screen")
+            
+        case .screen5_5Inch:
+            print("It's a 5.5 inch screen")
+            if (UIScreen.main.scale == 3.0) {
+                
+            } else {
+                
+            }
+
+        case .screen7_9Inch:
+            print("It's a 7.9 inch screen")
+            
+        case .screen9_7Inch:
+            print("It's a 9.7 inch screen")
+            
+            
+        case .screen12_9Inch:
+            print("It's a 12.9 inch screen")
+            
+        default:
+            print("Unknown size")
+        }
+    }
+
+
     
     func generatePoints(index: Int, slicePositionX: CGFloat, slicePositionY: CGFloat) -> [NSValue] {
         var points:[NSValue] = []
@@ -338,8 +416,14 @@ class ViewController: UIViewController {
                                                y: self.playButtonsView.buttonCenter(atIndex: index).y)))
         
         // just above the play button position
-        points.append(NSValue(cgPoint: CGPoint(x: self.playButtonsView.buttonCenter(atIndex: index).x,
-                                               y: self.playButtonsView.buttonCenter(atIndex: index).y - 50)))
+        
+        if (Device.type() == .iPad) {
+            points.append(NSValue(cgPoint: CGPoint(x: self.playButtonsView.buttonCenter(atIndex: index).x,
+                                                   y: self.playButtonsView.buttonCenter(atIndex: index).y - 75)))
+        } else {
+            points.append(NSValue(cgPoint: CGPoint(x: self.playButtonsView.buttonCenter(atIndex: index).x,
+                                                   y: self.playButtonsView.buttonCenter(atIndex: index).y - 50)))
+        }
         
         var offset = CGFloat(index*10)
         if (index == 0) {
@@ -348,8 +432,17 @@ class ViewController: UIViewController {
             offset = CGFloat(index*10)
         }
         
-        points.append(NSValue(cgPoint: CGPoint(x: slicePositionX + 10,
-                                               y: slicePositionY - 100 + offset)))
+        if (Device.type() == .iPad) {
+            let origin:CGPoint = self.recordButtonView.slices[index].frame.origin
+            let newOrigin:CGPoint = CGPoint(x: origin.x + 10, y: origin.y - 15)
+            let point:CGPoint = self.view.convert(newOrigin, from: self.recordButtonView.slices[index])
+            
+            points.append(NSValue(cgPoint: point))
+        } else {
+            points.append(NSValue(cgPoint: CGPoint(x: slicePositionX + 10,
+                                                   y: slicePositionY - 100 + offset)))
+        }
+        
             
         
         return points
@@ -421,9 +514,7 @@ class ViewController: UIViewController {
                     UISaveVideoAtPathToSavedPhotosAlbum(outputPath, self, nil, nil)
                     print("Success")
                     
-                    self.playerView.player?.pause()
-                    self.playerView.player = nil
-                    self.playerView.isHidden = true
+                    self.player.stop()
                     
                     self.scrubberView.clearThumbnails()
                     
@@ -432,7 +523,10 @@ class ViewController: UIViewController {
                     self.lastInsertedTime = kCMTimeZero
                     
                     LLSpinner.stop()
-                    self.navigationController?.popToRootViewController(animated: false)
+                    
+                    self.dismiss(animated: true, completion: { 
+                        print("completed")
+                    })
                 }
                 else {
                     print(self.exporter.error?.localizedDescription ?? "error")
@@ -487,10 +581,10 @@ extension ViewController : PlayButtonViewDelegate {
         self.dazzleController.touch(atPosition: CGPoint(x: self.recordButtonView.getSlicePosition(index: index) + 10, y: self.recordButtonView.frame.origin.y + CGFloat(index*10)))
         
         self.storeEdit(index: index)
-
-        self.playerView.player?.seek(to: CMTimeMakeWithSeconds(TIMES[index]!, 600),
-                                     toleranceBefore: CMTimeMake(1, 600), toleranceAfter: CMTimeMake(1, 600))
-        self.playerView.player?.play()
+        
+        self.player.seekToTime(to: CMTimeMakeWithSeconds(TIMES[index]!, 600), toleranceBefore: CMTimeMake(1, 600), toleranceAfter: CMTimeMake(1, 600))
+        
+        self.player.playFromCurrentTime()
         
         self.previousFrameTime = self.currentMediaTime
         self.lastSelectedIndex = index
@@ -526,17 +620,12 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
             DispatchQueue.main.sync {
                 self.scrubberView.addImage(image: image)
                 
-                if ((self.playerView.player?.rate)! > Float(0)) {
-                    self.playerView.player?.pause()
-                    self.playerView.player?.volume = self.originalVolume
-                    self.playerView.player?.seek(to: kCMTimeZero)
-                    self.playerView.isHidden = false
-                }
+
             }
         }
         
-        self.playerView.isHidden = false
-        self.playerView.player = AVPlayer(playerItem: AVPlayerItem(asset: self.asset))
+        self.player.url = (self.asset as! AVURLAsset).url
+        
         self.cameraScrubberPreviewView.playerView.player = AVPlayer(playerItem: AVPlayerItem(asset: self.asset))
         
         var time:Float64!
@@ -568,19 +657,14 @@ extension ViewController : UIImagePickerControllerDelegate, UINavigationControll
             }
         }
         
-        self.playerView.isHidden = true
-        self.originalVolume = (self.playerView.player?.volume)!
-        
-        self.playerView.player?.volume = 0
-        self.playerView.player?.play()
+
+        self.player.playFromBeginning()
         
         LLSpinner.stop()
     }
     
     func reset() {
         self.scrubberView.removeAllImages()
-        self.playerView.player?.rate = 0
-        self.playerView.player = nil
     }
 }
 
@@ -647,3 +731,20 @@ extension ViewController : RecordButtonsViewDelegate {
     
 }
 
+extension ViewController: PlayerPlaybackDelegate {
+    
+    public func playerPlaybackWillStartFromBeginning(_ player: Player) {
+    }
+    
+    public func playerPlaybackDidEnd(_ player: Player) {
+    }
+    
+    public func playerCurrentTimeDidChange(_ player: Player) {
+        let fraction = Double(player.currentTime) / Double(player.maximumDuration)
+    }
+    
+    public func playerPlaybackWillLoop(_ player: Player) {
+        //        self. _playbackViewController?.reset()
+    }
+    
+}

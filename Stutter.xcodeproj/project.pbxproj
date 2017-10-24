@@ -21,6 +21,9 @@
 		5F3B37821EEAFC770019ED66 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B37811EEAFC770019ED66 /* CameraViewController.swift */; };
 		5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B21EFCB5D000524100 /* AudioExporter.m */; };
 		5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B41EFCC12F00524100 /* RecorderController.swift */; };
+		5F95067B1F1ED84900DD76C3 /* LoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F95067A1F1ED84900DD76C3 /* LoaderViewController.swift */; };
+		5F95067D1F1F143100DD76C3 /* VarelaRound-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */; };
+		5FA20F4A1F06B2FE006E9076 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA20F491F06B2FE006E9076 /* UIViewController+.swift */; };
 		5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */; };
 		5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCD61F016FC900AEA188 /* BezierViewController.m */; };
 		5FBFBCDE1F01A96000AEA188 /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCDD1F01A96000AEA188 /* UIView+YGPulseView.m */; };
@@ -65,6 +68,9 @@
 		5F6790B11EFCB5D000524100 /* AudioExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioExporter.h; sourceTree = "<group>"; };
 		5F6790B21EFCB5D000524100 /* AudioExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioExporter.m; sourceTree = "<group>"; };
 		5F6790B41EFCC12F00524100 /* RecorderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecorderController.swift; path = ../../Beethoven/Example/GuitarTuner/GuitarTuner/Source/RecorderController.swift; sourceTree = "<group>"; };
+		5F95067A1F1ED84900DD76C3 /* LoaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoaderViewController.swift; sourceTree = "<group>"; };
+		5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VarelaRound-Regular.ttf"; sourceTree = "<group>"; };
+		5FA20F491F06B2FE006E9076 /* UIViewController+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		5FAFB85D1EDDAC6E0025B1BB /* Stutter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stutter-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FBFBCCE1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBezierPath+LxThroughPointsBezier.h"; path = "../../LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.h"; sourceTree = "<group>"; };
 		5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBezierPath+LxThroughPointsBezier.m"; path = "../../LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.m"; sourceTree = "<group>"; };
@@ -167,6 +173,7 @@
 		5FE3C82F1ED3A8AB0027348C /* Stutter */ = {
 			isa = PBXGroup;
 			children = (
+				5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */,
 				5FCE23AE1F0435E700B39D29 /* Snapseed */,
 				5FCE23AF1F0435E700B39D29 /* MenuViewController.swift */,
 				5FBFBCE71F02F39600AEA188 /* Constants */,
@@ -206,6 +213,7 @@
 				5FBFBCD61F016FC900AEA188 /* BezierViewController.m */,
 				5FE6E8DA1EDE3946004BEC52 /* LoadingViewController.swift */,
 				5FE3C8321ED3A8AB0027348C /* ViewController.swift */,
+				5F95067A1F1ED84900DD76C3 /* LoaderViewController.swift */,
 				5F3B37811EEAFC770019ED66 /* CameraViewController.swift */,
 			);
 			name = "View Controllers";
@@ -220,6 +228,7 @@
 				5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */,
 				5FE3C8511ED40CBD0027348C /* UIView+.swift */,
 				5FBFBCE51F02F2E700AEA188 /* UIColor+.swift */,
+				5FA20F491F06B2FE006E9076 /* UIViewController+.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -329,6 +338,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F95067D1F1F143100DD76C3 /* VarelaRound-Regular.ttf in Resources */,
 				5FE3C8571ED48E220027348C /* test.mp4 in Resources */,
 				5F16CF331EFC9FB800486F0D /* DazTriangle.png in Resources */,
 				5FE3C83B1ED3A8AB0027348C /* LaunchScreen.storyboard in Resources */,
@@ -352,9 +362,54 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Stutter/Pods-Stutter-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AHKBendableView/AHKBendableView.framework",
+				"${BUILT_PRODUCTS_DIR}/AnimatablePlayButton/AnimatablePlayButton.framework",
+				"${BUILT_PRODUCTS_DIR}/Beethoven/Beethoven.framework",
+				"${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework",
+				"${BUILT_PRODUCTS_DIR}/Device/Device.framework",
+				"${BUILT_PRODUCTS_DIR}/DynamicButton/DynamicButton.framework",
+				"${BUILT_PRODUCTS_DIR}/ElasticTransition/ElasticTransition.framework",
+				"${BUILT_PRODUCTS_DIR}/FDWaveformView/FDWaveformView.framework",
+				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
+				"${BUILT_PRODUCTS_DIR}/JTFadingInfoView/JTFadingInfoView.framework",
+				"${BUILT_PRODUCTS_DIR}/LLSpinner/LLSpinner.framework",
+				"${BUILT_PRODUCTS_DIR}/MotionAnimation/MotionAnimation.framework",
+				"${BUILT_PRODUCTS_DIR}/Overlap/Overlap.framework",
+				"${BUILT_PRODUCTS_DIR}/Pitchy/Pitchy.framework",
+				"${BUILT_PRODUCTS_DIR}/Player/Player.framework",
+				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
+				"${BUILT_PRODUCTS_DIR}/Pulsator/Pulsator.framework",
+				"${BUILT_PRODUCTS_DIR}/Shift/Shift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyButton/SwiftyButton.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
+				"${BUILT_PRODUCTS_DIR}/VIMVideoPlayer/VIMVideoPlayer.framework",
+				"${BUILT_PRODUCTS_DIR}/VideoViewController/VideoViewController.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AHKBendableView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnimatablePlayButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Beethoven.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cartography.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Device.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ElasticTransition.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FDWaveformView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTFadingInfoView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LLSpinner.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionAnimation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Overlap.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pitchy.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Player.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pulsator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Shift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VIMVideoPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VideoViewController.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -367,13 +422,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Stutter-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F2B5703EC2B47AD1EA7D3A63 /* [CP] Copy Pods Resources */ = {
@@ -403,11 +461,13 @@
 				5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */,
 				5FE6E8DB1EDE3946004BEC52 /* LoadingViewController.swift in Sources */,
 				5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */,
+				5FA20F4A1F06B2FE006E9076 /* UIViewController+.swift in Sources */,
 				5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */,
 				5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */,
 				5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */,
 				5FCE23B31F0435E700B39D29 /* MenuViewController.swift in Sources */,
 				5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */,
+				5F95067B1F1ED84900DD76C3 /* LoaderViewController.swift in Sources */,
 				5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */,
 				5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */,
 				5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */,
@@ -563,7 +623,7 @@
 				DEVELOPMENT_TEAM = 3XSPEUHQ6Y;
 				INFOPLIST_FILE = Stutter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.Vidmux;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.lilstutter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stutter-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -581,7 +641,7 @@
 				DEVELOPMENT_TEAM = 3XSPEUHQ6Y;
 				INFOPLIST_FILE = Stutter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.Vidmux;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.lilstutter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stutter-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

@@ -24,5 +24,10 @@ target 'Stutter' do
   pod 'VideoViewController'
   pod "Pulsator"
   pod 'Overlap'
+  pod "Player", "~> 0.5.0"
+  pod "Shift"
+  pod "Device", '~> 3.0.1'
+  pod 'Presentr'
+  pod 'JTFadingInfoView'
 
 end

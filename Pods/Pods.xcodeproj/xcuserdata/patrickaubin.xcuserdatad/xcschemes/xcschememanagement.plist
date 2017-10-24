@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Device.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>DynamicButton.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -40,6 +45,16 @@
 			<false/>
 		</dict>
 		<key>Hue.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>JTFadingInfoView-JTFadingInfoView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>JTFadingInfoView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -64,12 +79,27 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Player.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Stutter.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Presentr.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pulsator.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Shift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -96,97 +126,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>100EAFCCC6E91DEC79D9911111EC3E1D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2A1C063ECF7DF3146537A4F9A375F476</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>34870B6BFD3AA039B46441166C0A76B3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>349C7332321D4913AA51D6D1AD4E81EA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4E38F0359B34C05721E355691394BC99</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5075AC130478B246B495D890F36890D3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>544212980401A6DA7806F65EAD8C6637</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6BC3E8FBAD56AD03A1F952B604615D34</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>75011B4A06FA13D36860DCE077FE2D6A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>800F39573EA188EF47EAF7DCF2B5E7B5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>834193DB19169E710A43B70F3995806C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AC72908653DDAF4E3AA4FC337368F3DB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B2542602E50EDF091ADB18B4688DF34F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BA074C577779FF88EB7926723ED9D0B1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C12BF899B7D8DA989A1456DB3E629F60</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D20DCE0034BE68F8F6E118F2A255BB90</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DA4F7A0E685C646D038E3BAF31DA699D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>ED347253791613F820AB764013457A24</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>
