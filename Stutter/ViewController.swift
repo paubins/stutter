@@ -19,6 +19,7 @@ import VideoViewController
 import DynamicButton
 import Player
 import Device
+import Cartography
 
 let WIDTH_CONSTANT = CGFloat(10.0)
 
@@ -219,10 +220,6 @@ class ViewController: UIViewController {
         
         self.view.translatesAutoresizingMaskIntoConstraints = true
         
-//        self.playerView.player?.addPeriodicTimeObserver(forInterval: CMTimeMake(100, 600), queue: DispatchQueue.main, using: { (time) in
-//            self.scrubberView.waveformView.progressSamples = Int(CGFloat(time.value/self.asset.duration.value) * CGFloat(self.scrubberView.waveformView.totalSamples))
-//        })
-        
         self.view.addSubview(self.menuViewController.view)
         self.view.addSubview(self.scrubberView)
         self.view.addSubview(self.bezierView)
@@ -285,10 +282,12 @@ class ViewController: UIViewController {
         self.scrubberView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.scrubberView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        self.player.view.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.player.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        self.player.view.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.player.view.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        constrain(self.player.view) { (view) in
+            view.top == view.superview!.top
+            view.left == view.superview!.left
+            view.right == view.superview!.right
+            view.bottom == view.superview!.bottom
+        }
         
         self.cameraScrubberPreviewView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.cameraScrubberPreviewView.bottomAnchor.constraint(equalTo: self.recordButtonView.topAnchor).isActive = true
@@ -308,7 +307,6 @@ class ViewController: UIViewController {
         self.playButtonsView.delegate = self
 
         self.view.isUserInteractionEnabled = true
-        
         
         let tapGestureRecognizer:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         

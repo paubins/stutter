@@ -24,7 +24,7 @@ target 'Stutter' do
   pod 'VideoViewController'
   pod "Pulsator"
   pod 'Overlap'
-  pod "Player", "~> 0.5.0"
+  pod "Player"
   pod "Shift"
   pod "Device", '~> 3.0.1'
   pod 'Presentr'
