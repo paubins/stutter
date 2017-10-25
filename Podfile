@@ -29,5 +29,8 @@ target 'Stutter' do
   pod "Device", '~> 3.0.1'
   pod 'Presentr'
   pod 'JTFadingInfoView'
+  pod 'FCAlertView'
+  pod 'SwiftyTimer'
+  pod 'KDCircularProgress'
 
 end

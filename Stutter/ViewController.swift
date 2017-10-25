@@ -21,6 +21,16 @@ import Player
 import Device
 import Cartography
 import Shift
+import FCAlertView
+import AVKit
+import SwiftyTimer
+import KDCircularProgress
+
+extension UIView {
+    func makeCircular() {
+        self.layer.cornerRadius = min(self.frame.size.height, self.frame.size.width) / 2.0
+    }
+}
 
 let WIDTH_CONSTANT = CGFloat(10.0)
 
@@ -35,6 +45,8 @@ class ViewController: UIViewController {
     
     var player:Player = Player()
     
+    var loaderViewController:LoaderViewController = LoaderViewController()
+    
     var delegate:ViewControllerDelegate!
     
     let menuViewController:MenuViewController = MenuViewController()
@@ -43,46 +55,110 @@ class ViewController: UIViewController {
     
     var bornCoordinateSpace:UICoordinateSpace!
     
-    let resetButtons:UIView = {
+    let loadFromCameraButton:UIView = {
         let containerView:UIView = UIView(frame: .zero)
-        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.clipsToBounds = true
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+
+        blurEffectView.clipsToBounds = true
+        containerView.addSubview(blurEffectView)
+        
+        constrain(blurEffectView) { (view) in
+            view.top == view.superview!.top
+            view.right == view.superview!.right
+            view.left == view.superview!.left
+            view.bottom == view.superview!.bottom
+        }
         
         let playStopBackButton:DynamicButton = DynamicButton(style: .close)
-        playStopBackButton.strokeColor         = .black
-        playStopBackButton.highlightStokeColor = .gray
-        playStopBackButton.translatesAutoresizingMaskIntoConstraints = false
+        playStopBackButton.strokeColor         = .white
+        playStopBackButton.highlightStokeColor = .white
         
-        playStopBackButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        playStopBackButton.addTarget(self, action: #selector(loadFromCamera), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
         
-        playStopBackButton.heightAnchor.constraint(equalToConstant: 50)
-        playStopBackButton.widthAnchor.constraint(equalToConstant: 50)
-        
-        playStopBackButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-        playStopBackButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        constrain(playStopBackButton) { (view) in
+            view.width == 30
+            view.height == 30
+            
+            view.centerX == view.superview!.centerX
+            view.centerY == view.superview!.centerY
+        }
         
         return containerView
     }()
     
-    let saveButtons:UIView = {
+    let loadFromLibraryButton:UIView = {
         let containerView:UIView = UIView(frame: .zero)
-        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.clipsToBounds = true
         
-        let playStopBackButton:DynamicButton = DynamicButton(style: .fastForward)
-        playStopBackButton.strokeColor         = .black
-        playStopBackButton.highlightStokeColor = .gray
-        playStopBackButton.translatesAutoresizingMaskIntoConstraints = false
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
+        blurEffectView.clipsToBounds = true
+        containerView.addSubview(blurEffectView)
+        
+        constrain(blurEffectView) { (view) in
+            view.top == view.superview!.top
+            view.right == view.superview!.right
+            view.left == view.superview!.left
+            view.bottom == view.superview!.bottom
+        }
+        
+        let playStopBackButton:DynamicButton = DynamicButton(style: .close)
+        playStopBackButton.strokeColor         = .white
+        playStopBackButton.highlightStokeColor = .white
+        
+        playStopBackButton.addTarget(self, action: #selector(loadFromLibrary), for: .touchUpInside)
+        
+        containerView.addSubview(playStopBackButton)
+        
+        constrain(playStopBackButton) { (view) in
+            view.width == 30
+            view.height == 30
+            
+            view.centerX == view.superview!.centerX
+            view.centerY == view.superview!.centerY
+        }
+        
+        return containerView
+    }()
+    
+    let saveShareButton:UIView = {
+        let containerView:UIView = UIView(frame: .zero)
+        containerView.clipsToBounds = true
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        
+        blurEffectView.clipsToBounds = true
+        containerView.addSubview(blurEffectView)
+        
+        constrain(blurEffectView) { (view) in
+            view.top == view.superview!.top
+            view.right == view.superview!.right
+            view.left == view.superview!.left
+            view.bottom == view.superview!.bottom
+        }
+        
+        let playStopBackButton:DynamicButton = DynamicButton(style: .close)
+        playStopBackButton.strokeColor         = .white
+        playStopBackButton.highlightStokeColor = .white
+
         playStopBackButton.addTarget(self, action: #selector(saveVideo), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
         
-        playStopBackButton.heightAnchor.constraint(equalToConstant: 50)
-        playStopBackButton.widthAnchor.constraint(equalToConstant: 50)
-        
-        playStopBackButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-        playStopBackButton.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        constrain(playStopBackButton) { (view) in
+            view.width == 30
+            view.height == 30
+            
+            view.centerX == view.superview!.centerX
+            view.centerY == view.superview!.centerY
+        }
         
         return containerView
     }()
@@ -98,6 +174,25 @@ class ViewController: UIViewController {
         view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    lazy var progress: KDCircularProgress = {
+        let progress:KDCircularProgress = KDCircularProgress(frame: .zero)
+        progress.startAngle = -90
+        progress.progressThickness = 0.2
+        progress.trackThickness = 0.6
+        progress.clockwise = true
+        progress.gradientRotateSpeed = 2
+        progress.roundedCorners = false
+        progress.glowMode = .forward
+        progress.glowAmount = 0.9
+        progress.isHidden = true
+        progress.set(colors: UIColor(hex: "#40BAB3"),
+                     UIColor(hex: "#F3C74F"),
+                     UIColor(hex: "#0081C6"),
+                     UIColor(hex: "#F0B0B7"))
+        
+        return progress
     }()
     
     let cameraScrubberPreviewView:CameraScrubberPreviewView = CameraScrubberPreviewView(frame: CGRect.zero)
@@ -179,7 +274,8 @@ class ViewController: UIViewController {
     
     var TIMES = [0: 0.0, 1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0]
     var originalVolume:Float = 0
-
+    
+    var progressTimer:Timer!
     
     func goBack() {
         self.dismiss(animated: true) { 
@@ -188,21 +284,67 @@ class ViewController: UIViewController {
         }
     }
     
-    func saveVideo() {
-        self.player.stop()
-
-        self.dismiss(animated: true) {
-            
-            let assetVideoTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).last!
-            let videoCompositonTrack:AVMutableCompositionTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).last!
-            videoCompositonTrack.preferredTransform = assetVideoTrack.preferredTransform
-            
-            self.delegate.displayComposition(composition: self.mutableComposition)
-            self.delegate.dismissedViewController()
+    func loadFromCamera(sender: DynamicButton) {
+        self.present(self.loaderViewController.picker, animated: true) {
+            print("load from library")
         }
     }
     
-    init(url: URL) {
+    func loadFromLibrary(sender: DynamicButton) {
+        self.present(self.loaderViewController.picker2, animated: true) {
+            print("load from camera")
+        }
+    }
+    
+    func saveVideo(sender: DynamicButton) {
+        self.player.stop()
+        
+        let loadingViewController:LoadingViewController = LoadingViewController()
+        
+        let assetVideoTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).last!
+        let videoCompositonTrack:AVMutableCompositionTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).last!
+        videoCompositonTrack.preferredTransform = assetVideoTrack.preferredTransform
+        
+        let exportSession:AVAssetExportSession = try! loadingViewController.export(asset: self.mutableComposition)
+        self.progress.isHidden = false
+        
+        self.progressTimer = Timer.every(1.second) {
+            if (exportSession.progress == 1.0) {
+                let activityController:UIActivityViewController = UIActivityViewController(activityItems: [exportSession.outputURL], applicationActivities: nil)
+                activityController.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
+                    if(completed) {
+                        let alert:FCAlertView = FCAlertView()
+                        alert.makeAlertTypeSuccess()
+                        alert.showAlert(inView: self,
+                                        withTitle: "Saved!",
+                                        withSubtitle: "Your video saved!",
+                                        withCustomImage: nil,
+                                        withDoneButtonTitle: "👌",
+                                        andButtons: nil)
+
+                        alert.colorScheme = UIColor(hex: "#8C9AFF")
+                        
+                        self.progress.isHidden = true
+                        
+                        self.processAsset()
+                    }
+                }
+                
+                
+                self.present(activityController, animated: true) {
+                    print("presented share controller")
+                }
+                
+                self.progressTimer.invalidate()
+                self.progressTimer = nil
+                
+            } else {
+                self.progress.progress = Double(exportSession.progress)
+            }
+        }
+    }
+    
+    init(url: URL?) {
         super.init(nibName: nil, bundle: nil)
         self.player.url = url
     }
@@ -240,6 +382,7 @@ class ViewController: UIViewController {
         self.view.addSubview(self.scrubberView)
         self.view.addSubview(self.bezierView)
         self.view.addSubview(self.playButtonsView)
+        self.view.addSubview(self.progress)
         
         self.menuViewController.view.isHidden = true
 
@@ -247,8 +390,9 @@ class ViewController: UIViewController {
     
         self.view.addSubview(self.spacerView)
         
-        self.view.addSubview(self.resetButtons)
-        self.view.addSubview(self.saveButtons)
+        self.view.addSubview(self.loadFromCameraButton)
+        self.view.addSubview(self.loadFromLibraryButton)
+        self.view.addSubview(self.saveShareButton)
         self.view.addSubview(self.recordButtonView)
         
         self.recordButtonView.delegate = self
@@ -260,16 +404,24 @@ class ViewController: UIViewController {
             view.bottom == view.superview!.bottom
         }
         
-        self.resetButtons.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.resetButtons.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.resetButtons.heightAnchor.constraint(equalToConstant: 120).isActive = true
-        self.resetButtons.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        self.saveButtons.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.saveButtons.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.saveButtons.heightAnchor.constraint(equalToConstant: 120).isActive = true
-        self.saveButtons.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        
+        constrain(self.loadFromCameraButton, self.loadFromLibraryButton, self.saveShareButton) { (view, view1, view2) in
+            view.right == view.superview!.right - 30
+            view.top == view.superview!.top + 30
+            view.height == 60
+            view.width == 60
+            
+            view1.right == view1.superview!.right - 30
+            view1.top == view.bottom + 20
+            view1.height == 60
+            view1.width == 60
+            
+            view2.right == view2.superview!.right - 30
+            view2.top == view1.bottom + 20
+            view2.height == 60
+            view2.width == 60
+            
+        }
+
         self.bezierView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         self.bezierView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.bezierView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -312,6 +464,13 @@ class ViewController: UIViewController {
             view.bottom == view.superview!.bottom
         }
         
+        constrain(self.progress) { (view) in
+            view.centerX == view.superview!.centerX
+            view.centerY == view.superview!.centerY
+            view.height == 50
+            view.width == 50
+        }
+        
         self.cameraScrubberPreviewView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.cameraScrubberPreviewView.bottomAnchor.constraint(equalTo: self.recordButtonView.topAnchor).isActive = true
         self.cameraScrubberPreviewView.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -333,8 +492,8 @@ class ViewController: UIViewController {
         
         let tapGestureRecognizer:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         
-        self.menuViewController.view.addGestureRecognizer(tapGestureRecognizer)
-        
+        self.view.addGestureRecognizer(tapGestureRecognizer)
+    
         // set animation duration
         self.backgroundShiftView.animationDuration(3.0)
     }
@@ -362,6 +521,9 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        self.loadFromLibraryButton.makeCircular()
+        self.loadFromCameraButton.makeCircular()
+        self.saveShareButton.makeCircular()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -379,7 +541,12 @@ class ViewController: UIViewController {
         
     }
     func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
-        self.player.stop()
+        if (gestureRecognizer.location(in: self.view).x < UIScreen.main.bounds.width/4) {
+            self.player.playFromBeginning()
+        } else {
+            self.player.stop()
+        }
+        
     }
     
     func screenSize() {

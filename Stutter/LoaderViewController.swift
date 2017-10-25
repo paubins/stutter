@@ -89,11 +89,35 @@ class LoaderViewController: UIViewController {
         return customPresenter
     }()
     
-    var picker:UIImagePickerController!
-    var picker2:UIImagePickerController!
+    lazy var picker:UIImagePickerController = {
+        let picker:UIImagePickerController = UIImagePickerController()
+        
+        picker.allowsEditing = true
+        picker.sourceType = .camera
+        picker.mediaTypes = ["public.movie"]
+        picker.cameraCaptureMode = .video
+        picker.cameraDevice = .front
+        picker.delegate = self
+        
+        return picker
+    }()
+    
+    lazy var picker2:UIImagePickerController = {
+        let picker2:UIImagePickerController = UIImagePickerController()
+        
+        picker2.allowsEditing = true
+        picker2.sourceType = .photoLibrary
+        picker2.mediaTypes = ["public.movie"]
+        picker2.delegate = self
+        
+        return picker2
+    }()
     
     var cameraViewController:CameraViewController!
     var asset:AVAsset!
+    
+    var composition:AVMutableComposition!
+    var url:URL!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,7 +135,8 @@ class LoaderViewController: UIViewController {
         
         self.loadNewVideoView.addTarget(self, action: #selector(loadNewVideo), for: UIControlEvents.touchUpInside)
         self.takeNewVideoView.addTarget(self, action: #selector(takeNewVideo), for: UIControlEvents.touchUpInside)
-            
+        
+        
         
         constrain(self.buttonsBackgroundView) { (view) in
             view.top == view.superview!.top
@@ -135,23 +160,6 @@ class LoaderViewController: UIViewController {
             view1.height == view.height
         }
         
-        self.picker = UIImagePickerController()
-        
-        picker.allowsEditing = true
-        picker.sourceType = .camera
-        picker.mediaTypes = ["public.movie"]
-        picker.cameraCaptureMode = .video
-        picker.cameraDevice = .front
-        picker.delegate = self
-        
-        self.picker2 = UIImagePickerController()
-        
-        picker2.allowsEditing = true
-        picker2.sourceType = .photoLibrary
-        picker2.mediaTypes = ["public.movie"]
-        picker2.delegate = self
-        
-        
         // set animation duration
         self.buttonsBackgroundView.animationDuration(3.0)
     }
@@ -172,9 +180,6 @@ class LoaderViewController: UIViewController {
             print("presented")
         }
     }
-    
-    var composition:AVMutableComposition!
-    var url:URL!
 }
 
 extension LoaderViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -183,8 +188,14 @@ extension LoaderViewController : UIImagePickerControllerDelegate, UINavigationCo
         
         if (self.picker == picker) {
             self.url = info[UIImagePickerControllerMediaURL] as! URL
+            self.picker.dismiss(animated: true, completion: {
+                print("dismissed image picker")
+            })
         } else {
             self.url = info[UIImagePickerControllerMediaURL] as! URL
+            self.picker2.dismiss(animated: true, completion: {
+                print("dismissed image picker")
+            })
         }
         
         self.loadAsset(url: self.url)
@@ -193,7 +204,9 @@ extension LoaderViewController : UIImagePickerControllerDelegate, UINavigationCo
     func loadAsset(url: URL) {
         self.asset = AVAsset(url: url)
         
-        self.mainViewController = ViewController(url: url)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        self.mainViewController = appDelegate.viewController
         self.mainViewController.delegate = self
         
         self.composition = AVMutableComposition()
@@ -217,25 +230,14 @@ extension LoaderViewController : UIImagePickerControllerDelegate, UINavigationCo
                 self.mainViewController.asset = self.asset
                 self.mainViewController.processAsset()
                 self.mainViewController.scrubberView.waveformView.audioURL = url
-                
-                self.dismiss(animated: true) {
-                    print("dismissed")
-                    
-                }
-                
-                self.present(self.mainViewController, animated: true, completion: {
-                    print("presented main viewcontroller")
-                })
             }
-            
         }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print("cancelled")
-        //        self.tabBarController.sidebar.selectItemAtIndex(0)
-        
-        self.dismiss(animated: true) {
+
+        picker.dismiss(animated: true) {
             print("dismissed")
         }
     }

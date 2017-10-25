@@ -99,7 +99,7 @@ class LoadingViewController : UIViewController {
         try? self.export(asset: (self.videoPlayerView.player.player.currentItem?.asset)!)
     }
     
-    func export(asset: AVAsset) throws {
+    func export(asset: AVAsset) throws -> AVAssetExportSession {
         let assetVideoTrack:AVAssetTrack = asset.tracks(withMediaType: AVMediaTypeVideo).last!
         let videoCompositonTrack:AVMutableCompositionTrack = asset.tracks(withMediaType: AVMediaTypeVideo).last! as! AVMutableCompositionTrack
         videoCompositonTrack.preferredTransform = assetVideoTrack.preferredTransform
@@ -120,9 +120,7 @@ class LoadingViewController : UIViewController {
         
         exporter.outputFileType = AVFileTypeMPEG4
         exporter.outputURL = fileUrl
-        
-        LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor(white: 0, alpha: 0.6))
-        
+
         exporter.exportAsynchronously(completionHandler: { () -> Void in
             DispatchQueue.main.async(execute: {
                 if exporter.status == AVAssetExportSessionStatus.completed {
@@ -142,6 +140,8 @@ class LoadingViewController : UIViewController {
                 }
             })
         })
+        
+        return exporter
     }
 
 }

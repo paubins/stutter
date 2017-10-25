@@ -13,15 +13,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    
-    let loaderViewController:LoaderViewController = LoaderViewController()
+    let viewController:ViewController = ViewController(url: nil)
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-
         self.window = UIWindow(frame: UIScreen.main.bounds)
 
-        self.window?.rootViewController = self.loaderViewController
+        self.window?.rootViewController = self.viewController
         self.window?.makeKeyAndVisible()
         
         return true
