@@ -954,6 +954,8 @@ extension ViewController: PlayerPlaybackDelegate {
     
     public func playerCurrentTimeDidChange(_ player: Player) {
         let fraction = Double(player.currentTime) / Double(player.maximumDuration)
+        
+        self.scrubberView.waveformView.progressSamples = Int(CGFloat(fraction) * CGFloat(self.scrubberView.waveformView.totalSamples))
     }
     
     public func playerPlaybackWillLoop(_ player: Player) {
