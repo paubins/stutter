@@ -25,6 +25,7 @@ import FCAlertView
 import AVKit
 import SwiftyTimer
 import KDCircularProgress
+import FontAwesomeKit
 
 extension UIView {
     func makeCircular() {
@@ -59,7 +60,7 @@ class ViewController: UIViewController {
         let containerView:UIView = UIView(frame: .zero)
         containerView.clipsToBounds = true
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
 
         blurEffectView.clipsToBounds = true
@@ -72,10 +73,9 @@ class ViewController: UIViewController {
             view.bottom == view.superview!.bottom
         }
         
-        let playStopBackButton:DynamicButton = DynamicButton(style: .close)
-        playStopBackButton.strokeColor         = .white
-        playStopBackButton.highlightStokeColor = .white
-        
+        let icon = FAKFontAwesome.cameraRetroIcon(withSize: 40)
+        let playStopBackButton:UIButton = UIButton()
+        playStopBackButton.setImage(icon?.image(with: CGSize(width: 40, height: 40)), for: .normal)
         playStopBackButton.addTarget(self, action: #selector(loadFromCamera), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
@@ -95,7 +95,7 @@ class ViewController: UIViewController {
         let containerView:UIView = UIView(frame: .zero)
         containerView.clipsToBounds = true
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         blurEffectView.clipsToBounds = true
@@ -108,10 +108,9 @@ class ViewController: UIViewController {
             view.bottom == view.superview!.bottom
         }
         
-        let playStopBackButton:DynamicButton = DynamicButton(style: .close)
-        playStopBackButton.strokeColor         = .white
-        playStopBackButton.highlightStokeColor = .white
-        
+        let icon = FAKFontAwesome.filePhotoOIcon(withSize: 40)
+        let playStopBackButton:UIButton = UIButton()
+        playStopBackButton.setImage(icon?.image(with: CGSize(width: 40, height: 40)), for: .normal)
         playStopBackButton.addTarget(self, action: #selector(loadFromLibrary), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
@@ -131,7 +130,7 @@ class ViewController: UIViewController {
         let containerView:UIView = UIView(frame: .zero)
         containerView.clipsToBounds = true
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         blurEffectView.clipsToBounds = true
@@ -144,10 +143,9 @@ class ViewController: UIViewController {
             view.bottom == view.superview!.bottom
         }
         
-        let playStopBackButton:DynamicButton = DynamicButton(style: .close)
-        playStopBackButton.strokeColor         = .white
-        playStopBackButton.highlightStokeColor = .white
-
+        let shareIcon = FAKFontAwesome.shareIcon(withSize: 40)
+        let playStopBackButton:UIButton = UIButton()
+        playStopBackButton.setImage(shareIcon?.image(with: CGSize(width: 40, height: 40)), for: .normal)
         playStopBackButton.addTarget(self, action: #selector(saveVideo), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
@@ -296,7 +294,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func saveVideo(sender: DynamicButton) {
+    func saveVideo(sender: UIButton) {
         self.player.stop()
         
         let loadingViewController:LoadingViewController = LoadingViewController()
@@ -405,18 +403,18 @@ class ViewController: UIViewController {
         }
         
         constrain(self.loadFromCameraButton, self.loadFromLibraryButton, self.saveShareButton) { (view, view1, view2) in
-            view.right == view.superview!.right - 30
-            view.top == view.superview!.top + 30
+            view.right == view.superview!.right - 15
+            view.top == view.superview!.top + 40
             view.height == 60
             view.width == 60
             
-            view1.right == view1.superview!.right - 30
-            view1.top == view.bottom + 20
+            view1.right == view1.superview!.right - 15
+            view1.top == view.bottom + 15
             view1.height == 60
             view1.width == 60
             
-            view2.right == view2.superview!.right - 30
-            view2.top == view1.bottom + 20
+            view2.right == view2.superview!.right - 15
+            view2.top == view1.bottom + 15
             view2.height == 60
             view2.width == 60
             

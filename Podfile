@@ -32,5 +32,6 @@ target 'Stutter' do
   pod 'FCAlertView'
   pod 'SwiftyTimer'
   pod 'KDCircularProgress'
+  pod 'FontAwesomeKit', '~> 2.2.0'
 
 end
