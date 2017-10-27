@@ -11,85 +11,76 @@ import SwiftyButton
 
 protocol PlayButtonViewDelegate {
     func playButtonWasTapped(index: Int)
-    func badgedEarned(badge: Int, index: Int)
 }
 
 class PlayButtonsView: UIView {
     
     let padding = 0
     
-    let button0:PressableButton = {
+    lazy var button0:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
         button.colors = .init(button: Constant.COLORS[0],
                                   shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
+        button.tag = 0
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
     }()
     
-    let button1:PressableButton = {
+    lazy var button1:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
         button.colors = .init(button: Constant.COLORS[1],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
+        button.tag = 1
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
     }()
     
-    let button2:PressableButton = {
+    lazy var button2:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
         button.colors = .init(button: Constant.COLORS[2],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
+        button.tag = 2
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
     }()
     
-    let button3:PressableButton = {
+    lazy var button3:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
         button.colors = .init(button: Constant.COLORS[3],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
+        button.tag = 3
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
     }()
     
-    let button4:PressableButton = {
+    lazy var button4:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
+        button.addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
         button.colors = .init(button: Constant.COLORS[4],
                               shadow: .white)
         button.shadowHeight = 2
         button.cornerRadius = 5
+        button.tag = 4
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
     }()
-    
-    var buttonScores:[Int] = [0, 0, 0, 0, 0] {
-        didSet(newScores) {
-            for (index, score) in newScores.enumerated() {
-                if 25 < score {
-                    self.delegate?.badgedEarned(badge: 5, index: index)
-                } else if 15 < score {
-                    self.delegate?.badgedEarned(badge: 4, index: index)
-                } else if 10 < score {
-                    self.delegate?.badgedEarned(badge: 3, index: index)
-                } else if 5 < score {
-                    self.delegate?.badgedEarned(badge: 2, index: index)
-                } else if 3 < score {
-                    self.delegate?.badgedEarned(badge: 1, index: index)
-                }
-            }
-        }
-    }
     
     var delegate: PlayButtonViewDelegate?
     
@@ -191,12 +182,6 @@ class PlayButtonsView: UIView {
         spacer4.leftAnchor.constraint(equalTo: button4.rightAnchor).isActive = true
         spacer4.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
-        button0.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        button1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        button2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        button3.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        button4.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapped)))
-        
         button0.widthAnchor.constraint(equalTo: button1.widthAnchor, multiplier: 1, constant: 0).isActive = true
         button1.widthAnchor.constraint(equalTo: button2.widthAnchor, multiplier: 1, constant: 0).isActive = true
         button2.widthAnchor.constraint(equalTo: button3.widthAnchor, multiplier: 1, constant: 0).isActive = true
@@ -224,30 +209,12 @@ class PlayButtonsView: UIView {
         }
     }
     
+    func tapped(button: PressableButton) {
+        self.delegate?.playButtonWasTapped(index: (button.tag))
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-extension PlayButtonsView {
-    
-    func tapped(gesturerecognizer:UITapGestureRecognizer) {
-        let tappedView = gesturerecognizer.view
-        if (tappedView == self.button0) {
-            self.buttonScores[0] += 1
-            self.delegate?.playButtonWasTapped(index: 0)
-        } else if (tappedView == self.button1) {
-            self.buttonScores[1] += 1
-            self.delegate?.playButtonWasTapped(index: 1)
-        } else if (tappedView == self.button2) {
-            self.buttonScores[2] += 1
-            self.delegate?.playButtonWasTapped(index: 2)
-        } else if (tappedView == self.button3) {
-            self.buttonScores[3] += 1
-            self.delegate?.playButtonWasTapped(index: 3)
-        } else if (tappedView == self.button4) {
-            self.buttonScores[4] += 1
-            self.delegate?.playButtonWasTapped(index: 4)
-        }
-    }
-}

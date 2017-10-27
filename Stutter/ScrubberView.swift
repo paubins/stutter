@@ -11,9 +11,9 @@ import AHKBendableView
 import FDWaveformView
 
 protocol ScrubberViewDelegate {
-    func sliceWasMovedTo(index: Int, time: Int, distance: Int)
-    func draggingHasBegun()
-    func draggingHasEnded()
+    func sliceWasMovedTo(index: Int, distance: Int)
+    func draggingHasBegun(index: Int)
+    func draggingHasEnded(index: Int)
 }
 
 class ScrubberView : UIView {
@@ -45,6 +45,7 @@ class ScrubberView : UIView {
         self.imageView = UIView(frame: .zero)
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
         
+        self.isUserInteractionEnabled = true
         self.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(self.imageView)
@@ -163,21 +164,21 @@ extension ScrubberView {
     
     func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
         print("tapped")
+        let view = gestureRecognizer.view
         
         if (gestureRecognizer.state == UIGestureRecognizerState.began) {
-            self.delegate?.draggingHasBegun()
+            self.delegate?.draggingHasBegun(index: (view?.tag)!)
         }
         
         if (gestureRecognizer.state == .ended) {
-            self.delegate?.draggingHasEnded()
+            self.delegate?.draggingHasEnded(index: (view?.tag)!)
         }
         
-        let view = gestureRecognizer.view
         let layoutConstraint:NSLayoutConstraint = self.flippers[view!.tag]
         if (gestureRecognizer.location(in: self.superview).x < (UIScreen.main.bounds.width - 10.0)) {
             layoutConstraint.constant = gestureRecognizer.location(in: self.superview).x
             let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
-            self.delegate?.sliceWasMovedTo(index: (view?.tag)!, time: currentTime, distance: Int(gestureRecognizer.location(in: self.superview).x))
+            self.delegate?.sliceWasMovedTo(index: (view?.tag)!, distance: Int(gestureRecognizer.location(in: self.superview).x))
         }
     }
     
@@ -189,7 +190,7 @@ extension ScrubberView {
     func resetTimes() {
         for slice:UIView in self.slices {
             let currentTime = Int(floor(Float(self.length) * Float(((slice.superview?.frame.origin.x)!/(UIScreen.main.bounds.width - 10.0)))))
-            self.delegate?.sliceWasMovedTo(index: (slice.tag), time: currentTime, distance: Int((slice.superview?.frame.origin.x)!))
+            self.delegate?.sliceWasMovedTo(index: (slice.tag), distance: Int((slice.superview?.frame.origin.x)!))
         }
     }
     

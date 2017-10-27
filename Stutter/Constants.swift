@@ -8,6 +8,8 @@
 
 import Foundation
 
+let WIDTH_CONSTANT = CGFloat(10.0)
+
 struct Constant {
     static let scrubberFramePreviewHeight:CGFloat = 60.0
     static let NUMBER_OF_FRAME = 10

@@ -10,9 +10,9 @@ import UIKit
 import Overlap
 
 protocol RecordButtonsViewDelegate {
-    func recordButtonSliceWasMovedTo(index: Int, time: Int, distance: Int)
-    func recordButtonDraggingHasBegun()
-    func recordButtonDraggingHasEnded()
+    func recordButtonSliceWasMovedTo(index: Int, distance: Int)
+    func recordButtonDraggingHasBegun(index: Int)
+    func recordButtonDraggingHasEnded(index: Int)
 }
 
 class RecordButtonsView : UIView {
@@ -25,6 +25,7 @@ class RecordButtonsView : UIView {
     override init (frame : CGRect) {
         super.init(frame : frame)
         
+        self.isUserInteractionEnabled = true
         self.translatesAutoresizingMaskIntoConstraints = false
         
         var i = 0
@@ -49,31 +50,10 @@ class RecordButtonsView : UIView {
             
             slices.append(slice)
             
-            //Simple Usage ============================================================================
-            
-            
-            //    Adjust Corner Radius (Rounded Edges) ====================================================
-            //    pulseView.layer.cornerRadius = 20.0f;
             slice.pulseCornerRadius = 8.0;
-            
-            
-            //    Adjust Corner Radius (Circle) ===========================================================
-
-            
-            
-            //    Adjust Stroke Color =====================================================================
             slice.pulseStrokeColor = UIColor.red.cgColor
-            
-            
-            //    Adjust Pulse LineWidth ==================================================================
             slice.pulseLineWidth = 1.0
-            
-            
-            //    Adjust Pulse Radius =====================================================================
             slice.pulseRadius = 4
-        
-            
-            //    Adjust Pulse Duration ====================================================================
             slice.pulseDuration = 3.0
             
             self.addSubview(flipper)
@@ -134,30 +114,31 @@ class RecordButtonsView : UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-extension RecordButtonsView {
     
     func getSlicePosition(index:Int) -> CGFloat {
         return slices[index].superview!.frame.origin.x
     }
-    
+}
+
+extension RecordButtonsView {
     func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
+        let view = gestureRecognizer.view
+        
         if (gestureRecognizer.state == UIGestureRecognizerState.began) {
-            self.delegate?.recordButtonDraggingHasBegun()
+            self.delegate?.recordButtonDraggingHasBegun(index: (view?.tag)!)
         }
         
         if (gestureRecognizer.state == .ended) {
-            self.delegate?.recordButtonDraggingHasEnded()
+            self.delegate?.recordButtonDraggingHasEnded(index: (view?.tag)!)
         }
         
-        let view = gestureRecognizer.view
         let layoutConstraint:NSLayoutConstraint = self.flippers[view!.tag]
         
         if (gestureRecognizer.location(in: self.superview).x < (UIScreen.main.bounds.width - 10.0)) {
             layoutConstraint.constant = gestureRecognizer.location(in: self.superview).x
             let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
-            self.delegate?.recordButtonSliceWasMovedTo(index: (view?.tag)!, time: currentTime, distance: Int(gestureRecognizer.location(in: self.superview).x))
+            
+            self.delegate?.recordButtonSliceWasMovedTo(index: (view?.tag)!, distance: Int(gestureRecognizer.location(in: self.superview).x))
         }
     }
 }
@@ -167,3 +148,4 @@ extension RecordButtonsView : UIGestureRecognizerDelegate {
         return true
     }
 }
+
