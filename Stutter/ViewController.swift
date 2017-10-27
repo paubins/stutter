@@ -37,7 +37,8 @@ class ViewController: UIViewController {
     }()
     
     lazy var loadingViewController:LoadingViewController = {
-        return LoadingViewController()
+        let loadingViewController:LoadingViewController = LoadingViewController()
+        return loadingViewController
     }()
     
     lazy var buttonViewController:ButtonViewController = {
@@ -128,13 +129,6 @@ class ViewController: UIViewController {
         self.backgroundShiftView.startTimedAnimation()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        print("disappeared")
-        self.mainControlViewController.reset()
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.dch_checkDeallocation()
@@ -151,6 +145,7 @@ extension ViewController : ButtonViewControllerDelegate {
     
     func assetChosen(asset: AVAsset) {
         self.editController = EditController(asset: asset)
+        self.mainControlViewController.reset()
         
         asset.getAudio(completion: { (time, url) in
             self.editController.load(time: time)
@@ -173,7 +168,8 @@ extension ViewController : ButtonViewControllerDelegate {
         self.editController.storeEdit(time: kCMTimeZero)
         self.playerViewController.stop()
         
-        self.present(self.loadingViewController, animated: true) {
+        self.present(self.loadingViewController, animated: false) {
+            
             self.loadingViewController.updateProgress(exportSession: try! self.editController.export())
         }
     }

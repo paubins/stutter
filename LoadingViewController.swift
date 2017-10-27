@@ -24,7 +24,7 @@ class LoadingViewController : UIViewController {
         progress.roundedCorners = false
         progress.glowMode = .forward
         progress.glowAmount = 0.9
-        progress.isHidden = true
+        progress.isHidden = false
         progress.set(colors: UIColor(hex: "#40BAB3"),
                      UIColor(hex: "#F3C74F"),
                      UIColor(hex: "#0081C6"),
@@ -36,22 +36,28 @@ class LoadingViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.modalPresentationStyle = .overCurrentContext
+        self.providesPresentationContextTransitionStyle = true
+        self.definesPresentationContext = true
+
         self.view.backgroundColor = UIColor(hue: 0.4, saturation: 0.2, brightness: 1.0, alpha: 0.4)
         self.view.isUserInteractionEnabled = true
         self.view.addSubview(self.progress)
         
+        self.progress.backgroundColor = .clear
+        
         constrain(self.progress) { (view) in
             view.centerX == view.superview!.centerX
             view.centerY == view.superview!.centerY
-            view.height == 150
-            view.width == 150
+            view.height == 300
+            view.width == 300
         }
     }
     
     func updateProgress(exportSession: AVAssetExportSession) {
         self.progressTimer = Timer.every(0.2.seconds) {
             if (exportSession.progress == 1.0) {
-
+                self.progress.progress = Double(exportSession.progress)
                 let activityController:UIActivityViewController = UIActivityViewController(activityItems: [exportSession.outputURL], applicationActivities: nil)
                 activityController.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
                     if(completed) {
@@ -74,6 +80,8 @@ class LoadingViewController : UIViewController {
                     self.progressTimer.invalidate()
                     self.progressTimer = nil
                 }
+            } else {
+                self.progress.progress = Double(exportSession.progress)
             }
         }
     }
@@ -81,8 +89,9 @@ class LoadingViewController : UIViewController {
 
 extension LoadingViewController : FCAlertViewDelegate {
     func fcAlertViewDismissed(_ alertView: FCAlertView!) {
-        self.dismiss(animated: true) {
+        self.dismiss(animated: false) {
             print("dismissed save dialog")
+            self.progress.progress = 0.0
         }
     }
 }
