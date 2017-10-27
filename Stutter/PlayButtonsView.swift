@@ -83,6 +83,7 @@ class PlayButtonsView: UIView {
     }()
     
     var delegate: PlayButtonViewDelegate?
+    var currentTimer: Timer!
     
     override init (frame : CGRect) {
         super.init(frame : frame)
@@ -186,6 +187,9 @@ class PlayButtonsView: UIView {
         button1.widthAnchor.constraint(equalTo: button2.widthAnchor, multiplier: 1, constant: 0).isActive = true
         button2.widthAnchor.constraint(equalTo: button3.widthAnchor, multiplier: 1, constant: 0).isActive = true
         button3.widthAnchor.constraint(equalTo: button4.widthAnchor, multiplier: 1, constant: 0).isActive = true
+        
+        let panGesture:UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.panGestureMethod))
+        self.addGestureRecognizer(panGesture)
     }
     
     func buttonCenter(atIndex: Int) -> CGPoint {
@@ -215,6 +219,50 @@ class PlayButtonsView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func panGestureMethod(gesture:UIPanGestureRecognizer) {
+        // Get the gesture's point location within its view
+        // (This answer assumes the gesture and the buttons are
+        // within the same view, ex. the gesture is attached to
+        // the view controller's superview and the buttons are within
+        // that same superview.)
+        let pointInView = gesture.location(in: gesture.view)
+        
+        // For each button, if the gesture is within the button and
+        // the button hasn't yet been added to the array, add it to the
+        // array. (This example uses 4 buttons instead of 9 for simplicity's
+        // sake
+        var fireButton:PressableButton!
+        
+        if button0.frame.contains(pointInView){
+            fireButton = button0
+        } else if button1.frame.contains(pointInView){
+            fireButton = button1
+        }
+        else if button2.frame.contains(pointInView){
+            fireButton = button2
+        } else if button3.frame.contains(pointInView){
+            fireButton = button3
+        }
+        else if button4.frame.contains(pointInView){
+            fireButton = button4
+        }
+        
+        if fireButton != nil {
+            if (self.currentTimer == nil) {
+                fireButton.isHighlighted = true
+                self.currentTimer = Timer.after(0.15.seconds) {
+                    fireButton.sendActions(for: UIControlEvents.touchUpInside)
+                    fireButton.isHighlighted = false
+                    
+                    self.currentTimer.invalidate()
+                    self.currentTimer = nil
+                }
+            }
+        }
+        
+
     }
 }
 
