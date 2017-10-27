@@ -22,6 +22,7 @@ class ButtonViewController : UIViewController {
     lazy var picker:UIImagePickerController = {
         let picker:UIImagePickerController = UIImagePickerController()
         
+        picker.videoQuality = .typeHigh
         picker.allowsEditing = true
         picker.sourceType = .camera
         picker.mediaTypes = ["public.movie"]

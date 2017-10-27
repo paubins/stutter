@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F00D8BA1FA2CF1400865894 /* ExporterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00D8B91FA2CF1400865894 /* ExporterController.m */; };
 		5F16CE801EFC829600486F0D /* SDevCircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */; };
 		5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CE821EFC9BE500486F0D /* DazTouchController.m */; };
 		5F16CF331EFC9FB800486F0D /* DazTriangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2C1EFC9FB700486F0D /* DazTriangle.png */; };
@@ -50,6 +51,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F00D8B81FA2CF1300865894 /* ExporterController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExporterController.h; sourceTree = "<group>"; };
+		5F00D8B91FA2CF1400865894 /* ExporterController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExporterController.m; sourceTree = "<group>"; };
 		5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SDevCircleButton.swift; path = ../../SDevCircleButton/SDevCircleButton/SDevCircleButton.swift; sourceTree = "<group>"; };
 		5F16CE811EFC9BE500486F0D /* DazTouchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazTouchController.h; path = ../../Dazzle/Dazzle/DazTouchController.h; sourceTree = "<group>"; };
 		5F16CE821EFC9BE500486F0D /* DazTouchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazTouchController.m; path = ../../Dazzle/Dazzle/DazTouchController.m; sourceTree = "<group>"; };
@@ -194,6 +197,8 @@
 		5FE3C84F1ED3F42F0027348C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5F00D8B81FA2CF1300865894 /* ExporterController.h */,
+				5F00D8B91FA2CF1400865894 /* ExporterController.m */,
 				5FEFD4171FA27CA600828165 /* ScrubberPreviewViewController.swift */,
 				5FC245FB1FA2667C0029BBA2 /* LoadingViewController.swift */,
 				5FC245F31FA24A9F0029BBA2 /* PlayerViewController.swift */,
@@ -460,6 +465,7 @@
 				5FA20F4A1F06B2FE006E9076 /* UIViewController+.swift in Sources */,
 				5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */,
 				5FC245F41FA24A9F0029BBA2 /* PlayerViewController.swift in Sources */,
+				5F00D8BA1FA2CF1400865894 /* ExporterController.m in Sources */,
 				5FC245FC1FA2667C0029BBA2 /* LoadingViewController.swift in Sources */,
 				5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */,
 				5FC245FA1FA2540E0029BBA2 /* ButtonViewController.swift in Sources */,

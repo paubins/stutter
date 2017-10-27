@@ -27,7 +27,12 @@ class EditController: NSObject {
     
     var currentEditHandler:((_ endTime:CMTime) -> CMTime)!
     
-    var mutableComposition:AVMutableComposition = AVMutableComposition()
+    lazy var mutableComposition:AVMutableComposition = {
+        let mutableComposition:AVMutableComposition = AVMutableComposition()
+        
+        return mutableComposition
+    }()
+    
     var asset:AVAsset!
     
     var timer:Timer!
@@ -73,17 +78,7 @@ class EditController: NSObject {
         self.currentEditHandler = self.createEditHandler(self.lastInsertedTime, startTime: time)
     }
     
-    func exportSession() -> AVAssetExportSession {
-        let assetVideoTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).last!
-        let videoCompositonTrack:AVMutableCompositionTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).last!
-        videoCompositonTrack.preferredTransform = self.asset.preferredTransform
-        
-        return try! self.export(asset: self.mutableComposition)
-    }
-    
-    private func export(asset: AVAsset) throws -> AVAssetExportSession {        
-        let exporter:AVAssetExportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)!
-        
+    func export() throws -> AVAssetExportSession {
         let filename = "composition.mp4"
         let outputPath = NSTemporaryDirectory().appending(filename)
         
@@ -96,22 +91,7 @@ class EditController: NSObject {
             try manager.removeItem(atPath: outputPath)
         }
         
-        exporter.outputFileType = AVFileTypeMPEG4
-        exporter.outputURL = fileUrl
-        
-        exporter.exportAsynchronously(completionHandler: { () -> Void in
-            DispatchQueue.main.async(execute: {
-                if exporter.status == AVAssetExportSessionStatus.completed {
-                    print("Success")
-                }
-                else {
-                    print(exporter.error?.localizedDescription ?? "error")
-                    //The requested URL was not found on this server.
-                }
-            })
-        })
-        
-        return exporter
+        return ExporterController.export(self.mutableComposition, videoAsset: self.asset, fromOutput: fileUrl)
     }
     
     func load(time: Float64) {

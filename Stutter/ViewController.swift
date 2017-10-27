@@ -174,7 +174,7 @@ extension ViewController : ButtonViewControllerDelegate {
         self.playerViewController.stop()
         
         self.present(self.loadingViewController, animated: true) {
-            self.loadingViewController.updateProgress(exportSession: self.editController.exportSession())
+            self.loadingViewController.updateProgress(exportSession: try! self.editController.export())
         }
     }
 }
