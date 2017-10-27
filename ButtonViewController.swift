@@ -147,6 +147,8 @@ class ButtonViewController : UIViewController {
             view.centerY == view.superview!.centerY
         }
         
+        containerView.alpha = 0.0
+        
         return containerView
     }()
     
@@ -199,6 +201,22 @@ class ButtonViewController : UIViewController {
     
     func saveVideo(sender: UIButton) {
         self.delegate.exportButtonTapped()
+    }
+    
+    func turnOnShareButton() {
+        if (self.saveShareButton.alpha == 0.0) {
+            UIView.animate(withDuration: 0.5) {
+                self.saveShareButton.alpha = 1.0
+            }
+        }
+    }
+    
+    func turnOffShareButton() {
+        if (self.saveShareButton.alpha == 1.0) {
+            UIView.animate(withDuration: 0.5) {
+                self.saveShareButton.alpha = 0.0
+            }
+        }
     }
 }
 

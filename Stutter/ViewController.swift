@@ -36,11 +36,6 @@ class ViewController: UIViewController {
         return scrubberPreviewViewController
     }()
     
-    lazy var loadingViewController:LoadingViewController = {
-        let loadingViewController:LoadingViewController = LoadingViewController()
-        return loadingViewController
-    }()
-    
     lazy var buttonViewController:ButtonViewController = {
         let buttonViewController:ButtonViewController = ButtonViewController()
         buttonViewController.delegate = self
@@ -147,6 +142,8 @@ extension ViewController : ButtonViewControllerDelegate {
         self.editController = EditController(asset: asset)
         self.mainControlViewController.reset()
         
+        self.buttonViewController.turnOffShareButton()
+        
         asset.getAudio(completion: { (time, url) in
             self.editController.load(time: time)
             self.mainControlViewController.load(time: time, audioURL: url)
@@ -165,12 +162,16 @@ extension ViewController : ButtonViewControllerDelegate {
     }
     
     func exportButtonTapped() {
-        self.editController.storeEdit(time: kCMTimeZero)
-        self.playerViewController.stop()
-        
-        self.present(self.loadingViewController, animated: false) {
+        if (self.editController != nil ) {
+            self.editController.closeEdit()
             
-            self.loadingViewController.updateProgress(exportSession: try! self.editController.export())
+            self.playerViewController.stop()
+            self.buttonViewController.turnOffShareButton()
+            
+            let loadingViewController:LoadingViewController = LoadingViewController()
+            self.present(loadingViewController, animated: false) {
+                loadingViewController.updateProgress(exportSession: try! self.editController.export())
+            }
         }
     }
 }
@@ -178,6 +179,8 @@ extension ViewController : ButtonViewControllerDelegate {
 extension ViewController : MainControlViewControllerDelegate {
     func playerButtonWasTapped(index: Int) {
         if (self.editController != nil) {
+            self.buttonViewController.turnOnShareButton()
+            
             self.editController.storeEdit(time: self.times[index]!)
             self.playerViewController.seekToTime(time: self.times[index]!)
             

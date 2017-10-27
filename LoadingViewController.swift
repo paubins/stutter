@@ -59,6 +59,7 @@ class LoadingViewController : UIViewController {
             if (exportSession.progress == 1.0) {
                 self.progress.progress = Double(exportSession.progress)
                 let activityController:UIActivityViewController = UIActivityViewController(activityItems: [exportSession.outputURL], applicationActivities: nil)
+                
                 activityController.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
                     if(completed) {
                         let alert:FCAlertView = FCAlertView()
