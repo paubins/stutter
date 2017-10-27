@@ -17,6 +17,7 @@ protocol RecordButtonsViewDelegate {
 
 class RecordButtonsView : UIView {
     var flippers:[NSLayoutConstraint] = []
+    
     var slices:[BAPulseView] = []
     var length:Int = 0
     var delegate: RecordButtonsViewDelegate?
@@ -76,9 +77,9 @@ class RecordButtonsView : UIView {
             
             let layoutConstraint = flipper.leftAnchor.constraint(equalTo: self.leftAnchor, constant: padding)
             layoutConstraint.isActive = true
-            
+
             flippers.append(layoutConstraint)
-            
+
             if (i != 0) {
                 let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.tapped))
                 gestureRecognizer.minimumPressDuration = 0
@@ -133,9 +134,10 @@ extension RecordButtonsView {
         }
         
         let layoutConstraint:NSLayoutConstraint = self.flippers[view!.tag]
-        
+
         if (gestureRecognizer.location(in: self.superview).x < (UIScreen.main.bounds.width - 10.0)) {
             layoutConstraint.constant = gestureRecognizer.location(in: self.superview).x
+
             let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
             
             self.delegate?.recordButtonSliceWasMovedTo(index: (view?.tag)!, distance: Int(gestureRecognizer.location(in: self.superview).x))
