@@ -132,7 +132,8 @@ class ButtonViewController : UIViewController {
             view.bottom == view.superview!.bottom
         }
         
-        let shareIcon = FAKFontAwesome.shareIcon(withSize: 40)
+        
+        let shareIcon = FAKFontAwesome.downloadIcon(withSize: 40)
         let playStopBackButton:UIButton = UIButton()
         playStopBackButton.setImage(shareIcon?.image(with: CGSize(width: 40, height: 40)), for: .normal)
         playStopBackButton.addTarget(self, action: #selector(saveVideo), for: .touchUpInside)
@@ -152,16 +153,26 @@ class ButtonViewController : UIViewController {
         return containerView
     }()
     
+    lazy var loadingViewController:LoadingViewController = {
+        let loadingViewController = LoadingViewController()
+        loadingViewController.view.alpha = 0.0
+        
+        return loadingViewController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.isUserInteractionEnabled = true
         
+        self.addChildViewController(self.loadingViewController)
+        
         self.view.addSubview(self.loadFromCameraButton)
         self.view.addSubview(self.loadFromLibraryButton)
         self.view.addSubview(self.saveShareButton)
+        self.view.addSubview(self.loadingViewController.view)
         
-        constrain(self.loadFromCameraButton, self.loadFromLibraryButton, self.saveShareButton) { (view, view1, view2) in
+        constrain(self.loadFromCameraButton, self.loadFromLibraryButton, self.saveShareButton, self.loadingViewController.view) { (view, view1, view2, view3) in
             view.right == view.superview!.right - 15
             view.top == view.superview!.top + 40
             view.height == 60
@@ -176,6 +187,11 @@ class ButtonViewController : UIViewController {
             view2.top == view1.bottom + 15
             view2.height == 60
             view2.width == 60
+            
+            view3.right == view3.superview!.right - 15
+            view3.top == view1.bottom + 15
+            view3.height == 60
+            view3.width == 60
         }
     }
     
@@ -200,13 +216,16 @@ class ButtonViewController : UIViewController {
     }
     
     func saveVideo(sender: UIButton) {
-        self.delegate.exportButtonTapped()
+        if (0.0 == self.loadingViewController.progress.progress) {
+            self.delegate.exportButtonTapped()
+        }
     }
     
     func turnOnShareButton() {
         if (self.saveShareButton.alpha == 0.0) {
             UIView.animate(withDuration: 0.5) {
                 self.saveShareButton.alpha = 1.0
+                self.loadingViewController.view.alpha = 1.0
             }
         }
     }
@@ -217,6 +236,12 @@ class ButtonViewController : UIViewController {
                 self.saveShareButton.alpha = 0.0
             }
         }
+    }
+    
+    func updateProgress(exportSession: AVAssetExportSession) {
+        self.loadingViewController.updateProgress(exportSession: exportSession, completion: {
+            self.loadingViewController.view.alpha = 0.0
+        })
     }
 }
 

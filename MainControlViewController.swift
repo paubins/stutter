@@ -146,9 +146,9 @@ class MainControlViewController : UIViewController {
         }
     }
     
-    func load(time: Float64, audioURL: URL) {
-        self.scrubberView.length = Int(floor(time * 100))
-        self.recordButtonView.length = Int(floor(time * 100))
+    func load(duration: CMTime, audioURL: URL) {
+        self.scrubberView.length = Int(CMTimeGetSeconds(duration))*100
+        self.recordButtonView.length = Int(CMTimeGetSeconds(duration))*100
         
         DispatchQueue.main.sync {
             self.scrubberView.resetTimes()

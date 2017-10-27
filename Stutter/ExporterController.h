@@ -12,6 +12,6 @@
 
 @interface ExporterController : NSObject
 
-+ (AVAssetExportSession *)export:(AVMutableComposition *)mixComposition videoAsset:(AVAsset *)videoAsset fromOutput:(NSURL *)outputFileURL;
++ (AVAssetExportSession *)export:(AVMutableComposition *)mixComposition videoAsset:(AVAsset *)videoAsset fromOutput:(NSURL *)outputFileURL completionHandler:(void (^)(AVAssetExportSession *))completionHandler;
 
 @end

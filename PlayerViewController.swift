@@ -27,6 +27,7 @@ class PlayerViewController : UIViewController {
         self.player.fillMode = AVLayerVideoGravityResizeAspect
         self.player.playbackLoops = true
         self.player.view.backgroundColor = .clear
+        self.player.playbackResumesWhenEnteringForeground = false
         
         self.view.isUserInteractionEnabled = true
         

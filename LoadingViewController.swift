@@ -14,6 +14,8 @@ import FCAlertView
 class LoadingViewController : UIViewController {
     var progressTimer:Timer!
     
+    var completion:(() -> Void)!
+    
     lazy var progress: KDCircularProgress = {
         let progress:KDCircularProgress = KDCircularProgress(frame: .zero)
         progress.startAngle = -90
@@ -40,59 +42,55 @@ class LoadingViewController : UIViewController {
         self.providesPresentationContextTransitionStyle = true
         self.definesPresentationContext = true
 
-        self.view.backgroundColor = UIColor(hue: 0.4, saturation: 0.2, brightness: 1.0, alpha: 0.4)
-        self.view.isUserInteractionEnabled = true
+        self.view.backgroundColor = .clear
+        self.view.isUserInteractionEnabled = false
         self.view.addSubview(self.progress)
         
         self.progress.backgroundColor = .clear
         
         constrain(self.progress) { (view) in
-            view.centerX == view.superview!.centerX
-            view.centerY == view.superview!.centerY
-            view.height == 300
-            view.width == 300
+            view.top == view.superview!.top
+            view.right == view.superview!.right
+            view.left == view.superview!.left
+            view.bottom == view.superview!.bottom
         }
     }
     
-    func updateProgress(exportSession: AVAssetExportSession) {
+    func updateProgress(exportSession: AVAssetExportSession, completion: @escaping () -> Void) {
         self.progressTimer = Timer.every(0.2.seconds) {
             if (exportSession.progress == 1.0) {
                 self.progress.progress = Double(exportSession.progress)
-                let activityController:UIActivityViewController = UIActivityViewController(activityItems: [exportSession.outputURL], applicationActivities: nil)
                 
-                activityController.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
-                    if(completed) {
-                        let alert:FCAlertView = FCAlertView()
-                        alert.makeAlertTypeSuccess()
-                        alert.showAlert(inView: self,
-                                        withTitle: "Saved!",
-                                        withSubtitle: "Your video saved!",
-                                        withCustomImage: nil,
-                                        withDoneButtonTitle: "👌",
-                                        andButtons: nil)
-                        alert.delegate = self
-                        
-                        alert.colorScheme = UIColor(hex: "#8C9AFF")
-                    }
-                }
+                self.completion = completion
                 
-                self.present(activityController, animated: true) {
-                    print("presented share controller")
-                    self.progressTimer.invalidate()
-                    self.progressTimer = nil
-                }
+                let alert:FCAlertView = FCAlertView()
+                alert.makeAlertTypeSuccess()
+                alert.showAlert(inView: self,
+                                withTitle: "Saved!",
+                                withSubtitle: "Your video saved!",
+                                withCustomImage: nil,
+                                withDoneButtonTitle: "👌",
+                                andButtons: nil)
+                alert.delegate = self
+                
+                alert.colorScheme = UIColor(hex: "#8C9AFF")
+                
+                self.progressTimer.invalidate()
+                self.progressTimer = nil
             } else {
                 self.progress.progress = Double(exportSession.progress)
             }
         }
     }
+    
+    @objc func saveCompleted(video: String, didFinishSavingWithError: Error, contextInfo: UnsafeMutableRawPointer) {
+
+    }
 }
 
 extension LoadingViewController : FCAlertViewDelegate {
     func fcAlertViewDismissed(_ alertView: FCAlertView!) {
-        self.dismiss(animated: false) {
-            print("dismissed save dialog")
-            self.progress.progress = 0.0
-        }
+        self.progress.progress = 0.0
+        self.completion()
     }
 }

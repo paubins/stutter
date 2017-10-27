@@ -144,9 +144,9 @@ extension ViewController : ButtonViewControllerDelegate {
         
         self.buttonViewController.turnOffShareButton()
         
-        asset.getAudio(completion: { (time, url) in
-            self.editController.load(time: time)
-            self.mainControlViewController.load(time: time, audioURL: url)
+        asset.getAudio(completion: { (duration, url) in
+            self.editController.load(duration: duration)
+            self.mainControlViewController.load(duration: duration, audioURL: url)
             
             try! FileManager.default.removeItem(at: url)
             
@@ -168,10 +168,7 @@ extension ViewController : ButtonViewControllerDelegate {
             self.playerViewController.stop()
             self.buttonViewController.turnOffShareButton()
             
-            let loadingViewController:LoadingViewController = LoadingViewController()
-            self.present(loadingViewController, animated: false) {
-                loadingViewController.updateProgress(exportSession: try! self.editController.export())
-            }
+            self.buttonViewController.updateProgress(exportSession: try! self.editController.export())
         }
     }
 }

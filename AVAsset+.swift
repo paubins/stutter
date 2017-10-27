@@ -35,12 +35,10 @@ extension AVAsset {
         }
     }
     
-    func getAudio(completion: @escaping (_ time: Float64, _ url: URL) -> Void) {
+    func getAudio(completion: @escaping (_ time: CMTime, _ url: URL) -> Void) {
         self.loadValuesAsynchronously(forKeys: ["duration"]) {
             switch(self.statusOfValue(forKey: "duration", error: nil)) {
             case AVKeyValueStatus.loaded:
-                var time:Float64! = CMTimeGetSeconds(self.duration)
-                
                 let composition:AVMutableComposition = AVMutableComposition()
                 
                 var videoTrack2: AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: 0)
@@ -50,14 +48,15 @@ extension AVAsset {
                 var audioAssetTracks2: [Any] = self.tracks(withMediaType: AVMediaTypeAudio)
                 
                 var videoAssetTrack2 = (videoAssetTracks2.count > 0 ? videoAssetTracks2[0] as? AVAssetTrack : nil)
-                try? videoTrack2?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, self.duration), of: videoAssetTrack2!, at: kCMTimeZero)
+                try? videoTrack2?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, (videoAssetTrack2?.timeRange.duration)!), of: videoAssetTrack2!, at: kCMTimeZero)
                 
                 var audioAssetTrack2 = (audioAssetTracks2.count > 0 ? audioAssetTracks2[0] as? AVAssetTrack : nil)
-                try? audioTrack2?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, self.duration), of: audioAssetTrack2!, at: kCMTimeZero)
+                try? audioTrack2?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, (audioAssetTrack2?.timeRange.duration)!), of: audioAssetTrack2!, at: kCMTimeZero)
                 
                 AudioExporter.getAudioFromVideo(self, composition: composition) { (exportSession) in
                     let url:URL = (exportSession?.outputURL)!
-                    completion(time, url)
+                    
+                    completion((videoAssetTrack2?.timeRange.duration)!, url)
                 }
                 
                 break

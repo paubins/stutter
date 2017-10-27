@@ -18,11 +18,14 @@
 //    var preset: String = AVAssetExportPresetPassthrough
 //    if compatiblePresets.contains(AVAssetExportPreset1920x1080) { preset = AVAssetExportPreset1920x1080 }
 
+    AVAssetTrack *videoAsset3Track = [[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+    CMTime duration = videoAsset3Track.timeRange.duration;
+    
     AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:composition presetName:AVAssetExportPresetPassthrough];
     
     exportSession.outputURL = [NSURL fileURLWithPath:audioPath];
     exportSession.outputFileType = AVFileTypeCoreAudioFormat;
-    exportSession.timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
+    exportSession.timeRange = CMTimeRangeMake(kCMTimeZero, duration);
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:audioPath]) {
         [[NSFileManager defaultManager] removeItemAtPath:audioPath error:nil];

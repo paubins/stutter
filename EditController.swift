@@ -12,7 +12,7 @@ import SwiftyTimer
 class EditController: NSObject {
     var currentPlayTimeInSeconds:CMTime = kCMTimeZero
     var currentPlayTimer:Timer!
-    var currentAssetDuration:Float64 = 0
+    var currentAssetDuration:CMTime = kCMTimeZero
     var lastSelectedIndex:Int = 0
     var lastInsertedTime:CMTime = kCMTimeZero
     var started:Bool = true
@@ -39,8 +39,7 @@ class EditController: NSObject {
     
     init(asset: AVAsset) {
         super.init()
-        
-        self.asset = asset
+        self.asset = AVURLAsset(url: (asset as! AVURLAsset).url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
     }
     
     func createEditHandler(_ at: CMTime, startTime: CMTime) -> ((_ durationEnd:CMTime) -> CMTime) {
@@ -78,8 +77,24 @@ class EditController: NSObject {
         self.currentEditHandler = self.createEditHandler(self.lastInsertedTime, startTime: time)
     }
     
+    func randomString(length: Int) -> String {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let len = UInt32(letters.length)
+        
+        var randomString = ""
+        
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(len)
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+        
+        return randomString
+    }
+    
     func export() throws -> AVAssetExportSession {
-        let filename = "composition.mp4"
+        let filename = "\(self.randomString(length: 5)).mp4"
         let outputPath = NSTemporaryDirectory().appending(filename)
         
         //Check if file already exists and delete it if needed
@@ -91,14 +106,16 @@ class EditController: NSObject {
             try manager.removeItem(atPath: outputPath)
         }
         
-        return ExporterController.export(self.mutableComposition, videoAsset: self.asset, fromOutput: fileUrl)
+        return ExporterController.export(self.mutableComposition, videoAsset: self.asset, fromOutput: fileUrl, completionHandler: { (assetExportSession) in 
+            self.mutableComposition = AVMutableComposition()
+        })
     }
     
-    func load(time: Float64) {
-        self.currentAssetDuration = time
+    func load(duration: CMTime) {
+        self.currentAssetDuration = duration
     }
     
     func secondsFrom(percentage: CGFloat) -> CMTime {
-        return CMTimeMakeWithSeconds(Float64(CGFloat(self.currentAssetDuration) * percentage), 60)
+        return CMTimeMakeWithSeconds(CMTimeGetSeconds(self.currentAssetDuration) * Float64(percentage), 60)
     }
 }
