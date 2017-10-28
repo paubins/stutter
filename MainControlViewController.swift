@@ -20,6 +20,8 @@ protocol MainControlViewControllerDelegate {
 
 class MainControlViewController : UIViewController {
 
+    var previousScreenWidth:CGFloat = UIScreen.main.bounds.width
+    
     var delegate:MainControlViewControllerDelegate!
     
     lazy var scrubberView:ScrubberView = {
@@ -126,14 +128,23 @@ class MainControlViewController : UIViewController {
         self.scrubberView.setNeedsDisplay()
         
         for (i, bezierViewController) in  self.bezierViewControllers.enumerated() {
-            let slicePositionX:CGFloat = self.recordButtonView.getSlicePosition(index: i)
+            var slicePositionX:CGFloat = self.recordButtonView.getSlicePosition(index: i)
+            if (UIScreen.main.bounds.size.width < slicePositionX) {
+                slicePositionX = slicePositionX/self.previousScreenWidth * UIScreen.main.bounds.width
+                self.recordButtonView.updateFlipper(index: i, distance: CGFloat(slicePositionX))
+            }
+            
             let slicePositionY:CGFloat = self.scrubberView.frame.origin.y
             
             bezierViewController.points = self.generatePoints(index: i, slicePositionX: slicePositionX,
                                                               slicePositionY: slicePositionY)
             
             bezierViewController.pointsChanged()
+            
+            self.scrubberView.updateFlipper(index: i, distance: CGFloat(slicePositionX))
         }
+        
+        self.previousScreenWidth = UIScreen.main.bounds.size.width
     }
     
     func reset() {
@@ -181,6 +192,9 @@ class MainControlViewController : UIViewController {
     func generatePoints(index: Int, slicePositionX: CGFloat, slicePositionY: CGFloat) -> [NSValue] {
         var points:[NSValue] = []
         let buttonHeight = self.playButtonsView.button0.frame.height
+        
+        points.append(NSValue(cgPoint: CGPoint(x: slicePositionX + 10,
+                                               y: slicePositionY + self.recordButtonView.frame.size.height)))
         
         // original slice position
         points.append(NSValue(cgPoint: CGPoint(x: slicePositionX + 10,

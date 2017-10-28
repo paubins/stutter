@@ -8,6 +8,7 @@
 
 import UIKit
 import Overlap
+import Device
 
 protocol RecordButtonsViewDelegate {
     func recordButtonSliceWasMovedTo(index: Int, distance: Int)
@@ -119,6 +120,7 @@ class RecordButtonsView : UIView {
     func getSlicePosition(index:Int) -> CGFloat {
         return slices[index].superview!.frame.origin.x
     }
+
 }
 
 extension RecordButtonsView {

@@ -14,6 +14,7 @@ import Hue
 
 class LoadingViewController : UIViewController {
     var progressTimer:Timer!
+    var outputURL:URL!
     
     var completion:(() -> Void)!
     
@@ -59,22 +60,22 @@ class LoadingViewController : UIViewController {
     
     func updateProgress(exportSession: AVAssetExportSession, completion: @escaping () -> Void) {
         self.progressTimer = Timer.every(0.2.seconds) {
-            if (exportSession.progress == 1.0) {
+            if exportSession.error != nil {
+                self.completion = completion
+                self.showErrorAlert()
+                
+                self.progressTimer.invalidate()
+                self.progressTimer = nil
+            } else if (exportSession.progress == 1.0) {
                 self.progress.progress = Double(exportSession.progress)
                 
                 self.completion = completion
                 
-                let alert:FCAlertView = FCAlertView()
-                alert.makeAlertTypeSuccess()
-                alert.showAlert(inView: self,
-                                withTitle: "Saved!",
-                                withSubtitle: "Your video saved!",
-                                withCustomImage: nil,
-                                withDoneButtonTitle: "👌",
-                                andButtons: nil)
-                alert.delegate = self
+                DispatchQueue.global(qos: .background).async {
+                    UISaveVideoAtPathToSavedPhotosAlbum((exportSession.outputURL?.path)!, self, #selector(self.saveCompleted), nil);
+                }
                 
-                alert.colorScheme = UIColor(hex: "#8C9AFF")
+                self.outputURL = exportSession.outputURL
                 
                 self.progressTimer.invalidate()
                 self.progressTimer = nil
@@ -85,7 +86,32 @@ class LoadingViewController : UIViewController {
     }
     
     @objc func saveCompleted(video: String, didFinishSavingWithError: Error, contextInfo: UnsafeMutableRawPointer) {
-
+        let alert:FCAlertView = FCAlertView()
+        alert.makeAlertTypeSuccess()
+        alert.showAlert(inView: self,
+                        withTitle: "Saved!",
+                        withSubtitle: "Your video saved!",
+                        withCustomImage: nil,
+                        withDoneButtonTitle: "👌",
+                        andButtons: nil)
+        alert.delegate = self
+        
+        alert.colorScheme = UIColor(hex: "#8C9AFF")
+    }
+    
+    func showErrorAlert() {
+        let alert:FCAlertView = FCAlertView()
+        alert.makeAlertTypeCaution()
+        alert.showAlert(inView: self,
+                        withTitle: "Error!",
+                        withSubtitle: "Something went wrong!",
+                        withCustomImage: nil,
+                        withDoneButtonTitle: "Okay",
+                        andButtons: nil)
+        
+        alert.delegate = self
+        
+        alert.colorScheme = UIColor(hex: "#8C9AFF")
     }
 }
 

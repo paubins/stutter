@@ -94,7 +94,7 @@ class EditController: NSObject {
     }
     
     func export() throws -> AVAssetExportSession {
-        let filename = "\(self.randomString(length: 5)).mp4"
+        let filename = "\(self.randomString(length: 15)).mp4"
         let outputPath = NSTemporaryDirectory().appending(filename)
         
         //Check if file already exists and delete it if needed

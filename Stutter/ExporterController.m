@@ -86,13 +86,15 @@
              case AVAssetExportSessionStatusFailed:{
                  NSLog(@"Fail");
                  NSLog(@"asset export fail error : %@", assetExport.error);
+                 
+                 
+                 completionHandler(assetExport);
+                 
                  break;
              }
              case AVAssetExportSessionStatusCompleted:{
                  NSLog(@"Success");
-                 UISaveVideoAtPathToSavedPhotosAlbum(assetExport.outputURL.path, self, nil, nil);
                  completionHandler(assetExport);
-                 
                  break;
              }
                  
