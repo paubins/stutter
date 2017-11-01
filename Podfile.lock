@@ -45,6 +45,17 @@ PODS:
   - SwiftyButton (0.8.2)
   - SwiftyCam (4.0.0)
   - SwiftyTimer (2.1.0)
+  - MZTimerLabel (0.5.4)
+  - Overlap (0.4.0)
+  - Pitchy (2.0.1)
+  - Player (0.5.1)
+  - Presentr (1.2.3)
+  - Pulsator (0.3.0)
+  - Shift (0.2.0)
+  - SwiftyButton (0.6.0)
+  - SwiftyCam (2.3.0)
+  - SwiftyStoreKit (0.10.8)
+  - SwiftyTimer (2.0.0)
   - VideoViewController (1.1)
   - VIMVideoPlayer (6.0.1)
 
@@ -62,15 +73,17 @@ DEPENDENCIES:
   - Hue
   - JTFadingInfoView
   - KDCircularProgress
-  - LLSpinner (from `https://github.com/alephao/LLSpinner.git`, branch `1.0.0`)
-  - "MotionAnimation (from `git@github.com:paubins/MotionAnimation.git`)"
-  - Overlap (~> 0.3.2)
+  - LLSpinner
+  - LxThroughPointsBezier (~> 1.0.0)
+  - MZTimerLabel
+  - Overlap
   - Player
   - Presentr
   - Pulsator
   - Shift (from `https://github.com/andre991/Shift.git`)
   - SwiftyButton
-  - "SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `4.0.0`)"
+  - SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `2.4.0`)
+  - SwiftyStoreKit
   - SwiftyTimer
   - "VideoViewController (from `git@github.com:paubins/Periscope-VideoViewController.git`)"
   - VIMVideoPlayer
@@ -159,21 +172,24 @@ SPEC CHECKSUMS:
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   Hue: c129cb67be7d093a82bbbc30ce8a96757bf6f37a
   JTFadingInfoView: 9fcb410da4bf8e3ce722b04b14ee0046a8f13a65
-  KDCircularProgress: 98200c6b8e85d22bc04eb644721d3b1e12b0686b
-  LLSpinner: 682270ec95d5fc025a67e899c33c146a75dd2df9
-  MotionAnimation: 0257eb90f766f6d58c70524f956faf8d56c5e7bf
-  Overlap: 30898683f40d7acf83917988ce5df8ae7d3f5360
-  Pitchy: 15407e4425b6d88fa3e7eef8927ba659fab52d7a
-  Player: 7a2bcad3631034fa47d4b6fdedf7c4075fc236fe
-  Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
-  Pulsator: eb5a9f9be4bdcbd19903984c65deca6aabe50a17
-  Shift: 6aa4729ec2d7fbb0eaf016b2ee624fa5508892d8
-  SwiftyButton: 5b0ef314e9cf61cf8a83e456ddd1ea1f53f30598
-  SwiftyCam: 4b75d005ad7f68194ecd236de94218cde0e2fd7f
-  SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
+  KDCircularProgress: 12f677b2deb02409ab48c6cae1898d146b8ad549
+  LLSpinner: 0ed607d59b3a447ddd157c29ef684de7a5a285ad
+  LxThroughPointsBezier: fdebe18dd4ddab9406d9827db77a078b4738b00f
+  MotionAnimation: ff5c8fc2e429d7e10d46ae86819ba9759846c343
+  MZTimerLabel: cd9bfb9304540ef2a9e163384fca9c978f0dbf83
+  Overlap: 7c0520cb9110287643e8c64a7b36463e4e16d894
+  Pitchy: 00dbe7cb7ac87fd9c32cb2aa6ce50d11f931289f
+  Player: 7bd61af457e558edf938066b03760f035a520837
+  Presentr: a21c7bbb3532c8ff60320e235c0a4869e72f8885
+  Pulsator: 0191f14f7ab82d6dbde6fdbde42036f07a4450e3
+  Shift: 489e20a2a95c4ca3ee80fab152cd80a5369c5110
+  SwiftyButton: 4c9b61c499f172971a1b8c2eebbbdc20a26d8a08
+  SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
+  SwiftyStoreKit: 8c193678fabbaafb4430a536497613f89fefd7ec
+  SwiftyTimer: 2efd74b060d69ad4f1496baf5bbedbe132125fcf
   VideoViewController: b251689d8b1cd51b65f718c9bc6109c02078e273
   VIMVideoPlayer: f4ed0a9986294ec3684a2e6bdc738e30051ef4ef
 
-PODFILE CHECKSUM: 96f15db5983241287a2ce1fb4ed9943e9face77f
+PODFILE CHECKSUM: 2225e98e96ca12648afe1b85f924f0474c3e9142
 
 COCOAPODS: 1.8.4

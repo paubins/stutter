@@ -9,13 +9,23 @@
 import Foundation
 import Cartography
 import FontAwesomeKit
+import MZTimerLabel
 
 protocol DownloadQueueViewControllerDelegate {
+    func armRecording()
     func exportButtonTapped()
 }
 
 class DownloadQueueViewController : UIViewController {
     var delegate:DownloadQueueViewControllerDelegate!
+    
+    lazy var timerLabel:MZTimerLabel = {
+        let timer:MZTimerLabel = MZTimerLabel(timerType: MZTimerLabelTypeTimer)
+        timer.setCountDownTime(30)
+        timer.delegate = self
+        timer.timeFormat = "ss 's'"
+        return timer
+    }()
     
     lazy var loadingViewController:LoadingViewController = {
         let loadingViewController = LoadingViewController()
@@ -41,10 +51,8 @@ class DownloadQueueViewController : UIViewController {
             view.bottom == view.superview!.bottom
         }
         
-        
-        let shareIcon = FAKFontAwesome.downloadIcon(withSize: 40)
         let playStopBackButton:UIButton = UIButton()
-        playStopBackButton.setImage(shareIcon?.image(with: CGSize(width: 40, height: 40)), for: .normal)
+        playStopBackButton.setImage(ButtonIcons.bombImage, for: .normal)
         playStopBackButton.addTarget(self, action: #selector(saveVideo), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
@@ -66,11 +74,11 @@ class DownloadQueueViewController : UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .clear
-        
         self.addChildViewController(self.loadingViewController)
         
         self.view.addSubview(self.saveShareButton)
         self.view.addSubview(self.loadingViewController.view)
+        // self.view.addSubview(self.timerLabel)
         
         constrain(self.saveShareButton, self.loadingViewController.view) { (view, view1) in
             view.right == view.superview!.right - 15
@@ -87,18 +95,19 @@ class DownloadQueueViewController : UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         self.saveShareButton.makeCircular()
     }
     
     func saveVideo(sender: UIButton) {
         if (0.0 == self.loadingViewController.progress.progress) {
+            self.timerLabel.reset()
             self.delegate.exportButtonTapped()
         }
     }
     
     func turnOnShareButton() {
         if (self.saveShareButton.alpha == 0.0) {
+            self.timerLabel.start()
             UIView.animate(withDuration: 0.5) {
                 self.saveShareButton.alpha = 1.0
                 self.loadingViewController.view.alpha = 1.0
@@ -108,6 +117,7 @@ class DownloadQueueViewController : UIViewController {
     
     func turnOffShareButton() {
         if (self.saveShareButton.alpha == 1.0) {
+            self.timerLabel.pause()
             UIView.animate(withDuration: 0.5) {
                 self.saveShareButton.alpha = 0.0
             }
@@ -119,4 +129,8 @@ class DownloadQueueViewController : UIViewController {
             self.loadingViewController.view.alpha = 0.0
         })
     }
+}
+
+extension DownloadQueueViewController : MZTimerLabelDelegate {
+    
 }

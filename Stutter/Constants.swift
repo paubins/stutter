@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FontAwesomeKit
 
 let WIDTH_CONSTANT = CGFloat(10.0)
 
@@ -26,4 +27,17 @@ struct Constant {
     static let flipperWidthFirst:CGFloat = 5
     static let flipperWidth:CGFloat = 20
     static let flipperPadding:CGFloat = CGFloat(50.0)
+}
+
+struct ButtonIcons {
+    static let downloadImage:UIImage? = FAKFontAwesome.downloadIcon(withSize: 40)?.image(with: CGSize(width: 40, height: 40))
+    static let bombImage:UIImage? = FAKFontAwesome.bombIcon(withSize: 40)?.image(with: CGSize(width: 40, height: 40))
+}
+
+enum StutterState {
+    case prearmed
+    case armed
+    case recording
+    case exporting
+    case exported
 }

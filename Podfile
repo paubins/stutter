@@ -34,5 +34,8 @@ target 'Stutter' do
   pod 'Beethoven', :git => 'https://github.com/814349837/Beethoven.git'
   pod 'MotionAnimation', :git => 'git@github.com:paubins/MotionAnimation.git'
   pod 'Overlap', '~> 0.3.2'
+  pod 'MZTimerLabel'
+  pod 'SwiftyStoreKit'
+  pod 'LxThroughPointsBezier', '~> 1.0.0'
 
 end
