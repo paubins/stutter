@@ -43,8 +43,11 @@ class ScrubberPreviewViewControllerCollectionViewCell : UICollectionViewCell {
         scrubberPreviewViewController.show()
     }
     
-    func seek(to: CGFloat) {
+    func seek(to: CGFloat, x: CGFloat) {
         self.scrubberPreviewViewController.seek(to: CMTimeMakeWithSeconds(Float64(CGFloat(CMTimeGetSeconds(self.duration)) * to), 60))
+        UIView.animate(withDuration: 0.3) {
+            self.scrubberPreviewViewController.view.frame.origin = CGPoint(x: x, y: self.scrubberPreviewViewController.view.frame.origin.y)
+        }
     }
     
     func hideScrubberPreview() {

@@ -78,6 +78,28 @@ class ShapeView : UIView {
         self.previousScreenWidth = UIScreen.main.bounds.size.width
     }
     
+    func animate() {
+        for (i, layer) in self.layer.sublayers!.enumerated() {
+            let animation = CABasicAnimation(keyPath: "v1x")
+            animation.duration = 10
+            
+            // Your new shape here
+            animation.toValue = 20
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            
+            (layer as! WireLayer).add(animation, forKey: "v1x")
+            
+            let animation2 = CABasicAnimation(keyPath: "v1y")
+            animation2.duration = 10
+            
+            // Your new shape here
+            animation2.toValue = 20
+            animation2.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            
+            (layer as! WireLayer).add(animation2, forKey: "v1y")
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -101,6 +123,7 @@ class ShapeView : UIView {
                 if (wireLayer as! WireLayer).currentRect.contains(point) {
                     self.currentLayerIndex = i
                     self.shouldRedraw = true
+                    (wireLayer as! WireLayer).selected = true
                     self.delegate.slidingHasBegun()
                     break
                 } else {
@@ -122,6 +145,8 @@ class ShapeView : UIView {
             
         case .ended:
             if self.shouldRedraw {
+                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).selected = false
+                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
                 self.delegate.slidingHasEnded()
                 self.shouldRedraw = false
                 self.currentLayerIndex = 0

@@ -85,8 +85,9 @@ class ViewController: UIViewController {
         
         self.view.addSubview(self.backgroundShiftView)
         self.view.addSubview(self.playerViewController.view)
-        self.view.addSubview(self.buttonViewController.view)
+
         self.view.addSubview(self.mainControlViewController.view)
+        self.view.addSubview(self.buttonViewController.view)
         self.view.addSubview(self.downloadQueueViewController.view)
         
         constrain(self.backgroundShiftView) { (view) in
@@ -145,7 +146,6 @@ extension ViewController : ButtonViewControllerDelegate {
     
     func assetChosen(asset: AVAsset) {
         self.editController = EditController(asset: asset)
-
         self.downloadQueueViewController.turnOffShareButton()
         
         asset.getAudio(completion: { (duration, url) in
@@ -164,6 +164,8 @@ extension ViewController : ButtonViewControllerDelegate {
                     
                     self.playerViewController.load(asset: asset)
                     self.playerViewController.play()
+                    
+                    self.stutterState = .prearmed
                 }
             })
         })
@@ -181,15 +183,12 @@ extension ViewController : DownloadQueueViewControllerDelegate {
         }
         
         self.editController.closeEdit()
-        
         self.playerViewController.stop()
-        self.downloadQueueViewController.turnOffShareButton()
-        
         self.stutterState = .exporting
         
         self.downloadQueueViewController.updateProgress(exportSession: try! self.editController.export(completionHandler: { (success) in
             DispatchQueue.main.async {
-                self.stutterState = .exported
+                self.stutterState = .prearmed
                 
                 if (success) {
                     let alert:FCAlertView = FCAlertView()
@@ -276,6 +275,6 @@ extension ViewController: PlayerPlaybackDelegate {
 
 extension ViewController : FCAlertViewDelegate {
     func fcAlertViewDismissed(_ alertView: FCAlertView!) {
-        self.stutterState = .prearmed
+        self.downloadQueueViewController.turnOffShareButton()
     }
 }

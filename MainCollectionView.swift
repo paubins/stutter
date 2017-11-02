@@ -10,8 +10,13 @@ import Foundation
 
 class MainCollectionView : UICollectionView {
     
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        print("Passing all touches to the next view (if any), in the view stack.")
-        return false
+    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
+        super.init(frame: frame, collectionViewLayout: layout)
+        
+        self.backgroundColor = .clear
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

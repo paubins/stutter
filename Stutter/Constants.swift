@@ -16,11 +16,11 @@ struct Constant {
     static let NUMBER_OF_FRAME = 10
     static let wavesColor:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
     static let scrubberViewHeight:CGFloat = 50
-    static let COLORS = [UIColor(rgbColorCodeRed: 135, green: 135, blue: 135, alpha: 1.0),
-                                     UIColor(rgbColorCodeRed: 105, green: 105, blue: 198, alpha: 1.0),
-                                     UIColor(rgbColorCodeRed: 76, green: 76, blue: 147, alpha: 1.0),
-                                     UIColor(rgbColorCodeRed: 45, green: 45, blue: 89, alpha: 1.0),
-                                     UIColor(rgbColorCodeRed: 73, green: 73, blue: 73, alpha: 1.0)]
+    static let COLORS = [UIColor(rgbColorCodeRed: 170, green: 255, blue: 3, alpha: 1.0),
+                                     UIColor(rgbColorCodeRed: 255, green: 170, blue: 3, alpha: 1.0),
+                                     UIColor(rgbColorCodeRed: 255, green: 0, blue: 170, alpha: 1.0),
+                                     UIColor(rgbColorCodeRed: 170, green: 1, blue: 255, alpha: 1.0),
+                                     UIColor(rgbColorCodeRed: 0, green: 170, blue: 255, alpha: 1.0)]
     static let scrubberSliceDamping:CGFloat = 0.7
     static let scrubberSpringVelocity:CGFloat = 0.8
     

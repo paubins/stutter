@@ -52,7 +52,7 @@ class DownloadQueueViewController : UIViewController {
         }
         
         let playStopBackButton:UIButton = UIButton()
-        playStopBackButton.setImage(ButtonIcons.bombImage, for: .normal)
+        playStopBackButton.setImage(ButtonIcons.downloadImage, for: .normal)
         playStopBackButton.addTarget(self, action: #selector(saveVideo), for: .touchUpInside)
         
         containerView.addSubview(playStopBackButton)
@@ -127,7 +127,7 @@ class DownloadQueueViewController : UIViewController {
     
     func updateProgress(exportSession: AVAssetExportSession) {
         self.loadingViewController.updateProgress(exportSession: exportSession, completion: {
-            self.loadingViewController.view.alpha = 0.0
+            self.turnOffShareButton()
         })
     }
 }

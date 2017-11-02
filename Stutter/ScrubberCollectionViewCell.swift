@@ -58,6 +58,10 @@ class ScrubberCollectionViewCell : UICollectionViewCell {
     func getPercentageY(index: Int) -> CGFloat {
         return self.shapeView.getPercentageY(index: index)
     }
+    
+    func animate() {
+        self.shapeView.animate()
+    }
 }
 
 extension ScrubberCollectionViewCell : ShapeViewDelegate {

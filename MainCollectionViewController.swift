@@ -99,6 +99,13 @@ class MainCollectionViewController : UICollectionViewController {
         
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
+
+    
+    func animate() {
+        let indexPath = IndexPath(row: 0, section: SliderSections.slices.rawValue)
+        let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberCollectionViewCell
+        (cell as! ScrubberCollectionViewCell).animate()
+    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -405,7 +412,7 @@ extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
         let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.scrubberPreview.rawValue)
         let scrubberPreviewCell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
 
-        scrubberPreviewCell.seek(to: percentageX)
+        scrubberPreviewCell.seek(to: percentageX, x: percentageX*UIScreen.main.bounds.width)
     }
     
     func scrubbingHasEnded() {

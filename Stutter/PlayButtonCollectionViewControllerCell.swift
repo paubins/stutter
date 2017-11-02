@@ -54,7 +54,7 @@ class PlayButtonCollectionViewControllerCell : UICollectionViewCell {
         super.layoutSubviews()
         
         self.button0.colors = .init(button: self.color,
-                              shadow: .white)
+                              shadow: self.color.darkerColorForColor())
     }
     
     func tapped(button: PressableButton) {
