@@ -18,13 +18,12 @@ class PlayButtonCollectionViewControllerCell : UICollectionViewCell {
     
     var delegate:PlayButtonCollectionViewControllerCellDelegate!
     
-    var color:UIColor!
+    var color:UIColor = UIColor.orange
     
     lazy var button0:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
         button.addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
 
-        
         button.shadowHeight = 2
         button.cornerRadius = 5
 
@@ -47,17 +46,16 @@ class PlayButtonCollectionViewControllerCell : UICollectionViewCell {
         self.backgroundColor = UIColor.clear
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
         self.button0.colors = .init(button: self.color,
                               shadow: .white)
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     
     func tapped(button: PressableButton) {
         self.delegate.playButtonTapped(cell: self)

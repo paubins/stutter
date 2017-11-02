@@ -224,6 +224,10 @@ extension ViewController : DownloadQueueViewControllerDelegate {
 extension ViewController : MainCollectionViewControllerDelegate {
 
     func playButtonWasTapped(index: Int, percentageX: CGFloat, percentageY: CGFloat) {
+        guard let editController = self.editController else {
+            return
+        }
+        
         print("play button tapped")
         
         var time:CMTime = kCMTimeZero
@@ -232,10 +236,10 @@ extension ViewController : MainCollectionViewControllerDelegate {
         case .prearmed:
             self.stutterState = .recording
             self.downloadQueueViewController.turnOnShareButton()
-            time = self.editController.storeEdit(percentageOfTime: percentageX)
+            time = editController.storeEdit(percentageOfTime: percentageX)
             break
         case .recording:
-            time = self.editController.storeEdit(percentageOfTime: percentageX)
+            time = editController.storeEdit(percentageOfTime: percentageX)
             break
         default:
             break

@@ -120,6 +120,7 @@ class DownloadQueueViewController : UIViewController {
             self.timerLabel.pause()
             UIView.animate(withDuration: 0.5) {
                 self.saveShareButton.alpha = 0.0
+                self.loadingViewController.view.alpha = 0.0
             }
         }
     }

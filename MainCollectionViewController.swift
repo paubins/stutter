@@ -70,6 +70,7 @@ class MainCollectionViewController : UICollectionViewController {
             view.bottom == view.superview!.bottom
         }
         
+        self.collectionView?.delaysContentTouches = false
         self.collectionView?.backgroundColor = .clear
         self.collectionView?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureMethod)))
         
@@ -214,10 +215,6 @@ class MainCollectionViewController : UICollectionViewController {
                 cell.waveformView.progressSamples = Int(CGFloat(cell.waveformView.totalSamples) * distance)
             }
         }
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("selected")
     }
     
     func panGestureMethod(gesture:UIPanGestureRecognizer) {
