@@ -183,7 +183,6 @@
 		5FE3C8241ED3A8AB0027348C = {
 			isa = PBXGroup;
 			children = (
-				5F60A93D1FA992BC008EEB77 /* Layers */,
 				5FE3C82F1ED3A8AB0027348C /* Stutter */,
 				5FE3C82E1ED3A8AB0027348C /* Products */,
 				CEE9E5C6BD9AC16F81408305 /* Pods */,
@@ -203,6 +202,7 @@
 		5FE3C82F1ED3A8AB0027348C /* Stutter */ = {
 			isa = PBXGroup;
 			children = (
+				5F60A93D1FA992BC008EEB77 /* Layers */,
 				5F3986A41FA7C380000B3D9E /* Cells */,
 				5FBFBCE71F02F39600AEA188 /* Constants */,
 				5FE3C8581ED4A1770027348C /* Controllers */,

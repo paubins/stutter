@@ -42,20 +42,21 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
             
             switch(section) {
             case .slices:
+                yPosition += 100
                 attributes.zIndex = 90
+                attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .buttons:
-                yPosition -= 130
+                yPosition -= 50
                 attributes.zIndex = 99
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .waveform:
-                yPosition -= 170
+                yPosition -= 50
                 attributes.zIndex = 80
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .thumbnails:
-                yPosition -= 120
                 attributes.zIndex = 70
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
@@ -79,7 +80,7 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
         switch(section) {
         case .buttons:
             let xPosition = layoutAttributes.center.x
-            let yPosition = layoutAttributes.center.y - 50
+            let yPosition = layoutAttributes.center.y
             layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
             break
         case .slices:
@@ -92,7 +93,7 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
             break
         case .thumbnails:
             let xPosition = layoutAttributes.center.x
-            let yPosition = layoutAttributes.center.y - 50
+            let yPosition = layoutAttributes.center.y
             layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
         default:
             break

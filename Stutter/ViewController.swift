@@ -145,7 +145,7 @@ class ViewController: UIViewController {
             view.left == view.superview!.left
             view.right == view.superview!.right
             view.bottom == view.superview!.bottom
-            view.height == 250
+            view.height == UIScreen.main.bounds.size.height
         }
         
         constrain(self.downloadQueueViewController.view) { (view) in

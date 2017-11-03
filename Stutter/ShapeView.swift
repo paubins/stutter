@@ -26,6 +26,7 @@ class ShapeView : UIView {
     var shouldRedraw:Bool = false
     
     var count:CGFloat = 0
+    var initial:Bool = true
     
     init(frame: CGRect, count: Int) {
         super.init(frame: frame)
@@ -42,7 +43,7 @@ class ShapeView : UIView {
         layer.contentsScale = UIScreen.main.scale
         
         layer.color = Constant.COLORS[0]
-        layer.currentPoint = CGPoint(x: 100, y: 100)
+        layer.currentPoint =  CGPoint(x: 10, y: Int(UIScreen.main.bounds.size.height - 100))
         layer.offset = UIScreen.main.bounds.size.width/self.count/2
         
         self.layer.addSublayer(layer)
@@ -56,7 +57,7 @@ class ShapeView : UIView {
             layer.rasterizationScale = UIScreen.main.scale
             layer.contentsScale = UIScreen.main.scale
             
-            layer.currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width/self.count * CGFloat(i)), y: 0)
+            layer.currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width/self.count * CGFloat(i)), y: Int(self.bounds.size.height - 100))
             layer.offset = UIScreen.main.bounds.size.width/self.count * CGFloat(i) + UIScreen.main.bounds.size.width/self.count/2
             
             self.layer.addSublayer(layer)
@@ -69,12 +70,18 @@ class ShapeView : UIView {
         
         for (i, layer) in self.layer.sublayers!.enumerated() {
             (layer as! WireLayer).frame = self.bounds
-            (layer as! WireLayer).currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width*self.getPercentageX(index: i)), y: 0)
+            
+            if !self.initial {
+                (layer as! WireLayer).currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width*self.getPercentageX(index: i)),
+                                                             y: Int(self.bounds.size.height*self.getPercentageY(index: i)))
+            }
+            
             (layer as! WireLayer).offset = UIScreen.main.bounds.size.width/self.count * CGFloat(i) + UIScreen.main.bounds.size.width/self.count/2
             
             (layer as! WireLayer).setNeedsDisplay()
         }
         
+        self.initial = false
         self.previousScreenWidth = UIScreen.main.bounds.size.width
     }
     

@@ -286,6 +286,14 @@ class MainCollectionViewController : UICollectionViewController {
 }
 
 extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize.zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize.zero
+    }
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -303,7 +311,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .buttons:
             return CGSize(width: collectionView.bounds.size.width/6, height: CGFloat(kWhateverHeightYouWant))
         case .slices:
-            return CGSize(width: collectionView.bounds.size.width, height: 200)
+            return CGSize(width: collectionView.bounds.size.width, height: UIScreen.main.bounds.height - CGFloat(kWhateverHeightYouWant)*4)
         case .waveform:
             return CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant))
         case .thumbnails:
@@ -350,7 +358,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .scrubberPreview:
             return 0
         case .buttons:
-            return 5
+            return 0
         case .slices:
             return 0
         case .waveform:
@@ -374,7 +382,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .scrubberPreview:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .buttons:
-            return UIEdgeInsets(top: 0, left: 10, bottom: 20, right: 10)
+            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         case .slices:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .waveform:

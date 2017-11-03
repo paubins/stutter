@@ -21,7 +21,7 @@ class WireLayer : CALayer {
     
     var currentPoint:CGPoint = CGPoint(x: 15, y: 15) {
         didSet {
-            currentPoint = 40 < currentPoint.y ? CGPoint(x: currentPoint.x, y: 40) : (currentPoint.y < 5 ? CGPoint(x: currentPoint.x, y: 5) : currentPoint)
+            currentPoint = (self.bounds.size.height - 80) < currentPoint.y ? CGPoint(x: currentPoint.x, y: self.bounds.size.height - 80) : (currentPoint.y < 5 ? CGPoint(x: currentPoint.x, y: 5) : currentPoint)
         }
     }
     
@@ -49,25 +49,25 @@ class WireLayer : CALayer {
             ctx.setLineDash(phase: 0, lengths: [6,10])
         }
         
-        ctx.addCurve(to: CGPoint(x: self.offset, y: 100),
+        ctx.addCurve(to: CGPoint(x: self.offset, y: (self.bounds.size.height - 80) - 20),
                          control1: CGPoint(x: self.currentPoint.x + 15, y: self.currentPoint.y + 15),
-                         control2: CGPoint(x: self.offset, y: 100 - 50))
+                         control2: CGPoint(x: self.offset, y: (self.bounds.size.height - 80)  - 100))
 
-        ctx.addLine(to: CGPoint(x: self.offset, y: 120))
+        ctx.addLine(to: CGPoint(x: self.offset, y: (self.bounds.size.height - 80) - 15))
         
-        ctx.addCurve(to: CGPoint(x: self.currentPoint.x, y: 135),
-                         control1: CGPoint(x: self.offset, y: 140 + 5),
-                         control2: CGPoint(x: self.offset, y: 140 + 10))
+        ctx.addCurve(to: CGPoint(x: self.currentPoint.x, y: self.bounds.size.height - 80),
+                         control1: CGPoint(x: self.offset, y: (self.bounds.size.height - 80) + 5),
+                         control2: CGPoint(x: self.offset, y: (self.bounds.size.height - 80) + 10))
         
-        ctx.addLine(to: CGPoint(x: self.currentPoint.x, y: 200))
+        ctx.addLine(to: CGPoint(x: self.currentPoint.x, y: self.bounds.size.height))
         
         ctx.drawPath(using: .stroke)
         
         ctx.setShadow(offset: CGSize(width: 0, height: 0), blur: 3)
         
         ctx.setFillColor(self.color.cgColor)
-        ctx.addEllipse(in: CGRect(x:self.currentPoint.x-5, y: 130, width: 10, height: 10))
-        ctx.fillEllipse(in: CGRect(x:self.currentPoint.x-5, y: 130, width: 10, height: 10))
+        ctx.addEllipse(in: CGRect(x:self.currentPoint.x-5, y:  self.bounds.size.height - 80 - 5, width: 10, height: 10))
+        ctx.fillEllipse(in: CGRect(x:self.currentPoint.x-5, y:  self.bounds.size.height - 80 - 5, width: 10, height: 10))
         
         ctx.drawPath(using: .stroke)
         
