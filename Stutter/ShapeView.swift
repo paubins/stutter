@@ -26,6 +26,7 @@ class ShapeView : UIView {
     var previousScreenWidth:CGFloat = UIScreen.main.bounds.width
     var currentLayerIndex:Int = 0
     var shouldRedraw:Bool = false
+    var shouldRedrawTimeline:Bool = false
     
     var count:CGFloat = 0
     var initial:Bool = true
@@ -51,6 +52,9 @@ class ShapeView : UIView {
         layer.currentPoint =  CGPoint(x: 10, y: Constant.mainControllCutoffMin)
         layer.offset = UIScreen.main.bounds.size.width/self.count/2
         
+        layer.timelinePoint = CGPoint(x: layer.currentPoint.x, y: Constant.secondaryControlHeight)
+        layer.timelineOffset = layer.offset
+        
         self.layer.addSublayer(layer)
         layer.setNeedsDisplay()
         
@@ -65,6 +69,9 @@ class ShapeView : UIView {
             layer.currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width/self.count * CGFloat(i)),
                                          y: Int(Constant.mainControllCutoffMin))
             layer.offset = UIScreen.main.bounds.size.width/self.count * CGFloat(i) + UIScreen.main.bounds.size.width/self.count/2
+            
+            layer.timelinePoint = CGPoint(x: layer.currentPoint.x, y: Constant.secondaryControlHeight)
+            layer.timelineOffset = layer.offset
             
             self.layer.addSublayer(layer)
             layer.setNeedsDisplay()
@@ -121,11 +128,14 @@ class ShapeView : UIView {
                     self.shouldRedraw = true
                     (wireLayer as! WireLayer).selected = true
                     self.delegate.slidingHasBegun(point: point)
-                    break
-                } else {
-                    print("nah")
+                } else if (wireLayer as! WireLayer).timelineRect.contains(point) {
+                    self.currentLayerIndex = i
+                    self.shouldRedrawTimeline = true
+                    (wireLayer as! WireLayer).selected = true
+                    self.delegate.slidingHasBegun(point: point)
                 }
             }
+            break
             
         case .changed:
             if self.shouldRedraw {
@@ -138,7 +148,19 @@ class ShapeView : UIView {
                                                     percentageY: self.getPercentageY(index: self.currentLayerIndex),
                                                     point: point)
                 }
+            } else if self.shouldRedrawTimeline {
+                let currentTimelinePoint:CGPoint =  (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).timelinePoint
+                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).timelinePoint = CGPoint(x: point.x, y: currentTimelinePoint.y)
+                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
+                
+                if (self.delegate != nil) {
+                    self.delegate.percentageOfWidth(index: self.currentLayerIndex,
+                                                    percentageX: self.getPercentageX(index: self.currentLayerIndex),
+                                                    percentageY: self.getPercentageY(index: self.currentLayerIndex),
+                                                    point: point)
+                }
             }
+            break
             
         case .ended:
             if self.shouldRedraw {
@@ -147,13 +169,21 @@ class ShapeView : UIView {
                 self.delegate.slidingHasEnded(point: point)
                 self.shouldRedraw = false
                 self.currentLayerIndex = 0
+            } else if self.shouldRedrawTimeline {
+                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).selected = false
+                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
+                self.delegate.slidingHasEnded(point: point)
+                self.shouldRedrawTimeline = false
+                self.currentLayerIndex = 0
             }
             break
         case .cancelled:
             self.shouldRedraw = false
+            self.shouldRedrawTimeline = false
             break
         case .failed:
             self.shouldRedraw = false
+            self.shouldRedrawTimeline = false
             break
             
         default:

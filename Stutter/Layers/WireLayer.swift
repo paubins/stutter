@@ -13,6 +13,8 @@ import UIKit
 class WireLayer : CALayer {
     
     lazy var offset:CGFloat =  0.0
+    lazy var timelineOffset:CGFloat =  0.0
+    
     var selected:Bool = false
     
     var v1x : CGFloat = 0.0
@@ -29,10 +31,21 @@ class WireLayer : CALayer {
         }
     }
     
+    var timelinePoint:CGPoint = CGPoint.zero
+    
     var currentRect:CGRect {
         get {
             return CGRect(x: self.currentPoint.x - Constant.primaryControlDiameter,
                           y: self.currentPoint.y - Constant.primaryControlDiameter,
+                          width: Constant.primaryControlDiameter*2,
+                          height: Constant.primaryControlDiameter*2)
+        }
+    }
+    
+    var timelineRect:CGRect {
+        get {
+            return CGRect(x: self.timelinePoint.x - Constant.primaryControlDiameter,
+                          y: self.timelinePoint.y - Constant.primaryControlDiameter,
                           width: Constant.primaryControlDiameter*2,
                           height: Constant.primaryControlDiameter*2)
         }
@@ -56,17 +69,9 @@ class WireLayer : CALayer {
                                options: [])
         
         ctx.setShadow(offset: CGSize(width: 2, height: 2), blur: 5)
-//        ctx.addEllipse(in: CGRect(x:self.currentPoint.x,
-//                                  y: self.currentPoint.y,
-//                                  width: Constant.primaryControlDiameter,
-//                                  height: Constant.primaryControlDiameter))
-//
-        ctx.setFillColor(self.color.cgColor)
-//        ctx.fillEllipse(in: CGRect(x:self.currentPoint.x,
-//                                   y: self.currentPoint.y,
-//                                   width: Constant.primaryControlDiameter,
-//                                   height: Constant.primaryControlDiameter))
         
+        ctx.setFillColor(self.color.cgColor)
+
         ctx.setShadow(offset: CGSize(width: 0, height: 0), blur: 0)
         
         ctx.move(to: CGPoint(x: self.currentPoint.x + Constant.primaryControlDiameter/2,
@@ -81,25 +86,26 @@ class WireLayer : CALayer {
                                            y: self.currentPoint.y + Constant.primaryControlDiameter/2),
                          control2: CGPoint(x: self.offset, y: Constant.secondaryControlHeight - 100))
 
-        ctx.addLine(to: CGPoint(x: self.offset, y: Constant.secondaryControlHeight - Constant.primaryControlDiameter/2))
+        ctx.addLine(to: CGPoint(x: self.timelineOffset, y: Constant.secondaryControlHeight - Constant.primaryControlDiameter/2))
         
-        ctx.addCurve(to: CGPoint(x: self.currentPoint.x, y: Constant.secondaryControlHeight),
-                         control1: CGPoint(x: self.offset, y: Constant.secondaryControlHeightControlPoint1),
-                         control2: CGPoint(x: self.offset, y: Constant.secondaryControlHeightControlPoint2))
+        ctx.addCurve(to: CGPoint(x: self.timelinePoint.x, y: Constant.secondaryControlHeight),
+                         control1: CGPoint(x: self.timelineOffset, y: Constant.secondaryControlHeightControlPoint1),
+                         control2: CGPoint(x: self.timelineOffset, y: Constant.secondaryControlHeightControlPoint2))
         
-        ctx.addLine(to: CGPoint(x: self.currentPoint.x, y: Constant.mainControlHeight))
+        ctx.addLine(to: CGPoint(x: self.timelinePoint.x, y: Constant.mainControlHeight))
         
         ctx.drawPath(using: .stroke)
         
         ctx.setShadow(offset: CGSize(width: 0, height: 0), blur: 3)
         
         ctx.setFillColor(self.color.cgColor)
-        ctx.addEllipse(in: CGRect(x:self.currentPoint.x - Constant.secondaryControlDiameter/2,
+        
+        ctx.addEllipse(in: CGRect(x:self.timelinePoint.x - Constant.secondaryControlDiameter/2,
                                   y: Constant.secondaryControlHeight - Constant.secondaryControlDiameter/2,
                                   width: Constant.secondaryControlDiameter,
                                   height: Constant.secondaryControlDiameter))
         
-        ctx.fillEllipse(in: CGRect(x:self.currentPoint.x - Constant.secondaryControlDiameter/2,
+        ctx.fillEllipse(in: CGRect(x:self.timelinePoint.x - Constant.secondaryControlDiameter/2,
                                    y: Constant.secondaryControlHeight - Constant.secondaryControlDiameter/2,
                                    width: Constant.secondaryControlDiameter,
                                    height: Constant.secondaryControlDiameter))
