@@ -78,6 +78,7 @@
     assetExport.outputFileType = AVFileTypeQuickTimeMovie;
     assetExport.shouldOptimizeForNetworkUse = NO;
     assetExport.videoComposition = videoComp;
+    assetExport.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmVarispeed;
     
     [assetExport exportAsynchronouslyWithCompletionHandler:
      ^(void ) {
