@@ -161,48 +161,34 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/AHKBendableView/AHKBendableView.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/AnimatablePlayButton/AnimatablePlayButton.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Device/Device.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/DynamicButton/DynamicButton.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ElasticTransition/ElasticTransition.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FCAlertView/FCAlertView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FDWaveformView/FDWaveformView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FontAwesomeKit/FontAwesomeKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Hue/Hue.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/JTFadingInfoView/JTFadingInfoView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KDCircularProgress/KDCircularProgress.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/MotionAnimation/MotionAnimation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Overlap/Overlap.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Player/Player.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyButton/SwiftyButton.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/VIMVideoPlayer/VIMVideoPlayer.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/VideoViewController/VideoViewController.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/AHKBendableView/AHKBendableView.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/AnimatablePlayButton/AnimatablePlayButton.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Device/Device.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/DynamicButton/DynamicButton.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ElasticTransition/ElasticTransition.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FCAlertView/FCAlertView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FDWaveformView/FDWaveformView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FontAwesomeKit/FontAwesomeKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Hue/Hue.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/JTFadingInfoView/JTFadingInfoView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KDCircularProgress/KDCircularProgress.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/MotionAnimation/MotionAnimation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Overlap/Overlap.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Player/Player.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyButton/SwiftyButton.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/VIMVideoPlayer/VIMVideoPlayer.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/VideoViewController/VideoViewController.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

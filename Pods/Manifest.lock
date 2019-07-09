@@ -1,11 +1,6 @@
 PODS:
-  - AHKBendableView (1.1)
-  - AnimatablePlayButton (1.0.0)
   - Cartography (4.0.0)
-  - Device (3.0.3)
-  - DynamicButton (4.0.0)
-  - ElasticTransition (3.1.1):
-    - MotionAnimation (~> 0.1.2)
+  - Device (3.1.2)
   - FCAlertView (1.4.0)
   - FDWaveformView (4.0.0)
   - FontAwesomeKit (2.2.1):
@@ -29,25 +24,18 @@ PODS:
     - FontAwesomeKit/Core
   - FontAwesomeKit/Zocial (2.2.1):
     - FontAwesomeKit/Core
-  - Hue (4.0.0)
+  - Hue (5.0.0)
   - JTFadingInfoView (1.0.2)
   - KDCircularProgress (1.5.4)
-  - MotionAnimation (0.1.2)
   - Overlap (0.4.0)
   - Player (0.13.1)
   - Presentr (1.9)
   - SwiftyButton (0.8.2)
-  - SwiftyCam (2.3.0)
-  - VideoViewController (1.1)
-  - VIMVideoPlayer (6.0.1)
+  - SwiftyCam (4.0.0)
 
 DEPENDENCIES:
-  - AHKBendableView
-  - AnimatablePlayButton (from `https://github.com/paubins/AnimatablePlayButton`)
   - Cartography
-  - Device (~> 3.0.1)
-  - DynamicButton (~> 4.0.0)
-  - ElasticTransition
+  - Device (~> 3.1.2)
   - FCAlertView
   - FDWaveformView
   - FontAwesomeKit (~> 2.2.0)
@@ -58,68 +46,39 @@ DEPENDENCIES:
   - Player
   - Presentr
   - SwiftyButton
-  - "SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `2.4.0`)"
-  - VideoViewController
-  - VIMVideoPlayer
+  - SwiftyCam
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - AHKBendableView
     - Cartography
     - Device
-    - DynamicButton
-    - ElasticTransition
     - FCAlertView
     - FDWaveformView
     - FontAwesomeKit
     - Hue
     - JTFadingInfoView
     - KDCircularProgress
-    - MotionAnimation
     - Overlap
     - Player
     - Presentr
     - SwiftyButton
-    - VideoViewController
-    - VIMVideoPlayer
-
-EXTERNAL SOURCES:
-  AnimatablePlayButton:
-    :git: https://github.com/paubins/AnimatablePlayButton
-  SwiftyCam:
-    :branch: 2.4.0
-    :git: "git@github.com:Awalz/SwiftyCam.git"
-
-CHECKOUT OPTIONS:
-  AnimatablePlayButton:
-    :commit: 380f6272e0b0262d475c6bc58755744d0aa3237b
-    :git: https://github.com/paubins/AnimatablePlayButton
-  SwiftyCam:
-    :commit: 9b8e7fd95131d98d145c956c925267c0a674d7bf
-    :git: "git@github.com:Awalz/SwiftyCam.git"
+    - SwiftyCam
 
 SPEC CHECKSUMS:
-  AHKBendableView: ce81dc973f5e59367641e769404a9a8ad99f606e
-  AnimatablePlayButton: 529c208dc98499c8fcfca52fff26fee2316d3e82
   Cartography: c5626d29056b20f1e95c017326ee4df57cc39ad8
-  Device: 9a5264ee4e0f392e7153d2c46b10c8df46b7aad2
-  DynamicButton: ddc1e8d79e37f2761ab64df0c02e89061b05d812
-  ElasticTransition: 6c4e4739e32480c864217db912100f3657f6447a
+  Device: 62242076214c30fb5760174b3601cefafa70a481
   FCAlertView: fdddd63381898c1d1a5a20c9f084fbd2c6d12f8b
   FDWaveformView: b499c71c154992cee41b543ff00916a8882e696b
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
-  Hue: afe18b4e819e2848e7d2d5b4b33f4d3f88dd921b
+  Hue: c129cb67be7d093a82bbbc30ce8a96757bf6f37a
   JTFadingInfoView: 9fcb410da4bf8e3ce722b04b14ee0046a8f13a65
   KDCircularProgress: 98200c6b8e85d22bc04eb644721d3b1e12b0686b
-  MotionAnimation: ff5c8fc2e429d7e10d46ae86819ba9759846c343
   Overlap: 7c0520cb9110287643e8c64a7b36463e4e16d894
   Player: 29186e0d557898b0ebdab42d2e1b47e615838156
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   SwiftyButton: 5b0ef314e9cf61cf8a83e456ddd1ea1f53f30598
-  SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
-  VideoViewController: b251689d8b1cd51b65f718c9bc6109c02078e273
-  VIMVideoPlayer: f4ed0a9986294ec3684a2e6bdc738e30051ef4ef
+  SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
 
-PODFILE CHECKSUM: 401f82f222667fe9d2c990825e982e1238b52ee0
+PODFILE CHECKSUM: 9bf029722f369fa7f9667852ce1d5aae3b3d13ce
 
 COCOAPODS: 1.7.1
