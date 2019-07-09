@@ -14,7 +14,7 @@ struct FDWaveformRenderFormat {
     var type: FDWaveformType
     
     /// The color of the waveform
-    public var wavesColor: UIColor
+    internal var wavesColor: UIColor
     
     /// The scale factor to apply to the rendered image (usually the current screen's scale)
     public var scale: CGFloat
@@ -166,9 +166,9 @@ final public class FDWaveformRenderOperation: Operation {
         reader.add(readerOutput)
         
         var channelCount = 1
-        let formatDesc = audioContext.assetTrack.formatDescriptions
-        for item in formatDesc {
-            guard let fmtDesc = CMAudioFormatDescriptionGetStreamBasicDescription(item as! CMAudioFormatDescription) else { return nil }    // TODO: Can the forced downcast in here be safer?
+        let formatDescriptions = audioContext.assetTrack.formatDescriptions as! [CMAudioFormatDescription]
+        for item in formatDescriptions {
+            guard let fmtDesc = CMAudioFormatDescriptionGetStreamBasicDescription(item) else { return nil }
             channelCount = Int(fmtDesc.pointee.mChannelsPerFrame)
         }
         
@@ -190,11 +190,10 @@ final public class FDWaveformRenderOperation: Operation {
                 let readBuffer = CMSampleBufferGetDataBuffer(readSampleBuffer) else {
                     break
             }
-            
             // Append audio sample buffer into our current sample buffer
             var readBufferLength = 0
             var readBufferPointer: UnsafeMutablePointer<Int8>?
-            CMBlockBufferGetDataPointer(readBuffer, 0, &readBufferLength, nil, &readBufferPointer)
+            CMBlockBufferGetDataPointer(readBuffer, atOffset: 0, lengthAtOffsetOut: &readBufferLength, totalLengthOut: nil, dataPointerOut: &readBufferPointer)
             sampleBuffer.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
             CMSampleBufferInvalidate(readSampleBuffer)
             
@@ -211,6 +210,7 @@ final public class FDWaveformRenderOperation: Operation {
                            downSampledLength: downSampledLength,
                            samplesPerPixel: samplesPerPixel,
                            filter: filter)
+            //print("Status: \(reader.status)")
         }
         
         // Process the remaining samples at the end which didn't fit into samplesPerPixel
@@ -229,11 +229,12 @@ final public class FDWaveformRenderOperation: Operation {
                            downSampledLength: downSampledLength,
                            samplesPerPixel: samplesPerPixel,
                            filter: filter)
+            //print("Status: \(reader.status)")
         }
         
         // if (reader.status == AVAssetReaderStatusFailed || reader.status == AVAssetReaderStatusUnknown)
-        // Something went wrong. Handle it.
-        if reader.status == .completed {
+        // Something went wrong. Handle it, or not depending on if you can get above to work
+        if reader.status == .completed || true{
             return (outputSamples, sampleMax)
         } else {
             print("FDWaveformRenderOperation failed to read audio: \(String(describing: reader.error))")
@@ -241,6 +242,7 @@ final public class FDWaveformRenderOperation: Operation {
         }
     }
     
+    // TODO: report progress? (for issue #2)
     func processSamples(fromData sampleBuffer: inout Data, sampleMax: inout CGFloat, outputSamples: inout [CGFloat], samplesToProcess: Int, downSampledLength: Int, samplesPerPixel: Int, filter: [Float]) {
         sampleBuffer.withUnsafeBytes { (samples: UnsafePointer<Int16>) in
             var processingBuffer = [Float](repeating: 0.0, count: samplesToProcess)
@@ -277,7 +279,7 @@ final public class FDWaveformRenderOperation: Operation {
         }
     }
     
-    // TODO: switch to a synchronous function that paints onto a given context? (for issue #2)
+    // TODO: report progress? (for issue #2)
     func plotWaveformGraph(_ samples: [CGFloat], maximumValue max: CGFloat, zeroValue min: CGFloat) -> UIImage? {
         guard !isCancelled else { return nil }
         
@@ -317,3 +319,18 @@ final public class FDWaveformRenderOperation: Operation {
         return image
     }
 }
+
+extension AVAssetReader.Status : CustomStringConvertible{
+    public var description: String{
+        switch self{
+        case .reading: return "reading"
+        case .unknown: return "unknown"
+        case .completed: return "completed"
+        case .failed: return "failed"
+        case .cancelled: return "cancelled"
+        @unknown default:
+            fatalError()
+        }
+    }
+}
+

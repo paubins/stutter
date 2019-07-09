@@ -33,6 +33,10 @@ open class Device {
             case "iPhone8,4":                                return .iPhoneSE
             case "iPhone9,1", "iPhone9,3":                   return .iPhone7
             case "iPhone9,2", "iPhone9,4":                   return .iPhone7Plus
+            case "iPhone10,1", "iPhone10,4":                 return .iPhone8
+            case "iPhone10,2", "iPhone10,5":                 return .iPhone8Plus
+            case "iPhone10,3", "iPhone10,6":                 return .iPhoneX
+            
 
             /*** iPad ***/
             case "iPad1,1":                                  return Version.iPad1
@@ -46,7 +50,8 @@ open class Device {
             case "iPad4,4", "iPad4,5", "iPad4,6":            return Version.iPadMini2
             case "iPad4,7", "iPad4,8", "iPad4,9":            return Version.iPadMini3
             case "iPad5,1", "iPad5,2":                       return Version.iPadMini4
-            case "iPad6,7", "iPad6,8":                       return Version.iPadPro12_9Inch
+            case "iPad6,7", "iPad6,8", "iPad7,1", "iPad7,2": return Version.iPadPro12_9Inch
+            case "iPad7,3", "iPad7,4":                       return Version.iPadPro10_5Inch
             case "iPad6,3", "iPad6,4":                       return Version.iPadPro9_7Inch
             
             /*** iPod ***/
@@ -98,13 +103,19 @@ open class Device {
                 return UIScreen.main.scale == 3.0 ? .screen5_5Inch : .screen4_7Inch
             case 736:
                 return .screen5_5Inch
+            case 812:
+                return .screen5_8Inch
             case 1024:
                 switch version() {
                     case .iPadMini,.iPadMini2,.iPadMini3,.iPadMini4:
                         return .screen7_9Inch
+                    case .iPadPro10_5Inch:
+                        return .screen10_5Inch
                     default:
                         return .screen9_7Inch
                 }
+            case 1112:
+                return .screen10_5Inch
             case 1366:
                 return .screen12_9Inch
             default:

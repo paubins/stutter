@@ -16,7 +16,7 @@ Device is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "Device", '~> 3.0.1'
+pod "Device", '~> 3.0.3'
 ```
 
 ## Carthage
@@ -33,7 +33,7 @@ $ brew install carthage
 To integrate Device into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Ekhoo/Device" ~> 3.0.1
+github "Ekhoo/Device" ~> 3.0.3
 ```
 
 Run `carthage update` to build the framework and drag the built `Device.framework` into your Xcode project.
@@ -93,13 +93,14 @@ func myFunc() {
 func myFunc() {
         /*** Display the device screen size ***/
         switch Device.size() {
-            case .Screen3_5Inch:  print("It's a 3.5 inch screen")
-            case .Screen4Inch:    print("It's a 4 inch screen")
-            case .Screen4_7Inch:  print("It's a 4.7 inch screen")
-            case .Screen5_5Inch:  print("It's a 5.5 inch screen")
-            case .Screen7_9Inch:  print("It's a 7.9 inch screen")
-            case .Screen9_7Inch:  print("It's a 9.7 inch screen")
-            case .Screen12_9Inch: print("It's a 12.9 inch screen")
+            case .screen3_5Inch:  print("It's a 3.5 inch screen")
+            case .screen4Inch:    print("It's a 4 inch screen")
+            case .screen4_7Inch:  print("It's a 4.7 inch screen")
+            case .screen5_5Inch:  print("It's a 5.5 inch screen")
+            case .screen5_8Inch:  print("It's a 5.8 inch screen")
+            case .screen7_9Inch:  print("It's a 7.9 inch screen")
+            case .screen9_7Inch:  print("It's a 9.7 inch screen")
+            case .screen12_9Inch: print("It's a 12.9 inch screen")
             default:              print("Unknown size")
         }
 }

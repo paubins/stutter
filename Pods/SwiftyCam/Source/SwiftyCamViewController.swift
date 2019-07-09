@@ -1136,7 +1136,7 @@ extension SwiftyCamViewController {
     
     @objc private func panGesture(pan: UIPanGestureRecognizer) {
         
-        guard swipeToZoom == true else {
+        guard swipeToZoom == true && self.currentCamera == .rear else {
             //ignore pan
             return
         }
@@ -1144,7 +1144,7 @@ extension SwiftyCamViewController {
         let translationDifference = currentTranslation - previousPanTranslation
         
         do {
-            let captureDevice = AVCaptureDevice.devices()[1] as? AVCaptureDevice
+            let captureDevice = AVCaptureDevice.devices().first as? AVCaptureDevice
             try captureDevice?.lockForConfiguration()
             
             let currentZoom = captureDevice?.videoZoomFactor ?? 0.0

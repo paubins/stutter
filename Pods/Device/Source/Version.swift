@@ -20,6 +20,9 @@ public enum Version: String {
     case iPhoneSE
     case iPhone7
     case iPhone7Plus
+    case iPhone8
+    case iPhone8Plus
+    case iPhoneX
     
     /*** iPad ***/
     case iPad1
@@ -34,6 +37,7 @@ public enum Version: String {
     case iPadMini3
     case iPadMini4
     case iPadPro9_7Inch
+    case iPadPro10_5Inch
     case iPadPro12_9Inch
     
     /*** iPod ***/

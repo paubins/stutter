@@ -29,7 +29,7 @@ final class FDAudioContext {
     public static func load(fromAudioURL audioURL: URL, completionHandler: @escaping (_ audioContext: FDAudioContext?) -> ()) {
         let asset = AVURLAsset(url: audioURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: NSNumber(value: true as Bool)])
         
-        guard let assetTrack = asset.tracks(withMediaType: AVMediaTypeAudio).first else {
+        guard let assetTrack = asset.tracks(withMediaType: AVMediaType.audio).first else {
             NSLog("FDWaveformView failed to load AVAssetTrack")
             completionHandler(nil)
             return
@@ -41,8 +41,9 @@ final class FDAudioContext {
             switch status {
             case .loaded:
                 guard
-                    let audioFormatDesc = assetTrack.formatDescriptions.first,
-                    let asbd = CMAudioFormatDescriptionGetStreamBasicDescription(audioFormatDesc as! CMAudioFormatDescription) // TODO: Can this be safer?
+                    let formatDescriptions = assetTrack.formatDescriptions as? [CMAudioFormatDescription],
+                    let audioFormatDesc = formatDescriptions.first,
+                    let asbd = CMAudioFormatDescriptionGetStreamBasicDescription(audioFormatDesc)
                     else { break }
                 
                 let totalSamples = Int((asbd.pointee.mSampleRate) * Float64(asset.duration.value) / Float64(asset.duration.timescale))
@@ -52,9 +53,12 @@ final class FDAudioContext {
                 
             case .failed, .cancelled, .loading, .unknown:
                 print("FDWaveformView could not load asset: \(error?.localizedDescription ?? "Unknown error")")
+            @unknown default:
+                print("FDWaveformView could not load asset: \(error?.localizedDescription ?? "Unknown error")")
             }
             
             completionHandler(nil)
         }
     }
 }
+
