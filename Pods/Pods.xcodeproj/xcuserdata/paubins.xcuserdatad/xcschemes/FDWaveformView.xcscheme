@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5840841663803463606987C39C891DD4"
-               BuildableName = "FDWaveformView.framework"
+               BlueprintIdentifier = "29979F08848D1B1B74B4B7EDE067BBEA"
                BlueprintName = "FDWaveformView"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "FDWaveformView.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

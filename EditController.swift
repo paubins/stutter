@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import SwiftyTimer
 
 class EditController: NSObject {
-    var currentPlayTimeInSeconds:CMTime = kCMTimeZero
+    var currentPlayTimeInSeconds:CMTime = CMTime.zero
     var currentPlayTimer:Timer!
-    var currentAssetDuration:CMTime = kCMTimeZero
+    var currentAssetDuration:CMTime = CMTime.zero
     var lastSelectedIndex:Int = 0
-    var lastInsertedTime:CMTime = kCMTimeZero
+    var lastInsertedTime:CMTime = CMTime.zero
     var started:Bool = true
     var previousFrameRelativeStartTime:Float64!
     var previousFrameTime:CFTimeInterval!
@@ -43,11 +42,11 @@ class EditController: NSObject {
     }
     
     func createEditHandler(_ at: CMTime, startTime: CMTime) -> ((_ durationEnd:CMTime) -> CMTime) {
-        var durationStart:CMTime = CMTimeMakeWithSeconds(CACurrentMediaTime(), 600)
+        var durationStart:CMTime = CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 600)
         
         func endTimeHandler(durationEnd: CMTime) -> CMTime {
             let durationInterval:CMTime = CMTimeSubtract(durationEnd, durationStart)
-            let timeRange = CMTimeRangeMake(startTime, durationInterval)
+            let timeRange = CMTimeRangeMake(start: startTime, duration: durationInterval)
             print("at: \(at) range: \(timeRange)")
             do {
                 try self.mutableComposition.insertTimeRange(timeRange, of: self.asset, at: at)
@@ -63,15 +62,16 @@ class EditController: NSObject {
     
     func closeEdit() {
         if (self.currentEditHandler != nil) {
-            self.lastInsertedTime = kCMTimeZero
-            let _ = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), 600))
+            self.lastInsertedTime = CMTime.zero
+            let _ = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 600))
             self.currentEditHandler = nil
         }
     }
     
     func storeEdit(time: CMTime) {
         if (self.currentEditHandler != nil) {
-            self.lastInsertedTime = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), 600))
+            self.lastInsertedTime = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(),
+                                                                                  preferredTimescale: 600))
         }
         
         self.currentEditHandler = self.createEditHandler(self.lastInsertedTime, startTime: time)
@@ -116,6 +116,6 @@ class EditController: NSObject {
     }
     
     func secondsFrom(percentage: CGFloat) -> CMTime {
-        return CMTimeMakeWithSeconds(CMTimeGetSeconds(self.currentAssetDuration) * Float64(percentage), 60)
+        return CMTimeMakeWithSeconds(CMTimeGetSeconds(self.currentAssetDuration) * Float64(percentage), preferredTimescale: 60)
     }
 }

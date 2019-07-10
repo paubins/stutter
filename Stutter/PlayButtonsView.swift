@@ -209,7 +209,7 @@ class PlayButtonsView: UIView {
         }
     }
     
-    func tapped(button: PressableButton) {
+    @objc func tapped(button: PressableButton) {
         self.delegate?.playButtonWasTapped(index: (button.tag))
     }
     

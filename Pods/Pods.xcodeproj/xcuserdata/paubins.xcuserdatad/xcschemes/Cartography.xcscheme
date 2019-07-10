@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8FBDBAAAB58D03FB5BB194A7F5231422"
-               BuildableName = "Cartography.framework"
+               BlueprintIdentifier = "B1305A2A3108BB80AA55C80583A5071E"
                BlueprintName = "Cartography"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "Cartography.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -17,7 +17,7 @@ extension AVAsset {
         var i:Int64 = 0
         while(i < 10) {
             let interval:Int64 = self.duration.value/Int64(10)
-            times.append(NSValue(time: CMTimeMake(interval * i, self.duration.timescale)))
+            times.append(NSValue(time: CMTimeMake(value: interval * i, timescale: self.duration.timescale)))
             i += 1
         }
         
@@ -41,17 +41,17 @@ extension AVAsset {
             case AVKeyValueStatus.loaded:
                 let composition:AVMutableComposition = AVMutableComposition()
                 
-                var videoTrack2: AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: 0)
-                var audioTrack2: AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: 0)
+                let videoTrack2: AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: 0)
+                let audioTrack2: AVMutableCompositionTrack? = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: 0)
                 
-                var videoAssetTracks2: [Any] = self.tracks(withMediaType: AVMediaTypeVideo)
-                var audioAssetTracks2: [Any] = self.tracks(withMediaType: AVMediaTypeAudio)
+                var videoAssetTracks2: [Any] = self.tracks(withMediaType: AVMediaType.video)
+                var audioAssetTracks2: [Any] = self.tracks(withMediaType: AVMediaType.audio)
                 
-                var videoAssetTrack2 = (videoAssetTracks2.count > 0 ? videoAssetTracks2[0] as? AVAssetTrack : nil)
-                try? videoTrack2?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, (videoAssetTrack2?.timeRange.duration)!), of: videoAssetTrack2!, at: kCMTimeZero)
+                let videoAssetTrack2 = (videoAssetTracks2.count > 0 ? videoAssetTracks2[0] as? AVAssetTrack : nil)
+                try? videoTrack2?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: (videoAssetTrack2?.timeRange.duration)!), of: videoAssetTrack2!, at: CMTime.zero)
                 
-                var audioAssetTrack2 = (audioAssetTracks2.count > 0 ? audioAssetTracks2[0] as? AVAssetTrack : nil)
-                try? audioTrack2?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, (audioAssetTrack2?.timeRange.duration)!), of: audioAssetTrack2!, at: kCMTimeZero)
+                let audioAssetTrack2 = (audioAssetTracks2.count > 0 ? audioAssetTracks2[0] as? AVAssetTrack : nil)
+                try? audioTrack2?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: (audioAssetTrack2?.timeRange.duration)!), of: audioAssetTrack2!, at: CMTime.zero)
                 
                 AudioExporter.getAudioFromVideo(self, composition: composition) { (exportSession) in
                     let url:URL = (exportSession?.outputURL)!

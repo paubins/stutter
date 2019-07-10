@@ -12,22 +12,14 @@ import AVFoundation
 import Photos
 import SwiftyCam
 import SwiftyButton
-import ElasticTransition
-import LLSpinner
 import FDWaveformView
-import VideoViewController
-import DynamicButton
 import Player
 import Device
 import Cartography
-import Shift
-import FCAlertView
 import AVKit
-import SwiftyTimer
-import KDCircularProgress
 
 class ViewController: UIViewController {
-    var times:[Int: CMTime] = [0: kCMTimeZero, 1: kCMTimeZero, 2: kCMTimeZero, 3: kCMTimeZero, 4: kCMTimeZero]
+    var times:[Int: CMTime] = [0: CMTime.zero, 1: CMTime.zero, 2: CMTime.zero, 3: CMTime.zero, 4: CMTime.zero]
     var asset:AVAsset!
     var lastSelectedIndex:Int = -1
     
@@ -58,17 +50,6 @@ class ViewController: UIViewController {
     
     let fireController:DazFireController = DazFireController()
     
-    var backgroundShiftView:ShiftView = {
-        let v = ShiftView()
-        
-        // set colors
-        v.setColors([UIColor(hex: "#40BAB3"),
-                     UIColor(hex: "#F3C74F"),
-                     UIColor(hex: "#0081C6"),
-                     UIColor(hex: "#F0B0B7")])
-        return v
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,23 +57,15 @@ class ViewController: UIViewController {
         
         self.view.backgroundColor = .clear
         
-        self.addChildViewController(self.buttonViewController)
-        self.addChildViewController(self.playerViewController)
-        self.addChildViewController(self.scrubberPreviewViewController)
-        self.addChildViewController(self.mainControlViewController)
+        self.addChild(self.buttonViewController)
+        self.addChild(self.playerViewController)
+        self.addChild(self.scrubberPreviewViewController)
+        self.addChild(self.mainControlViewController)
         
-        self.view.addSubview(self.backgroundShiftView)
         self.view.addSubview(self.playerViewController.view)
         self.view.addSubview(self.buttonViewController.view)
         self.view.addSubview(self.scrubberPreviewViewController.view)
         self.view.addSubview(self.mainControlViewController.view)
-        
-        constrain(self.backgroundShiftView) { (view) in
-            view.top == view.superview!.top
-            view.left == view.superview!.left
-            view.right == view.superview!.right
-            view.bottom == view.superview!.bottom
-        }
         
         constrain(self.playerViewController.view) { (view) in
             view.top == view.superview!.top
@@ -119,15 +92,6 @@ class ViewController: UIViewController {
             view.left == view.superview!.left
             view.right == view.superview!.right
         }
-        
-        self.backgroundShiftView.animationDuration(3.0)
-        self.backgroundShiftView.startTimedAnimation()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.dch_checkDeallocation()
-        
     }
     
     override func didReceiveMemoryWarning() {

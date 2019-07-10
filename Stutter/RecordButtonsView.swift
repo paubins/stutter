@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Overlap
 
 protocol RecordButtonsViewDelegate {
     func recordButtonSliceWasMovedTo(index: Int, distance: Int)
@@ -122,10 +121,10 @@ class RecordButtonsView : UIView {
 }
 
 extension RecordButtonsView {
-    func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
+    @objc func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
         let view = gestureRecognizer.view
         
-        if (gestureRecognizer.state == UIGestureRecognizerState.began) {
+        if (gestureRecognizer.state == UIGestureRecognizer.State.began) {
             self.delegate?.recordButtonDraggingHasBegun(index: (view?.tag)!)
         }
         
@@ -138,7 +137,7 @@ extension RecordButtonsView {
         if (gestureRecognizer.location(in: self.superview).x < (UIScreen.main.bounds.width - 10.0)) {
             layoutConstraint.constant = gestureRecognizer.location(in: self.superview).x
 
-            let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
+            _ = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
             
             self.delegate?.recordButtonSliceWasMovedTo(index: (view?.tag)!, distance: Int(gestureRecognizer.location(in: self.superview).x))
         }

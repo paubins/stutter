@@ -14,7 +14,7 @@ class PlayerView: UIView {
     
     var player: AVPlayer? {
         get {
-            playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+            playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
             return playerLayer.player
         }
         set {
@@ -46,9 +46,9 @@ class PlayerView: UIView {
         self.player = AVPlayer(playerItem: playerItem)
     }
     
-    func playerDidFinishPlaying(notification: NSNotification) {
+    @objc func playerDidFinishPlaying(notification: NSNotification) {
         print("Video Finished")
-        self.player?.seek(to: kCMTimeZero)
+        self.player?.seek(to: CMTime.zero)
         self.player?.play()
     }
 }

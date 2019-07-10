@@ -8,22 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5F00D8BA1FA2CF1400865894 /* ExporterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F00D8B91FA2CF1400865894 /* ExporterController.m */; };
-		5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CE821EFC9BE500486F0D /* DazTouchController.m */; };
-		5F16CF331EFC9FB800486F0D /* DazTriangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2C1EFC9FB700486F0D /* DazTriangle.png */; };
-		5F16CF341EFC9FB800486F0D /* DazRing.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2D1EFC9FB700486F0D /* DazRing.png */; };
-		5F16CF351EFC9FB800486F0D /* DazSmoke.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2E1EFC9FB700486F0D /* DazSmoke.png */; };
-		5F16CF361EFC9FB800486F0D /* DazStarOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF2F1EFC9FB800486F0D /* DazStarOutline.png */; };
-		5F16CF371EFC9FB800486F0D /* DazHeart.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF301EFC9FB800486F0D /* DazHeart.png */; };
-		5F16CF381EFC9FB800486F0D /* DazFire.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF311EFC9FB800486F0D /* DazFire.png */; };
-		5F16CF391EFC9FB800486F0D /* DazFlake.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF321EFC9FB800486F0D /* DazFlake.png */; };
-		5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CF3C1EFCA26200486F0D /* DazFireController.m */; };
 		5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */; };
 		5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B21EFCB5D000524100 /* AudioExporter.m */; };
 		5F95067D1F1F143100DD76C3 /* VarelaRound-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */; };
-		5FA20F4A1F06B2FE006E9076 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA20F491F06B2FE006E9076 /* UIViewController+.swift */; };
-		5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */; };
-		5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCD61F016FC900AEA188 /* BezierViewController.m */; };
-		5FBFBCDE1F01A96000AEA188 /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCDD1F01A96000AEA188 /* UIView+YGPulseView.m */; };
 		5FBFBCE61F02F2E700AEA188 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCE51F02F2E700AEA188 /* UIColor+.swift */; };
 		5FBFBCE91F02F39E00AEA188 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCE81F02F39E00AEA188 /* Constants.swift */; };
 		5FC245F21FA249390029BBA2 /* EditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC245F11FA249390029BBA2 /* EditController.swift */; };
@@ -46,36 +33,32 @@
 		5FF10DC61F02FD61001205B6 /* RecordButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF10DC51F02FD61001205B6 /* RecordButtonsView.swift */; };
 		5FF10DC91F030B08001205B6 /* BAPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FF10DC81F030B08001205B6 /* BAPulseView.m */; };
 		992D748284C8A31E932DFF0B /* Pods_Stutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */; };
+		C12E668422D5982B00BE1231 /* DazTouchController.m in Sources */ = {isa = PBXBuildFile; fileRef = C12E668222D5982B00BE1231 /* DazTouchController.m */; };
+		C12E668522D5982B00BE1231 /* DazFireController.m in Sources */ = {isa = PBXBuildFile; fileRef = C12E668322D5982B00BE1231 /* DazFireController.m */; };
+		C12E668822D598E300BE1231 /* BezierViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C12E668622D598E300BE1231 /* BezierViewController.m */; };
+		C12E668B22D5992A00BE1231 /* UIBezierPath+LxThroughPointsBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = C12E668A22D5992A00BE1231 /* UIBezierPath+LxThroughPointsBezier.m */; };
+		C12E668E22D5996C00BE1231 /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = C12E668C22D5996C00BE1231 /* UIView+YGPulseView.m */; };
+		C12E669022D59A3E00BE1231 /* BendableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12E668F22D59A3E00BE1231 /* BendableView.swift */; };
+		C12E669822D5A28200BE1231 /* DazTriangle.png in Resources */ = {isa = PBXBuildFile; fileRef = C12E669122D5A28100BE1231 /* DazTriangle.png */; };
+		C12E669922D5A28200BE1231 /* DazHeart.png in Resources */ = {isa = PBXBuildFile; fileRef = C12E669222D5A28100BE1231 /* DazHeart.png */; };
+		C12E669A22D5A28200BE1231 /* DazFlake.png in Resources */ = {isa = PBXBuildFile; fileRef = C12E669322D5A28100BE1231 /* DazFlake.png */; };
+		C12E669B22D5A28200BE1231 /* DazStarIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C12E669422D5A28100BE1231 /* DazStarIcon.png */; };
+		C12E669C22D5A28200BE1231 /* DazStarOutline.png in Resources */ = {isa = PBXBuildFile; fileRef = C12E669522D5A28100BE1231 /* DazStarOutline.png */; };
+		C12E669D22D5A28200BE1231 /* DazSmoke.png in Resources */ = {isa = PBXBuildFile; fileRef = C12E669622D5A28200BE1231 /* DazSmoke.png */; };
+		C12E669E22D5A28200BE1231 /* DazRing.png in Resources */ = {isa = PBXBuildFile; fileRef = C12E669722D5A28200BE1231 /* DazRing.png */; };
+		C12E66A022D5A2AF00BE1231 /* DazFire.png in Resources */ = {isa = PBXBuildFile; fileRef = C12E669F22D5A2AE00BE1231 /* DazFire.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5F00D8B81FA2CF1300865894 /* ExporterController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExporterController.h; sourceTree = "<group>"; };
 		5F00D8B91FA2CF1400865894 /* ExporterController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExporterController.m; sourceTree = "<group>"; };
 		5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SDevCircleButton.swift; path = ../../SDevCircleButton/SDevCircleButton/SDevCircleButton.swift; sourceTree = "<group>"; };
-		5F16CE811EFC9BE500486F0D /* DazTouchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazTouchController.h; path = ../../Dazzle/Dazzle/DazTouchController.h; sourceTree = "<group>"; };
-		5F16CE821EFC9BE500486F0D /* DazTouchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazTouchController.m; path = ../../Dazzle/Dazzle/DazTouchController.m; sourceTree = "<group>"; };
-		5F16CF2C1EFC9FB700486F0D /* DazTriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazTriangle.png; path = ../../Dazzle/Dazzle/DazTriangle.png; sourceTree = "<group>"; };
-		5F16CF2D1EFC9FB700486F0D /* DazRing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazRing.png; path = ../../Dazzle/Dazzle/DazRing.png; sourceTree = "<group>"; };
-		5F16CF2E1EFC9FB700486F0D /* DazSmoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazSmoke.png; path = ../../Dazzle/Dazzle/DazSmoke.png; sourceTree = "<group>"; };
-		5F16CF2F1EFC9FB800486F0D /* DazStarOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazStarOutline.png; path = ../../Dazzle/Dazzle/DazStarOutline.png; sourceTree = "<group>"; };
-		5F16CF301EFC9FB800486F0D /* DazHeart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazHeart.png; path = ../../Dazzle/Dazzle/DazHeart.png; sourceTree = "<group>"; };
-		5F16CF311EFC9FB800486F0D /* DazFire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFire.png; path = ../../Dazzle/Dazzle/DazFire.png; sourceTree = "<group>"; };
-		5F16CF321EFC9FB800486F0D /* DazFlake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFlake.png; path = ../../Dazzle/Dazzle/DazFlake.png; sourceTree = "<group>"; };
-		5F16CF3B1EFCA26200486F0D /* DazFireController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazFireController.h; path = ../../Dazzle/Dazzle/DazFireController.h; sourceTree = "<group>"; };
-		5F16CF3C1EFCA26200486F0D /* DazFireController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazFireController.m; path = ../../Dazzle/Dazzle/DazFireController.m; sourceTree = "<group>"; };
 		5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraScrubberPreviewView.swift; sourceTree = "<group>"; };
 		5F6790B11EFCB5D000524100 /* AudioExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioExporter.h; sourceTree = "<group>"; };
 		5F6790B21EFCB5D000524100 /* AudioExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioExporter.m; sourceTree = "<group>"; };
 		5F6790B41EFCC12F00524100 /* RecorderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecorderController.swift; path = ../../Beethoven/Example/GuitarTuner/GuitarTuner/Source/RecorderController.swift; sourceTree = "<group>"; };
 		5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VarelaRound-Regular.ttf"; sourceTree = "<group>"; };
-		5FA20F491F06B2FE006E9076 /* UIViewController+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		5FAFB85D1EDDAC6E0025B1BB /* Stutter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stutter-Bridging-Header.h"; sourceTree = "<group>"; };
-		5FBFBCCE1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBezierPath+LxThroughPointsBezier.h"; path = "../../LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.h"; sourceTree = "<group>"; };
-		5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBezierPath+LxThroughPointsBezier.m"; path = "../../LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.m"; sourceTree = "<group>"; };
-		5FBFBCD11F016FB400AEA188 /* BezierViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BezierViewController.h; path = ../../LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/BezierViewController.h; sourceTree = "<group>"; };
-		5FBFBCD61F016FC900AEA188 /* BezierViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BezierViewController.m; path = ../../LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/BezierViewController.m; sourceTree = "<group>"; };
-		5FBFBCDC1F01A96000AEA188 /* UIView+YGPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+YGPulseView.h"; path = "../../YGPulseView/YGPulseView/UIView+YGPulseView.h"; sourceTree = "<group>"; };
-		5FBFBCDD1F01A96000AEA188 /* UIView+YGPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+YGPulseView.m"; path = "../../YGPulseView/YGPulseView/UIView+YGPulseView.m"; sourceTree = "<group>"; };
 		5FBFBCE51F02F2E700AEA188 /* UIColor+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		5FBFBCE81F02F39E00AEA188 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5FC245F11FA249390029BBA2 /* EditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditController.swift; path = ../EditController.swift; sourceTree = "<group>"; };
@@ -101,6 +84,25 @@
 		5FF10DC71F030B08001205B6 /* BAPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAPulseView.h; sourceTree = "<group>"; };
 		5FF10DC81F030B08001205B6 /* BAPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BAPulseView.m; sourceTree = "<group>"; };
 		7171AEDDB181C337AEA1B0F6 /* Pods_Stutter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stutter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C12E668022D5982B00BE1231 /* DazTouchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazTouchController.h; path = externallibs/Dazzle/Dazzle/DazTouchController.h; sourceTree = SOURCE_ROOT; };
+		C12E668122D5982B00BE1231 /* DazFireController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazFireController.h; path = externallibs/Dazzle/Dazzle/DazFireController.h; sourceTree = SOURCE_ROOT; };
+		C12E668222D5982B00BE1231 /* DazTouchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazTouchController.m; path = externallibs/Dazzle/Dazzle/DazTouchController.m; sourceTree = SOURCE_ROOT; };
+		C12E668322D5982B00BE1231 /* DazFireController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazFireController.m; path = externallibs/Dazzle/Dazzle/DazFireController.m; sourceTree = SOURCE_ROOT; };
+		C12E668622D598E300BE1231 /* BezierViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BezierViewController.m; path = externallibs/LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/BezierViewController.m; sourceTree = SOURCE_ROOT; };
+		C12E668722D598E300BE1231 /* BezierViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BezierViewController.h; path = externallibs/LxThroughPointsBezier/LxThroughPointsBezierDemo/LxThroughPointsBezierDemo/BezierViewController.h; sourceTree = SOURCE_ROOT; };
+		C12E668922D5992A00BE1231 /* UIBezierPath+LxThroughPointsBezier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBezierPath+LxThroughPointsBezier.h"; path = "externallibs/LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.h"; sourceTree = SOURCE_ROOT; };
+		C12E668A22D5992A00BE1231 /* UIBezierPath+LxThroughPointsBezier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBezierPath+LxThroughPointsBezier.m"; path = "externallibs/LxThroughPointsBezier/LxThroughPointsBezier/UIBezierPath+LxThroughPointsBezier.m"; sourceTree = SOURCE_ROOT; };
+		C12E668C22D5996C00BE1231 /* UIView+YGPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+YGPulseView.m"; path = "externallibs/YGPulseView/YGPulseView/UIView+YGPulseView.m"; sourceTree = SOURCE_ROOT; };
+		C12E668D22D5996C00BE1231 /* UIView+YGPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+YGPulseView.h"; path = "externallibs/YGPulseView/YGPulseView/UIView+YGPulseView.h"; sourceTree = SOURCE_ROOT; };
+		C12E668F22D59A3E00BE1231 /* BendableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BendableView.swift; path = ../BendableView.swift; sourceTree = "<group>"; };
+		C12E669122D5A28100BE1231 /* DazTriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazTriangle.png; path = ../externallibs/Dazzle/Dazzle/DazTriangle.png; sourceTree = "<group>"; };
+		C12E669222D5A28100BE1231 /* DazHeart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazHeart.png; path = ../externallibs/Dazzle/Dazzle/DazHeart.png; sourceTree = "<group>"; };
+		C12E669322D5A28100BE1231 /* DazFlake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFlake.png; path = ../externallibs/Dazzle/Dazzle/DazFlake.png; sourceTree = "<group>"; };
+		C12E669422D5A28100BE1231 /* DazStarIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazStarIcon.png; path = ../externallibs/Dazzle/Dazzle/DazStarIcon.png; sourceTree = "<group>"; };
+		C12E669522D5A28100BE1231 /* DazStarOutline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazStarOutline.png; path = ../externallibs/Dazzle/Dazzle/DazStarOutline.png; sourceTree = "<group>"; };
+		C12E669622D5A28200BE1231 /* DazSmoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazSmoke.png; path = ../externallibs/Dazzle/Dazzle/DazSmoke.png; sourceTree = "<group>"; };
+		C12E669722D5A28200BE1231 /* DazRing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazRing.png; path = ../externallibs/Dazzle/Dazzle/DazRing.png; sourceTree = "<group>"; };
+		C12E669F22D5A2AE00BE1231 /* DazFire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFire.png; path = externallibs/Dazzle/Dazzle/DazFire.png; sourceTree = SOURCE_ROOT; };
 		DFB0443D5265F82478482DD7 /* Pods-Stutter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stutter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Stutter/Pods-Stutter.debug.xcconfig"; sourceTree = "<group>"; };
 		F623781087091ED05D14AA74 /* Pods-Stutter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stutter.release.xcconfig"; path = "Pods/Target Support Files/Pods-Stutter/Pods-Stutter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,13 +122,14 @@
 		5F16CF3A1EFC9FBD00486F0D /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
-				5F16CF311EFC9FB800486F0D /* DazFire.png */,
-				5F16CF2E1EFC9FB700486F0D /* DazSmoke.png */,
-				5F16CF301EFC9FB800486F0D /* DazHeart.png */,
-				5F16CF321EFC9FB800486F0D /* DazFlake.png */,
-				5F16CF2F1EFC9FB800486F0D /* DazStarOutline.png */,
-				5F16CF2C1EFC9FB700486F0D /* DazTriangle.png */,
-				5F16CF2D1EFC9FB700486F0D /* DazRing.png */,
+				C12E669322D5A28100BE1231 /* DazFlake.png */,
+				C12E669222D5A28100BE1231 /* DazHeart.png */,
+				C12E669722D5A28200BE1231 /* DazRing.png */,
+				C12E669622D5A28200BE1231 /* DazSmoke.png */,
+				C12E669422D5A28100BE1231 /* DazStarIcon.png */,
+				C12E669522D5A28100BE1231 /* DazStarOutline.png */,
+				C12E669122D5A28100BE1231 /* DazTriangle.png */,
+				C12E669F22D5A2AE00BE1231 /* DazFire.png */,
 			);
 			name = Sprites;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 		5FE3C8421ED3DE680027348C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C12E668F22D59A3E00BE1231 /* BendableView.swift */,
 				5FF10DC71F030B08001205B6 /* BAPulseView.h */,
 				5FF10DC81F030B08001205B6 /* BAPulseView.m */,
 				5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */,
@@ -202,8 +206,8 @@
 				5FC245F31FA24A9F0029BBA2 /* PlayerViewController.swift */,
 				5FC245F91FA2540E0029BBA2 /* ButtonViewController.swift */,
 				5FC245F51FA24F4A0029BBA2 /* MainControlViewController.swift */,
-				5FBFBCD11F016FB400AEA188 /* BezierViewController.h */,
-				5FBFBCD61F016FC900AEA188 /* BezierViewController.m */,
+				C12E668722D598E300BE1231 /* BezierViewController.h */,
+				C12E668622D598E300BE1231 /* BezierViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -212,13 +216,12 @@
 			isa = PBXGroup;
 			children = (
 				5FC245FD1FA26B260029BBA2 /* AVAsset+.swift */,
-				5FBFBCDC1F01A96000AEA188 /* UIView+YGPulseView.h */,
-				5FBFBCDD1F01A96000AEA188 /* UIView+YGPulseView.m */,
-				5FBFBCCE1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.h */,
-				5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */,
+				C12E668D22D5996C00BE1231 /* UIView+YGPulseView.h */,
+				C12E668C22D5996C00BE1231 /* UIView+YGPulseView.m */,
+				C12E668922D5992A00BE1231 /* UIBezierPath+LxThroughPointsBezier.h */,
+				C12E668A22D5992A00BE1231 /* UIBezierPath+LxThroughPointsBezier.m */,
 				5FE3C8511ED40CBD0027348C /* UIView+.swift */,
 				5FBFBCE51F02F2E700AEA188 /* UIColor+.swift */,
-				5FA20F491F06B2FE006E9076 /* UIViewController+.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -238,10 +241,10 @@
 			children = (
 				5FC245F11FA249390029BBA2 /* EditController.swift */,
 				5F6790B41EFCC12F00524100 /* RecorderController.swift */,
-				5F16CE811EFC9BE500486F0D /* DazTouchController.h */,
-				5F16CE821EFC9BE500486F0D /* DazTouchController.m */,
-				5F16CF3B1EFCA26200486F0D /* DazFireController.h */,
-				5F16CF3C1EFCA26200486F0D /* DazFireController.m */,
+				C12E668122D5982B00BE1231 /* DazFireController.h */,
+				C12E668322D5982B00BE1231 /* DazFireController.m */,
+				C12E668022D5982B00BE1231 /* DazTouchController.h */,
+				C12E668222D5982B00BE1231 /* DazTouchController.m */,
 				5F6790B11EFCB5D000524100 /* AudioExporter.h */,
 				5F6790B21EFCB5D000524100 /* AudioExporter.m */,
 			);
@@ -331,16 +334,17 @@
 			files = (
 				5F95067D1F1F143100DD76C3 /* VarelaRound-Regular.ttf in Resources */,
 				5FE3C8571ED48E220027348C /* test.mp4 in Resources */,
-				5F16CF331EFC9FB800486F0D /* DazTriangle.png in Resources */,
 				5FE3C83B1ED3A8AB0027348C /* LaunchScreen.storyboard in Resources */,
-				5F16CF391EFC9FB800486F0D /* DazFlake.png in Resources */,
-				5F16CF351EFC9FB800486F0D /* DazSmoke.png in Resources */,
+				C12E669822D5A28200BE1231 /* DazTriangle.png in Resources */,
+				C12E669922D5A28200BE1231 /* DazHeart.png in Resources */,
+				C12E669A22D5A28200BE1231 /* DazFlake.png in Resources */,
+				C12E669B22D5A28200BE1231 /* DazStarIcon.png in Resources */,
+				C12E669C22D5A28200BE1231 /* DazStarOutline.png in Resources */,
+				C12E669D22D5A28200BE1231 /* DazSmoke.png in Resources */,
+				C12E66A022D5A2AF00BE1231 /* DazFire.png in Resources */,
+				C12E669E22D5A28200BE1231 /* DazRing.png in Resources */,
 				5FE3C8381ED3A8AB0027348C /* Assets.xcassets in Resources */,
-				5F16CF381EFC9FB800486F0D /* DazFire.png in Resources */,
 				5FE3C8361ED3A8AB0027348C /* Main.storyboard in Resources */,
-				5F16CF361EFC9FB800486F0D /* DazStarOutline.png in Resources */,
-				5F16CF371EFC9FB800486F0D /* DazHeart.png in Resources */,
-				5F16CF341EFC9FB800486F0D /* DazRing.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,7 +357,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Stutter/Pods-Stutter-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Stutter/Pods-Stutter-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Cartography/Cartography.framework",
 				"${BUILT_PRODUCTS_DIR}/Device/Device.framework",
 				"${BUILT_PRODUCTS_DIR}/FDWaveformView/FDWaveformView.framework",
@@ -376,7 +380,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Stutter/Pods-Stutter-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Stutter/Pods-Stutter-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A6C4E14E51E4406097B7853D /* [CP] Check Pods Manifest.lock */ = {
@@ -407,25 +411,25 @@
 				5FE3C84C1ED3E8940027348C /* ScrubberView.swift in Sources */,
 				5FC245F21FA249390029BBA2 /* EditController.swift in Sources */,
 				5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */,
+				C12E668B22D5992A00BE1231 /* UIBezierPath+LxThroughPointsBezier.m in Sources */,
 				5FC245FE1FA26B260029BBA2 /* AVAsset+.swift in Sources */,
-				5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */,
-				5FA20F4A1F06B2FE006E9076 /* UIViewController+.swift in Sources */,
+				C12E668822D598E300BE1231 /* BezierViewController.m in Sources */,
 				5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */,
 				5FC245F41FA24A9F0029BBA2 /* PlayerViewController.swift in Sources */,
 				5F00D8BA1FA2CF1400865894 /* ExporterController.m in Sources */,
+				C12E668422D5982B00BE1231 /* DazTouchController.m in Sources */,
 				5FC245FC1FA2667C0029BBA2 /* LoadingViewController.swift in Sources */,
+				C12E668522D5982B00BE1231 /* DazFireController.m in Sources */,
+				C12E669022D59A3E00BE1231 /* BendableView.swift in Sources */,
 				5FC245FA1FA2540E0029BBA2 /* ButtonViewController.swift in Sources */,
-				5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */,
 				5FC245F61FA24F4A0029BBA2 /* MainControlViewController.swift in Sources */,
 				5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */,
-				5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */,
 				5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */,
 				5FEFD4181FA27CA600828165 /* ScrubberPreviewViewController.swift in Sources */,
 				5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */,
 				5FE3C84A1ED3E8110027348C /* PlayButtonsView.swift in Sources */,
+				C12E668E22D5996C00BE1231 /* UIView+YGPulseView.m in Sources */,
 				5FF10DC61F02FD61001205B6 /* RecordButtonsView.swift in Sources */,
-				5FBFBCDE1F01A96000AEA188 /* UIView+YGPulseView.m in Sources */,
-				5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */,
 				5FBFBCE91F02F39E00AEA188 /* Constants.swift in Sources */,
 				5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */,
 				5FBFBCE61F02F2E700AEA188 /* UIColor+.swift in Sources */,

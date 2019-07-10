@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AHKBendableView
 import FDWaveformView
 
 protocol ScrubberViewDelegate {
@@ -162,11 +161,11 @@ extension ScrubberView {
         return slices[index].superview!.frame.origin.x
     }
     
-    func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
+    @objc func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
         print("tapped")
         let view = gestureRecognizer.view
         
-        if (gestureRecognizer.state == UIGestureRecognizerState.began) {
+        if (gestureRecognizer.state == UIGestureRecognizer.State.began) {
             self.delegate?.draggingHasBegun(index: (view?.tag)!)
         }
         
@@ -177,7 +176,7 @@ extension ScrubberView {
         let layoutConstraint:NSLayoutConstraint = self.flippers[view!.tag]
         if (gestureRecognizer.location(in: self.superview).x < (UIScreen.main.bounds.width - 10.0)) {
             layoutConstraint.constant = gestureRecognizer.location(in: self.superview).x
-            let currentTime = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
+            _ = Int(floor(Float(self.length) * Float((gestureRecognizer.location(in: self.superview).x/(UIScreen.main.bounds.width - 10.0)))))
             self.delegate?.sliceWasMovedTo(index: (view?.tag)!, distance: Int(gestureRecognizer.location(in: self.superview).x))
         }
     }
@@ -189,7 +188,7 @@ extension ScrubberView {
     
     func resetTimes() {
         for slice:UIView in self.slices {
-            let currentTime = Int(floor(Float(self.length) * Float(((slice.superview?.frame.origin.x)!/(UIScreen.main.bounds.width - 10.0)))))
+            _ = Int(floor(Float(self.length) * Float(((slice.superview?.frame.origin.x)!/(UIScreen.main.bounds.width - 10.0)))))
             self.delegate?.sliceWasMovedTo(index: (slice.tag), distance: Int((slice.superview?.frame.origin.x)!))
         }
     }
