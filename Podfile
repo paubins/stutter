@@ -12,13 +12,8 @@ target 'Stutter' do
   pod 'FDWaveformView'
   pod 'Hue'
   pod 'Cartography'
-  pod 'Overlap'
   pod "Player"
-  pod "Device", '~> 3.1.2'
-  pod 'Presentr'
-  pod 'JTFadingInfoView'
-  pod 'FCAlertView'
-  pod 'KDCircularProgress'
-  pod 'FontAwesomeKit', '~> 2.2.0'
+  pod "Device"
+  pod 'FontAwesomeKit'
 
 end

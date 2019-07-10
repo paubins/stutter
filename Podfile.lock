@@ -1,7 +1,6 @@
 PODS:
   - Cartography (4.0.0)
   - Device (3.1.2)
-  - FCAlertView (1.4.0)
   - FDWaveformView (4.0.0)
   - FontAwesomeKit (2.2.1):
     - FontAwesomeKit/Core (= 2.2.1)
@@ -25,26 +24,17 @@ PODS:
   - FontAwesomeKit/Zocial (2.2.1):
     - FontAwesomeKit/Core
   - Hue (5.0.0)
-  - JTFadingInfoView (1.0.2)
-  - KDCircularProgress (1.5.4)
-  - Overlap (0.4.0)
   - Player (0.13.1)
-  - Presentr (1.9)
   - SwiftyButton (0.8.2)
   - SwiftyCam (4.0.0)
 
 DEPENDENCIES:
   - Cartography
-  - Device (~> 3.1.2)
-  - FCAlertView
+  - Device
   - FDWaveformView
-  - FontAwesomeKit (~> 2.2.0)
+  - FontAwesomeKit
   - Hue
-  - JTFadingInfoView
-  - KDCircularProgress
-  - Overlap
   - Player
-  - Presentr
   - SwiftyButton
   - SwiftyCam
 
@@ -52,33 +42,23 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Cartography
     - Device
-    - FCAlertView
     - FDWaveformView
     - FontAwesomeKit
     - Hue
-    - JTFadingInfoView
-    - KDCircularProgress
-    - Overlap
     - Player
-    - Presentr
     - SwiftyButton
     - SwiftyCam
 
 SPEC CHECKSUMS:
   Cartography: c5626d29056b20f1e95c017326ee4df57cc39ad8
   Device: 62242076214c30fb5760174b3601cefafa70a481
-  FCAlertView: fdddd63381898c1d1a5a20c9f084fbd2c6d12f8b
   FDWaveformView: b499c71c154992cee41b543ff00916a8882e696b
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   Hue: c129cb67be7d093a82bbbc30ce8a96757bf6f37a
-  JTFadingInfoView: 9fcb410da4bf8e3ce722b04b14ee0046a8f13a65
-  KDCircularProgress: 98200c6b8e85d22bc04eb644721d3b1e12b0686b
-  Overlap: 7c0520cb9110287643e8c64a7b36463e4e16d894
   Player: 29186e0d557898b0ebdab42d2e1b47e615838156
-  Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   SwiftyButton: 5b0ef314e9cf61cf8a83e456ddd1ea1f53f30598
   SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
 
-PODFILE CHECKSUM: 9bf029722f369fa7f9667852ce1d5aae3b3d13ce
+PODFILE CHECKSUM: 02068bc3dee5687bd1b794a9f42b4b5289c8dc1c
 
 COCOAPODS: 1.7.1
