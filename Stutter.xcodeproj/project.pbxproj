@@ -52,11 +52,9 @@
 /* Begin PBXFileReference section */
 		5F00D8B81FA2CF1300865894 /* ExporterController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExporterController.h; sourceTree = "<group>"; };
 		5F00D8B91FA2CF1400865894 /* ExporterController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExporterController.m; sourceTree = "<group>"; };
-		5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SDevCircleButton.swift; path = ../../SDevCircleButton/SDevCircleButton/SDevCircleButton.swift; sourceTree = "<group>"; };
 		5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraScrubberPreviewView.swift; sourceTree = "<group>"; };
 		5F6790B11EFCB5D000524100 /* AudioExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioExporter.h; sourceTree = "<group>"; };
 		5F6790B21EFCB5D000524100 /* AudioExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioExporter.m; sourceTree = "<group>"; };
-		5F6790B41EFCC12F00524100 /* RecorderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecorderController.swift; path = ../../Beethoven/Example/GuitarTuner/GuitarTuner/Source/RecorderController.swift; sourceTree = "<group>"; };
 		5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VarelaRound-Regular.ttf"; sourceTree = "<group>"; };
 		5FAFB85D1EDDAC6E0025B1BB /* Stutter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stutter-Bridging-Header.h"; sourceTree = "<group>"; };
 		5FBFBCE51F02F2E700AEA188 /* UIColor+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 				C12E668F22D59A3E00BE1231 /* BendableView.swift */,
 				5FF10DC71F030B08001205B6 /* BAPulseView.h */,
 				5FF10DC81F030B08001205B6 /* BAPulseView.m */,
-				5F16CE7F1EFC829600486F0D /* SDevCircleButton.swift */,
 				5FE3C8491ED3E8110027348C /* PlayButtonsView.swift */,
 				5FE3C84B1ED3E8940027348C /* ScrubberView.swift */,
 				5FE3C85B1ED4DAF00027348C /* PlayerView.swift */,
@@ -240,7 +237,6 @@
 			isa = PBXGroup;
 			children = (
 				5FC245F11FA249390029BBA2 /* EditController.swift */,
-				5F6790B41EFCC12F00524100 /* RecorderController.swift */,
 				C12E668122D5982B00BE1231 /* DazFireController.h */,
 				C12E668322D5982B00BE1231 /* DazFireController.m */,
 				C12E668022D5982B00BE1231 /* DazTouchController.h */,
