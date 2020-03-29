@@ -16,4 +16,7 @@
 
 + (AVVideoComposition *)getVideoCompositionFrom:(AVMutableComposition *)mixComposition asset:(AVAsset *)videoAsset extraInstructions:(AVMutableVideoCompositionLayerInstruction *)extraInstructions;
 
+
++ (CVPixelBufferRef) rotateBuffer: (CMSampleBufferRef) sampleBuffer;
+
 @end

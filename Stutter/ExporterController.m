@@ -117,5 +117,46 @@
     return assetExport;
 }
 
++ (CVPixelBufferRef) rotateBuffer: (CMSampleBufferRef) sampleBuffer
+{
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CVPixelBufferLockBaseAddress(imageBuffer,0);
+    
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    size_t width = CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    
+    void *src_buff = CVPixelBufferGetBaseAddress(imageBuffer);
+    
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], kCVPixelBufferCGImageCompatibilityKey,
+                             [NSNumber numberWithBool:YES], kCVPixelBufferCGBitmapContextCompatibilityKey,
+                             nil];
+    
+    CVPixelBufferRef pxbuffer = NULL;
+    //CVReturn status = CVPixelBufferPoolCreatePixelBuffer (NULL, _pixelWriter.pixelBufferPool, &pxbuffer);
+    CVReturn status = CVPixelBufferCreate(kCFAllocatorDefault, width,
+                                          height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef) options,
+                                          &pxbuffer);
+    
+    NSParameterAssert(status == kCVReturnSuccess && pxbuffer != NULL);
+    
+    CVPixelBufferLockBaseAddress(pxbuffer, 0);
+    void *dest_buff = CVPixelBufferGetBaseAddress(pxbuffer);
+    NSParameterAssert(dest_buff != NULL);
+    
+    int *src = (int*) src_buff ;
+    int *dest= (int*) dest_buff ;
+    size_t count = (bytesPerRow * height) / 4 ;
+    while (count--) {
+        *dest++ = *src++;
+    }
+    
+    //Test straight copy.
+    //memcpy(pxdata, baseAddress, width * height * 4) ;
+    CVPixelBufferUnlockBaseAddress(pxbuffer, 0);
+    CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+    return pxbuffer;
+}
 
 @end

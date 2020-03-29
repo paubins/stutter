@@ -48,6 +48,10 @@
 		5FC071CE1FB7730D00893373 /* beep-shinymetal.aif in Resources */ = {isa = PBXBuildFile; fileRef = 5FC071CD1FB772ED00893373 /* beep-shinymetal.aif */; };
 		5FC071D01FB7E1B600893373 /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC071CF1FB7E1B600893373 /* UINavigationBar+.swift */; };
 		5FC071D21FB7E22C00893373 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC071D11FB7E22C00893373 /* CustomNavigationController.swift */; };
+		5FC071D41FB907DD00893373 /* CIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC071D31FB907DD00893373 /* CIImage+.swift */; };
+		5FC071D61FB90A1B00893373 /* CoreImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC071D51FB90A1B00893373 /* CoreImageView.swift */; };
+		5FC071D81FB94FB900893373 /* CVPixelBuffer+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC071D71FB94FB900893373 /* CVPixelBuffer+.swift */; };
+		5FC071DA1FB957AA00893373 /* CVPixelBuffer+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC071D91FB957AA00893373 /* CVPixelBuffer+Helpers.swift */; };
 		5FC245F21FA249390029BBA2 /* EditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC245F11FA249390029BBA2 /* EditController.swift */; };
 		5FC245FE1FA26B260029BBA2 /* AVAsset+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC245FD1FA26B260029BBA2 /* AVAsset+.swift */; };
 		5FC53FB61FA7C61C00E1C1EC /* WaveformCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC53FB51FA7C61C00E1C1EC /* WaveformCollectionViewCell.swift */; };
@@ -115,6 +119,10 @@
 		5FC071CD1FB772ED00893373 /* beep-shinymetal.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "beep-shinymetal.aif"; sourceTree = "<group>"; };
 		5FC071CF1FB7E1B600893373 /* UINavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+.swift"; sourceTree = "<group>"; };
 		5FC071D11FB7E22C00893373 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
+		5FC071D31FB907DD00893373 /* CIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CIImage+.swift"; sourceTree = "<group>"; };
+		5FC071D51FB90A1B00893373 /* CoreImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreImageView.swift; sourceTree = "<group>"; };
+		5FC071D71FB94FB900893373 /* CVPixelBuffer+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+.swift"; sourceTree = "<group>"; };
+		5FC071D91FB957AA00893373 /* CVPixelBuffer+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Helpers.swift"; sourceTree = "<group>"; };
 		5FC245F11FA249390029BBA2 /* EditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditController.swift; path = ../EditController.swift; sourceTree = "<group>"; };
 		5FC245FD1FA26B260029BBA2 /* AVAsset+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "AVAsset+.swift"; path = "../AVAsset+.swift"; sourceTree = "<group>"; };
 		5FC53FB51FA7C61C00E1C1EC /* WaveformCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -198,6 +206,9 @@
 		5FE3C8241ED3A8AB0027348C = {
 			isa = PBXGroup;
 			children = (
+				5FC071D71FB94FB900893373 /* CVPixelBuffer+.swift */,
+				5FC071D91FB957AA00893373 /* CVPixelBuffer+Helpers.swift */,
+				5FC071D51FB90A1B00893373 /* CoreImageView.swift */,
 				5FC071D11FB7E22C00893373 /* CustomNavigationController.swift */,
 				5FE3C82F1ED3A8AB0027348C /* Stutter */,
 				5FE3C82E1ED3A8AB0027348C /* Products */,
@@ -272,6 +283,7 @@
 				5F46B75B1FB62438002CDC43 /* UIButton+.swift */,
 				5F46B75D1FB63F8C002CDC43 /* UIImage+.swift */,
 				5FC071CF1FB7E1B600893373 /* UINavigationBar+.swift */,
+				5FC071D31FB907DD00893373 /* CIImage+.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -503,6 +515,8 @@
 				5F46B7601FB6567E002CDC43 /* TimerCollectionViewCell.swift in Sources */,
 				5F14D6911FB4B412008DF1E6 /* CameraViewController.swift in Sources */,
 				5FC245F21FA249390029BBA2 /* EditController.swift in Sources */,
+				5FC071DA1FB957AA00893373 /* CVPixelBuffer+Helpers.swift in Sources */,
+				5FC071D61FB90A1B00893373 /* CoreImageView.swift in Sources */,
 				5FC245FE1FA26B260029BBA2 /* AVAsset+.swift in Sources */,
 				5FA20F4A1F06B2FE006E9076 /* UIViewController+.swift in Sources */,
 				5FC071D21FB7E22C00893373 /* CustomNavigationController.swift in Sources */,
@@ -522,6 +536,7 @@
 				5F3986A61FA7C458000B3D9E /* ScrubberCollectionViewCell.swift in Sources */,
 				5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */,
 				5FC53FB81FA7C70E00E1C1EC /* ThumbnailCollectionViewCell.swift in Sources */,
+				5FC071D41FB907DD00893373 /* CIImage+.swift in Sources */,
 				5F99C0E11FB29592004D24BD /* LinearProgressView.swift in Sources */,
 				5F46B75E1FB63F8C002CDC43 /* UIImage+.swift in Sources */,
 				5F142CF41FA977DE00A9A662 /* WireLayer.swift in Sources */,
@@ -534,6 +549,7 @@
 				5F46B75A1FB62179002CDC43 /* UIBarButtonItem+.swift in Sources */,
 				5FBFBCE61F02F2E700AEA188 /* UIColor+.swift in Sources */,
 				5F067AAC1FB260AA00BF99FE /* PreviewViewController.swift in Sources */,
+				5FC071D81FB94FB900893373 /* CVPixelBuffer+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
