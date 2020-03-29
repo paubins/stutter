@@ -350,6 +350,8 @@
 				5FE3C82A1ED3A8AB0027348C /* Frameworks */,
 				5FE3C82B1ED3A8AB0027348C /* Resources */,
 				3CDB2D57F3FB8C91C2F38BFF /* [CP] Embed Pods Frameworks */,
+				F2B5703EC2B47AD1EA7D3A63 /* [CP] Copy Pods Resources */,
+				5F2F9C9B1FBE5074006A5C14 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -486,6 +488,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Stutter/Pods-Stutter-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		5F2F9C9B1FBE5074006A5C14 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 73cc3f18e2d9e92dd6e8d0333ed9139f94b28f7b 92249bff823b6e77f03ba6ca66ef011f96af74be0e8e24f9cf4bbddf467dd039";
 		};
 		A6C4E14E51E4406097B7853D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

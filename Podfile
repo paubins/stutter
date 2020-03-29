@@ -43,4 +43,7 @@ target 'Stutter' do
   pod 'RZTransitions'
   pod 'Chirp', git: 'https://github.com/andreamazz/Chirp'
 
+  pod 'Fabric'
+  pod 'Crashlytics'
+
 end

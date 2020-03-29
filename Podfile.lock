@@ -1,9 +1,12 @@
 PODS:
   - Cartography (1.1.0)
   - Chirp (1.1.1)
+  - Crashlytics (3.8.6):
+    - Fabric (~> 1.6.3)
   - Device (3.0.1)
   - Doorbell (0.0.8)
   - Emoji-swift (0.1.0)
+  - Fabric (1.6.13)
   - FCAlertView (1.4.0)
   - FDWaveformView (5.0.1)
   - FontAwesomeKit (2.2.1):
@@ -46,9 +49,11 @@ PODS:
 DEPENDENCIES:
   - Cartography
   - Chirp (from `https://github.com/andreamazz/Chirp`)
+  - Crashlytics
   - Device (~> 3.0.1)
   - Doorbell
   - Emoji-swift
+  - Fabric
   - FCAlertView
   - FDWaveformView
   - FontAwesomeKit (~> 2.2.0)
@@ -109,9 +114,11 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Cartography: 0538ccb4044acbbda2266335fc58cb4228794d90
   Chirp: e06920df90dd33b3e74c988c58f621a8a1e41e7d
+  Crashlytics: 95d05f4e4c19a771250c4bd9ce344d996de32bbf
   Device: c793851589633bc515b65e08a2b5a223bc87c45a
   Doorbell: 525f5e527d8a65959cb939d2083e7d78e32a1ab2
   Emoji-swift: 20010383183f4d85e6e5a2b9642b96ebdb4f06ae
+  Fabric: 2fb5676bc811af011a04513451f463dac6803206
   FCAlertView: fdddd63381898c1d1a5a20c9f084fbd2c6d12f8b
   FDWaveformView: c188be613947273cc83d6f0056505f60e6c4b9ac
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
@@ -129,6 +136,6 @@ SPEC CHECKSUMS:
   SwiftyStoreKit: 8c193678fabbaafb4430a536497613f89fefd7ec
   SwiftyTimer: 2efd74b060d69ad4f1496baf5bbedbe132125fcf
 
-PODFILE CHECKSUM: 0ec3d28c11847cd5621f5efd86053369399da102
+PODFILE CHECKSUM: ed6700db97552f424b7e291a6bdcae530315ed84
 
 COCOAPODS: 1.8.4
