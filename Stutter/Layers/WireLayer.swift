@@ -44,17 +44,28 @@ class WireLayer : CALayer {
         ctx.setStrokeColor(self.color.cgColor)
         ctx.setLineWidth(3.0)
         
-        ctx.setShadow(offset: CGSize(width: 2, height: 2), blur: 5)
-        ctx.addEllipse(in: CGRect(x:self.currentPoint.x,
-                                  y: self.currentPoint.y,
-                                  width: Constant.primaryControlDiameter,
-                                  height: Constant.primaryControlDiameter))
+        ctx.drawRadialGradient(CGGradient(colorsSpace: ctx.colorSpace,
+                                          colors: [self.color.cgColor, self.color.darkerColorForColor().cgColor] as CFArray,
+                                          locations: [0.0,1.0])!,
+                               startCenter: CGPoint(x: self.currentPoint.x + Constant.primaryControlDiameter/2,
+                                                    y: self.currentPoint.y + Constant.primaryControlDiameter/2),
+                               startRadius: 0,
+                               endCenter: CGPoint(x: self.currentPoint.x + Constant.primaryControlDiameter/2,
+                                                  y: self.currentPoint.y + Constant.primaryControlDiameter/2),
+                               endRadius: Constant.primaryControlDiameter/2,
+                               options: [])
         
+        ctx.setShadow(offset: CGSize(width: 2, height: 2), blur: 5)
+//        ctx.addEllipse(in: CGRect(x:self.currentPoint.x,
+//                                  y: self.currentPoint.y,
+//                                  width: Constant.primaryControlDiameter,
+//                                  height: Constant.primaryControlDiameter))
+//
         ctx.setFillColor(self.color.cgColor)
-        ctx.fillEllipse(in: CGRect(x:self.currentPoint.x,
-                                   y: self.currentPoint.y,
-                                   width: Constant.primaryControlDiameter,
-                                   height: Constant.primaryControlDiameter))
+//        ctx.fillEllipse(in: CGRect(x:self.currentPoint.x,
+//                                   y: self.currentPoint.y,
+//                                   width: Constant.primaryControlDiameter,
+//                                   height: Constant.primaryControlDiameter))
         
         ctx.setShadow(offset: CGSize(width: 0, height: 0), blur: 0)
         

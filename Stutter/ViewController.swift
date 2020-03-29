@@ -28,6 +28,10 @@ import Hue
 
 class ViewController: UIViewController {
     var stutterState:StutterState = .prearmed
+    lazy var zoomLevelView:ZoomLevelView = {
+        let zoomLevelView:ZoomLevelView = ZoomLevelView(frame: .zero)
+        return zoomLevelView
+    }()
     
     var exportAlert:FCAlertView!
     
@@ -94,27 +98,27 @@ class ViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        let appleValidator = AppleReceiptValidator(service: .production)
-        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-            switch result {
-            case .success(let receipt):
-                // Verify the purchase of Consumable or NonConsumable
-                let purchaseResult = SwiftyStoreKit.verifyPurchase(
-                    productId: "com.musevisions.SwiftyStoreKit.Purchase1",
-                    inReceipt: receipt)
-                
-                switch purchaseResult {
-                case .purchased(let receiptItem):
-                    print("Product is purchased: \(receiptItem)")
-                    self.downloadQueueViewController.timerLabel.addTimeCounted(byTime: 15)
-                    
-                case .notPurchased:
-                    print("The user has never purchased this product")
-                }
-            case .error(let error):
-                print("Receipt verification failed: \(error)")
-            }
-        }
+//        let appleValidator = AppleReceiptValidator(service: .production)
+//        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+//            switch result {
+//            case .success(let receipt):
+//                // Verify the purchase of Consumable or NonConsumable
+//                let purchaseResult = SwiftyStoreKit.verifyPurchase(
+//                    productId: "com.musevisions.SwiftyStoreKit.Purchase1",
+//                    inReceipt: receipt)
+//
+//                switch purchaseResult {
+//                case .purchased(let receiptItem):
+//                    print("Product is purchased: \(receiptItem)")
+//                    self.downloadQueueViewController.timerLabel.addTimeCounted(byTime: 15)
+//
+//                case .notPurchased:
+//                    print("The user has never purchased this product")
+//                }
+//            case .error(let error):
+//                print("Receipt verification failed: \(error)")
+//            }
+//        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -136,7 +140,7 @@ class ViewController: UIViewController {
         
         self.view.addSubview(self.backgroundShiftView)
         self.view.addSubview(self.playerViewController.view)
-
+        self.view.addSubview(self.zoomLevelView)
         self.view.addSubview(self.mainControlViewController.view)
         self.view.addSubview(self.buttonViewController.view)
         self.view.addSubview(self.downloadQueueViewController.view)
@@ -183,14 +187,21 @@ class ViewController: UIViewController {
             view.width == 50
         }
         
-        self.backgroundShiftView.animationDuration(3.0)
-        self.backgroundShiftView.startTimedAnimation()
+        constrain(self.buttonViewController.view, self.zoomLevelView) { (view1, view2) in
+            view1.bottom == view2.top
+            view2.left == view2.superview!.left
+            view2.height == 200
+            view2.width == 90
+        }
+        
+        self.backgroundShiftView.animationDuration(20.0)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.scrubberPreviewViewController.view.isHidden = true
+        self.backgroundShiftView.startTimedAnimation()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -353,16 +364,18 @@ extension ViewController : MainCollectionViewControllerDelegate {
             
             break
         case .exporting:
-            self.exportAlert = FCAlertView()
-            exportAlert.makeAlertTypeWarning()
-            exportAlert.showAlert(inView: self,
-                            withTitle: "Currently exporting!",
-                            withSubtitle: "lil stutter is saving your video!",
-                            withCustomImage: nil,
-                            withDoneButtonTitle: "👌",
-                            andButtons: nil)
-            
-            exportAlert.colorScheme = UIColor(hex: "#8C9AFF")
+            if (self.exportAlert == nil) {
+                self.exportAlert = FCAlertView()
+                exportAlert.makeAlertTypeWarning()
+                exportAlert.showAlert(inView: self,
+                                      withTitle: "Currently exporting!",
+                                      withSubtitle: "lil stutter is saving your video!",
+                                      withCustomImage: nil,
+                                      withDoneButtonTitle: "👌",
+                                      andButtons: nil)
+                
+                exportAlert.colorScheme = UIColor(hex: "#8C9AFF")
+            }
             return
         default:
             break

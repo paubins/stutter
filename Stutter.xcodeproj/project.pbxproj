@@ -20,6 +20,8 @@
 		5F16CF381EFC9FB800486F0D /* DazFire.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF311EFC9FB800486F0D /* DazFire.png */; };
 		5F16CF391EFC9FB800486F0D /* DazFlake.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF321EFC9FB800486F0D /* DazFlake.png */; };
 		5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CF3C1EFCA26200486F0D /* DazFireController.m */; };
+		5F17A5501FB0C50E007B88E3 /* ZoomLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F17A54F1FB0C50E007B88E3 /* ZoomLevelView.swift */; };
+		5F17A5521FB0C633007B88E3 /* ZoomLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F17A5511FB0C633007B88E3 /* ZoomLayer.swift */; };
 		5F207B531FAD2CB300BF0F03 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F207B521FAD2CB300BF0F03 /* UIScreen+.swift */; };
 		5F3986991FA429A2000B3D9E /* DownloadQueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3986981FA429A2000B3D9E /* DownloadQueueViewController.swift */; };
 		5F39869B1FA7B873000B3D9E /* MainCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F39869A1FA7B873000B3D9E /* MainCollectionViewController.swift */; };
@@ -68,6 +70,8 @@
 		5F16CF321EFC9FB800486F0D /* DazFlake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFlake.png; path = ../../Dazzle/Dazzle/DazFlake.png; sourceTree = "<group>"; };
 		5F16CF3B1EFCA26200486F0D /* DazFireController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazFireController.h; path = ../../Dazzle/Dazzle/DazFireController.h; sourceTree = "<group>"; };
 		5F16CF3C1EFCA26200486F0D /* DazFireController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazFireController.m; path = ../../Dazzle/Dazzle/DazFireController.m; sourceTree = "<group>"; };
+		5F17A54F1FB0C50E007B88E3 /* ZoomLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ZoomLevelView.swift; path = ../ZoomLevelView.swift; sourceTree = "<group>"; };
+		5F17A5511FB0C633007B88E3 /* ZoomLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomLayer.swift; sourceTree = "<group>"; };
 		5F207B521FAD2CB300BF0F03 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
 		5F3986981FA429A2000B3D9E /* DownloadQueueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DownloadQueueViewController.swift; path = ../DownloadQueueViewController.swift; sourceTree = "<group>"; };
 		5F39869A1FA7B873000B3D9E /* MainCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainCollectionViewController.swift; path = ../MainCollectionViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 		5F60A93D1FA992BC008EEB77 /* Layers */ = {
 			isa = PBXGroup;
 			children = (
+				5F17A5511FB0C633007B88E3 /* ZoomLayer.swift */,
 				5F142CF21FA977DB00A9A662 /* WireLayer.swift */,
 			);
 			path = Layers;
@@ -205,6 +210,7 @@
 		5FE3C8421ED3DE680027348C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5F17A54F1FB0C50E007B88E3 /* ZoomLevelView.swift */,
 				5F142CF31FA977DC00A9A662 /* ShapeView.swift */,
 			);
 			name = Views;
@@ -318,7 +324,7 @@
 				TargetAttributes = {
 					5FE3C82C1ED3A8AB0027348C = {
 						CreatedOnToolsVersion = 8.3.1;
-						DevelopmentTeam = 3XSPEUHQ6Y;
+						DevelopmentTeam = 42N9D6EK46;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -466,6 +472,7 @@
 				5F142CB11FA7EEB000A9A662 /* MainCollectionViewLayout.swift in Sources */,
 				5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */,
 				5F39869B1FA7B873000B3D9E /* MainCollectionViewController.swift in Sources */,
+				5F17A5521FB0C633007B88E3 /* ZoomLayer.swift in Sources */,
 				5F3986A61FA7C458000B3D9E /* ScrubberCollectionViewCell.swift in Sources */,
 				5FE3C8521ED40CBD0027348C /* UIView+.swift in Sources */,
 				5F3986991FA429A2000B3D9E /* DownloadQueueViewController.swift in Sources */,
@@ -475,7 +482,7 @@
 				5FC53FB61FA7C61C00E1C1EC /* WaveformCollectionViewCell.swift in Sources */,
 				5FBFBCE91F02F39E00AEA188 /* Constants.swift in Sources */,
 				5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */,
-				C1A77BEA24311671000B1328 /* DazTouchController.m in Sources */,
+				5F17A5501FB0C50E007B88E3 /* ZoomLevelView.swift in Sources */,
 				5FBFBCE61F02F2E700AEA188 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -613,7 +620,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 3XSPEUHQ6Y;
+				DEVELOPMENT_TEAM = 42N9D6EK46;
 				INFOPLIST_FILE = Stutter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.lilstutter;
@@ -631,7 +638,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 3XSPEUHQ6Y;
+				DEVELOPMENT_TEAM = 42N9D6EK46;
 				INFOPLIST_FILE = Stutter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.paubins.lilstutter;

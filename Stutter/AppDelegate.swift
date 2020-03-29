@@ -24,17 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = self.viewController
         self.window?.makeKeyAndVisible()
         
-        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
-            for purchase in purchases {
-                if purchase.transaction.transactionState == .purchased || purchase.transaction.transactionState == .restored {
-                    if purchase.needsFinishTransaction {
-                        // Deliver content from server, then:
-                        SwiftyStoreKit.finishTransaction(purchase.transaction)
-                    }
-                    print("purchased: \(purchase)")
-                }
-            }
-        }
+//        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+//            for purchase in purchases {
+//                if purchase.transaction.transactionState == .purchased || purchase.transaction.transactionState == .restored {
+//                    if purchase.needsFinishTransaction {
+//                        // Deliver content from server, then:
+//                        SwiftyStoreKit.finishTransaction(purchase.transaction)
+//                    }
+//                    print("purchased: \(purchase)")
+//                }
+//            }
+//        }
         
         return true
     }
