@@ -9,3 +9,8 @@
 #import "AudioExporter.h"
 
 #import "ExporterController.h"
+#import "FeedbackController.h"
+
+// never been able to make this work
+//#import <Stutter/Stutter-Swift.h>
+

@@ -39,5 +39,8 @@ target 'Stutter' do
   pod 'LxThroughPointsBezier', '~> 1.0.0'
   pod 'HTPressableButton'
   pod 'Emoji-swift'
+  pod 'Doorbell'
+  pod 'RZTransitions'
+  pod 'Chirp', git: 'https://github.com/andreamazz/Chirp'
 
 end

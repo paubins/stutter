@@ -1,6 +1,8 @@
 PODS:
   - Cartography (1.1.0)
+  - Chirp (1.1.1)
   - Device (3.0.1)
+  - Doorbell (0.0.8)
   - Emoji-swift (0.1.0)
   - FCAlertView (1.4.0)
   - FDWaveformView (5.0.1)
@@ -34,6 +36,7 @@ PODS:
   - LxThroughPointsBezier (1.0.0)
   - MZTimerLabel (0.5.4)
   - Player (0.5.1)
+  - RZTransitions (1.2.1)
   - Shift (0.2.0)
   - SwiftyButton (0.6.0)
   - SwiftyCam (2.3.0)
@@ -42,7 +45,9 @@ PODS:
 
 DEPENDENCIES:
   - Cartography
+  - Chirp (from `https://github.com/andreamazz/Chirp`)
   - Device (~> 3.0.1)
+  - Doorbell
   - Emoji-swift
   - FCAlertView
   - FDWaveformView
@@ -54,6 +59,7 @@ DEPENDENCIES:
   - LxThroughPointsBezier (~> 1.0.0)
   - MZTimerLabel
   - Player
+  - RZTransitions
   - Shift
   - SwiftyButton
   - SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `2.4.0`)
@@ -81,6 +87,8 @@ SPEC REPOS:
     - VIMVideoPlayer
 
 EXTERNAL SOURCES:
+  Chirp:
+    :git: https://github.com/andreamazz/Chirp
   SwiftyCam:
     :branch: 4.0.0
     :git: "git@github.com:Awalz/SwiftyCam.git"
@@ -88,6 +96,9 @@ EXTERNAL SOURCES:
     :git: "git@github.com:paubins/Periscope-VideoViewController.git"
 
 CHECKOUT OPTIONS:
+  Chirp:
+    :commit: cc34548a179bf3eabb514e74717bc2122eddfb12
+    :git: https://github.com/andreamazz/Chirp
   SwiftyCam:
     :commit: c3dab301b395a267f78e894924bd39257ee5979b
     :git: "git@github.com:Awalz/SwiftyCam.git"
@@ -97,7 +108,9 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Cartography: 0538ccb4044acbbda2266335fc58cb4228794d90
+  Chirp: e06920df90dd33b3e74c988c58f621a8a1e41e7d
   Device: c793851589633bc515b65e08a2b5a223bc87c45a
+  Doorbell: 525f5e527d8a65959cb939d2083e7d78e32a1ab2
   Emoji-swift: 20010383183f4d85e6e5a2b9642b96ebdb4f06ae
   FCAlertView: fdddd63381898c1d1a5a20c9f084fbd2c6d12f8b
   FDWaveformView: c188be613947273cc83d6f0056505f60e6c4b9ac
@@ -109,12 +122,13 @@ SPEC CHECKSUMS:
   LxThroughPointsBezier: fdebe18dd4ddab9406d9827db77a078b4738b00f
   MZTimerLabel: cd9bfb9304540ef2a9e163384fca9c978f0dbf83
   Player: 7bd61af457e558edf938066b03760f035a520837
+  RZTransitions: 0e0013fda6989ee84dc5e44dca79fd539e1a975a
   Shift: 489e20a2a95c4ca3ee80fab152cd80a5369c5110
   SwiftyButton: 4c9b61c499f172971a1b8c2eebbbdc20a26d8a08
   SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
   SwiftyStoreKit: 8c193678fabbaafb4430a536497613f89fefd7ec
   SwiftyTimer: 2efd74b060d69ad4f1496baf5bbedbe132125fcf
 
-PODFILE CHECKSUM: e0d302cdc55c22c13642cb34445b32d60af3e839
+PODFILE CHECKSUM: 0ec3d28c11847cd5621f5efd86053369399da102
 
 COCOAPODS: 1.8.4

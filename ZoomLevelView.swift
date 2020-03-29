@@ -12,7 +12,7 @@ class ZoomLevelView : UIView {
     
     var offset:CGFloat {
         get {
-            return UIScreen.main.bounds.height - (Constant.controlSurfaceHeight + Constant.mainControlHeight)
+            return -20
         }
     }
     
@@ -37,7 +37,7 @@ class ZoomLevelView : UIView {
         textLayer.backgroundColor = UIColor.clear.cgColor
         textLayer.rasterizationScale = UIScreen.main.scale
         textLayer.contentsScale = UIScreen.main.scale
-        textLayer.foregroundColor = UIColor.black.cgColor
+        textLayer.foregroundColor = UIColor.white.cgColor
         return textLayer
     }()
     
@@ -51,7 +51,7 @@ class ZoomLevelView : UIView {
         textLayer.backgroundColor = UIColor.clear.cgColor
         textLayer.rasterizationScale = UIScreen.main.scale
         textLayer.contentsScale = UIScreen.main.scale
-        textLayer.foregroundColor = UIColor.black.cgColor
+        textLayer.foregroundColor = UIColor.white.cgColor
         return textLayer
     }()
     
@@ -65,7 +65,7 @@ class ZoomLevelView : UIView {
         textLayer.backgroundColor = UIColor.clear.cgColor
         textLayer.rasterizationScale = UIScreen.main.scale
         textLayer.contentsScale = UIScreen.main.scale
-        textLayer.foregroundColor = UIColor.black.cgColor
+        textLayer.foregroundColor = UIColor.white.cgColor
         return textLayer
     }()
     
@@ -79,7 +79,7 @@ class ZoomLevelView : UIView {
         textLayer.backgroundColor = UIColor.clear.cgColor
         textLayer.rasterizationScale = UIScreen.main.scale
         textLayer.contentsScale = UIScreen.main.scale
-        textLayer.foregroundColor = UIColor.black.cgColor
+        textLayer.foregroundColor = UIColor.white.cgColor
         return textLayer
     }()
     
@@ -93,7 +93,7 @@ class ZoomLevelView : UIView {
         textLayer.backgroundColor = UIColor.clear.cgColor
         textLayer.rasterizationScale = UIScreen.main.scale
         textLayer.contentsScale = UIScreen.main.scale
-        textLayer.foregroundColor = UIColor.black.cgColor
+        textLayer.foregroundColor = UIColor.white.cgColor
         return textLayer
     }()
     
@@ -106,8 +106,8 @@ class ZoomLevelView : UIView {
         self.layer.addSublayer(self.textLayer)
         self.layer.addSublayer(self.textLayer2)
         self.layer.addSublayer(self.textLayer3)
-        self.layer.addSublayer(self.textLayer4)
-        self.layer.addSublayer(self.textLayer5)
+//        self.layer.addSublayer(self.textLayer4)
+//        self.layer.addSublayer(self.textLayer5)
     }
     
     override func layoutSubviews() {
@@ -117,8 +117,8 @@ class ZoomLevelView : UIView {
         self.textLayer.setNeedsDisplay()
         self.textLayer2.setNeedsDisplay()
         self.textLayer3.setNeedsDisplay()
-        self.textLayer4.setNeedsDisplay()
-        self.textLayer5.setNeedsDisplay()
+//        self.textLayer4.setNeedsDisplay()
+//        self.textLayer5.setNeedsDisplay()
         
         self.backgroundColor = .clear
     }

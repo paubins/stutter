@@ -10,25 +10,31 @@
 
 @implementation AudioExporter
 
-+ (NSString *)getAudioFromVideo:(AVAsset *)asset composition:(AVMutableComposition *)composition handler:(void (^)(AVAssetExportSession*))handler {
-    NSString *audioPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"audio.caf"];
-    
-    
-//    let compatiblePresets = AVAssetExportSession.exportPresets(compatibleWith: composition)
-//    var preset: String = AVAssetExportPresetPassthrough
-//    if compatiblePresets.contains(AVAssetExportPreset1920x1080) { preset = AVAssetExportPreset1920x1080 }
+NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-    AVAssetTrack *videoAsset3Track = [[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
++ (NSString *) randomStringWithLength: (int) len {
+    
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
+    
+    for (int i=0; i<len; i++) {
+        [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform([letters length])]];
+    }
+    
+    return randomString;
+}
+
++ (NSURL *)getAudioFromVideo:(AVAsset *)asset audioURL:(NSURL *)audioURL handler:(void (^)(AVAssetExportSession*))handler {
+    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:asset presetName:AVAssetExportPresetPassthrough];
+    
+    AVAssetTrack *videoAsset3Track = [[asset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
     CMTime duration = videoAsset3Track.timeRange.duration;
     
-    AVAssetExportSession *exportSession = [AVAssetExportSession exportSessionWithAsset:composition presetName:AVAssetExportPresetPassthrough];
-    
-    exportSession.outputURL = [NSURL fileURLWithPath:audioPath];
-    exportSession.outputFileType = AVFileTypeCoreAudioFormat;
     exportSession.timeRange = CMTimeRangeMake(kCMTimeZero, duration);
+    exportSession.outputURL = audioURL;
+    exportSession.outputFileType = AVFileTypeCoreAudioFormat;
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:audioPath]) {
-        [[NSFileManager defaultManager] removeItemAtPath:audioPath error:nil];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[audioURL path]]) {
+        [[NSFileManager defaultManager] removeItemAtPath:[audioURL path] error:nil];
     }
     
     [exportSession exportAsynchronouslyWithCompletionHandler:^{
@@ -45,16 +51,22 @@
                 
             case AVAssetExportSessionStatusCompleted:
                 NSLog(@"Export finished");
-                handler(exportSession);
-                NSLog(@"AudioLocation : %@", audioPath);
+
+                
+                NSLog(@"AudioLocation : %@", audioURL.path);
                 break;
                 
             default:
                 break;
+                
         }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            handler(exportSession);
+        });
     }];
     
-    return audioPath;
+    return audioURL;
 }
 
 @end

@@ -20,7 +20,7 @@ class ThumbnailCollectionViewCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .black
+        self.backgroundColor = Constant.COLORS[0]
         
         self.clipsToBounds = true
         self.addSubview(self.thumbnailImageView)

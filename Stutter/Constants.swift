@@ -16,6 +16,7 @@ struct Constant {
     static let NUMBER_OF_FRAME = 10
     static let wavesColor:UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
     static let scrubberViewHeight:CGFloat = 50
+    static let COLOR_SCHEME = [UIColor(rgbColorCodeRed: 170, green: 255, blue: 3, alpha: 1.0)]
     static let COLORS = [UIColor(rgbColorCodeRed: 170, green: 255, blue: 3, alpha: 1.0),
                                      UIColor(rgbColorCodeRed: 255, green: 170, blue: 3, alpha: 1.0),
                                      UIColor(rgbColorCodeRed: 255, green: 0, blue: 170, alpha: 1.0),
@@ -49,8 +50,8 @@ struct Constant {
     static let mainControllCutoffMax:CGFloat = 5.0
     
     static let tertiaryControlCenterOffset:CGFloat = 150.0
-    static let waveformCenterPointOffset:CGFloat = 150.0
-    static let thumbnailsCenterPointOffset:CGFloat = 100.0
+    static let waveformCenterPointOffset:CGFloat = 160.0
+    static let thumbnailsCenterPointOffset:CGFloat = 110.0
     
     static let controlSurfaceHeight:CGFloat = 200.0
     

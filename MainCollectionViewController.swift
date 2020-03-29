@@ -11,6 +11,7 @@ import Cartography
 import Player
 import Device
 import FDWaveformView
+import Shift
 
 enum SliderSections : Int {
     case slices = 0
@@ -23,19 +24,7 @@ enum SliderSections : Int {
     }
 }
 
-protocol MainCollectionViewControllerDelegate {
-    func playButtonWasTapped(index: Int, timelinePercentageX: CGFloat, percentageX: CGFloat, percentageY: CGFloat)
-    func scrubbingHasBegun(at point:CGPoint)
-    func scrubbingHasMoved(index: Int, percentageX: CGFloat, percentageY: CGFloat, to point:CGPoint)
-    func scrubbingHasEnded(at point:CGPoint)
-    func tapped()
-    func timelineScrubbingHasBegun(point: CGPoint)
-    func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint)
-    func timelineScrubbingHasEnded(point: CGPoint)
-}
-
 class MainCollectionViewController : UICollectionViewController {
-    
     var thumbnails:[UIImage] = []
     var audioURL:URL! {
         didSet {
@@ -43,40 +32,156 @@ class MainCollectionViewController : UICollectionViewController {
         }
     }
     
-    var asset:AVAsset!
     var size:CGSize!
     var currentTimer:Timer!
 
-    var delegate:MainCollectionViewControllerDelegate!
     let dazzleController:DazTouchController = DazTouchController()
+    
+    var backgroundShiftView:ShiftView = {
+        let v = ShiftView()
+        
+        // set colors
+        v.setColors(Constant.DARKER_COLORS)
+        
+        return v
+    }()
+    
+    var stutterState:StutterState = .prearmed
+    
+    lazy var backBarButtonItem:UIBarButtonItem = {
+        let button:UIButton = UIButton.backButton()
+        button.addTarget(self, action: #selector(self.back), for: .touchUpInside)
+        return UIBarButtonItem(customView: button)
+    }()
+    
+    lazy var nextBarButtonItem:UIBarButtonItem = {
+        let button:UIButton = UIButton.nextButton()
+        button.addTarget(self, action: #selector(self.exportButtonTapped), for: .touchUpInside)
+        return UIBarButtonItem(customView: button)
+    }()
+    
+    lazy var previewContainerView:UIView = {
+        let previewContainerView:UIView = UIView(frame: .zero)
+        previewContainerView.clipsToBounds = true
+        previewContainerView.layer.cornerRadius = 5
+        previewContainerView.layer.borderColor = Constant.COLORS[0].cgColor
+        previewContainerView.layer.borderWidth = 2
+        
+        previewContainerView.addSubview(self.scrubberPreviewViewController.view)
+        
+        constrain(self.scrubberPreviewViewController.view) { (view) in
+            view.height == 100
+            view.width == 100
+            
+            view.centerX == view.superview!.centerX
+            view.centerY == view.superview!.centerY
+        }
+        
+        return previewContainerView
+    }()
+    
+    lazy var waveformCell:WaveformCollectionViewCell = {
+        let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.waveform.rawValue)
+        let waveformCell:WaveformCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! WaveformCollectionViewCell
+        return waveformCell
+    }()
+    
+    lazy var scrubberCell:ScrubberCollectionViewCell = {
+        let scrubberIndexPath:IndexPath = IndexPath(row: 0, section: SliderSections.slices.rawValue)
+        let scrubberCell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: scrubberIndexPath) as! ScrubberCollectionViewCell
+        return scrubberCell
+    }()
 
-    override init(collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(collectionViewLayout: layout)
+    lazy var scrubberPreviewViewController:Player = {
+        let scrubberPreviewViewController:Player = Player()
+        scrubberPreviewViewController.view.backgroundColor = .clear
+        scrubberPreviewViewController.playbackResumesWhenEnteringForeground = false
+        scrubberPreviewViewController.view.isHidden = false
+        return scrubberPreviewViewController
+    }()
+    
+    lazy var playerViewController:Player = {
+        let player:Player = Player()
         
-        self.collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        player.playbackDelegate = self
+        player.view.frame = self.view.bounds
+        player.fillMode = AVLayerVideoGravityResizeAspect
+        player.playbackLoops = false
+        player.view.backgroundColor = .clear
+        player.playbackResumesWhenEnteringForeground = false
+        player.playbackFreezesAtEnd = true
         
-        self.automaticallyAdjustsScrollViewInsets = false
-        self.edgesForExtendedLayout = []
-        self.extendedLayoutIncludesOpaqueBars = true
+        player.view.isUserInteractionEnabled = true
         
+        let tapGestureRecognizer:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playerViewtapped))
+        player.view.addGestureRecognizer(tapGestureRecognizer)
+        
+        return player
+    }()
+    
+    init(url: URL) {
+        super.init(collectionViewLayout: MainCollectionViewLayout())
+
         self.view.backgroundColor = .clear
-
+        
         self.collectionView?.register(PlayButtonCollectionViewControllerCell.self, forCellWithReuseIdentifier: "PlayButtonCollectionViewControllerCell")
         self.collectionView?.register(ScrubberCollectionViewCell.self, forCellWithReuseIdentifier: "ScrubberCollectionViewCell")
         self.collectionView?.register(WaveformCollectionViewCell.self, forCellWithReuseIdentifier: "WaveformCollectionViewCell")
         self.collectionView?.register(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: "ThumbnailCollectionViewCell")
         self.collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
+        
+        EditController.shared.load(url: url)
+        
+        EditController.shared.asset.getThumbnails(size: AVMakeRect(aspectRatio: EditController.shared.asset.getSize(), insideRect: CGRect(x: 0, y: 0, width: 100, height: 50)).size, completionHandler: { (images) in
+            DispatchQueue.main.async {
+                self.loadThumbnails(images: images)
+            }
+        })
+        
+        self.stutterState = .prearmed
+        self.previewContainerView.isHidden = true
+        self.audioURL = url
+        
+        self.playerViewController.url = url
+        self.scrubberPreviewViewController.url = url
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+ 
+        self.addChildViewController(self.playerViewController)
         self.addChildViewController(self.dazzleController)
-        
+
+        self.view.addSubview(self.previewContainerView)
         self.view.insertSubview(self.dazzleController.view, belowSubview: self.collectionView!)
+        self.view.insertSubview(self.playerViewController.view, belowSubview: self.dazzleController.view)
+        self.view.insertSubview(self.backgroundShiftView, belowSubview: self.playerViewController.view)
         
         constrain(self.dazzleController.view) { (view) in
             view.top == view.superview!.top
+            view.left == view.superview!.left
+            view.right == view.superview!.right
+            view.bottom == view.superview!.bottom
+        }
+        
+        constrain(self.backgroundShiftView) { (view) in
+            view.top == view.superview!.top
+            view.left == view.superview!.left
+            view.right == view.superview!.right
+            view.bottom == view.superview!.bottom
+        }
+        
+        constrain(self.playerViewController.view) { (view) in
+            view.top == view.superview!.top
+            view.left == view.superview!.left
+            view.right == view.superview!.right
+            view.bottom == view.superview!.bottom
+        }
+        
+        self.backgroundShiftView.animationDuration(20.0)
+        
+        constrain(self.collectionView!) { (view) in
+            view.height == Constant.mainControlHeight
             view.left == view.superview!.left
             view.right == view.superview!.right
             view.bottom == view.superview!.bottom
@@ -87,14 +192,25 @@ class MainCollectionViewController : UICollectionViewController {
         self.collectionView?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureMethod)))
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChange), name:NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
+        self.navigationItem.leftBarButtonItem = self.backBarButtonItem
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.backgroundShiftView.startTimedAnimation()
+        self.previewContainerView.isHidden = true
+        
+        self.stutterState = .prearmed
+    }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        guard let asset = self.asset else {
+        guard let asset = EditController.shared.asset else {
             return
         }
         
@@ -103,7 +219,7 @@ class MainCollectionViewController : UICollectionViewController {
         let newSize:CGSize = AVMakeRect(aspectRatio: size, insideRect: CGRect(x: 0, y: 0, width: 100, height: 50)).size
         
         asset.getThumbnails(size: newSize, completionHandler: { (images) in
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 self.loadThumbnails(images: images)
                 self.collectionView?.collectionViewLayout.invalidateLayout()
             }
@@ -190,13 +306,6 @@ class MainCollectionViewController : UICollectionViewController {
     func orientationChange(notification: Notification) {
         
     }
-    
-    func load(duration: CMTime, audioURL: URL, size: CGSize) {
-        DispatchQueue.main.sync {
-            self.audioURL = audioURL
-            self.size = size
-        }
-    }
 
     func assetTimeChanged(player: Player) {
         self.updateSamples(distance: CGFloat(Double(player.currentTime) / Double(player.maximumDuration)))
@@ -281,6 +390,42 @@ class MainCollectionViewController : UICollectionViewController {
         
         return cell.getPercentageY(index: index)
     }
+    
+    func playerViewtapped(gestureRecognizer: UITapGestureRecognizer) {
+//        self.timerLabel.pause()
+        
+        if (gestureRecognizer.location(in: self.view).x < UIScreen.main.bounds.width/4) {
+            self.playerViewController.playFromBeginning()
+        } else if self.playerViewController.playbackState == .playing {
+            self.playerViewController.stop()
+        } else {
+            self.playerViewController.playFromCurrentTime()
+        }
+    }
+    
+    
+    func setNavBarToTheView() {
+        self.nextBarButtonItem.isEnabled = true
+        self.nextBarButtonItem.tintColor = nil
+    }
+    
+    func exportButtonTapped() {
+        guard self.stutterState == .recording || self.stutterState == .paused else {
+            return
+        }
+        
+//        self.timerLabel.pause()
+        EditController.shared.closeEdit()
+        self.playerViewController.stop()
+        self.stutterState = .exporting
+        
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationController?.pushViewController(PreviewViewController(), animated: true)
+    }
+    
+    func back(barButtonItem: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
@@ -312,9 +457,9 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.bounds.size.width, height: Constant.mainControlHeight)
         case .waveform:
             if UIScreen.isPhoneX {
-                return CGSize(width: (collectionView.bounds.size.width - 40), height: CGFloat(kWhateverHeightYouWant+10))
+                return CGSize(width: (collectionView.bounds.size.width), height: CGFloat(kWhateverHeightYouWant+10))
             }
-            return CGSize(width: (collectionView.bounds.size.width - 40), height: CGFloat(kWhateverHeightYouWant))
+            return CGSize(width: UIScreen.main.bounds.size.width, height: CGFloat(kWhateverHeightYouWant))
         case .thumbnails:
             if UIScreen.isPhoneX {
                 return thumbnails.count == 0 ? CGSize(width: (collectionView.bounds.size.width - 40), height: CGFloat(kWhateverHeightYouWant+10)) : CGSize(width: (collectionView.bounds.size.width - 40)/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant+10))
@@ -385,7 +530,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .slices:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .waveform:
-            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .thumbnails:
             return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         default:
@@ -398,23 +543,65 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
 
 extension MainCollectionViewController : PlayButtonCollectionViewControllerCellDelegate {
     func playButtonTapped(cell: PlayButtonCollectionViewControllerCell) {
-        let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.waveform.rawValue)
-        let waveformCell:WaveformCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! WaveformCollectionViewCell
+        if (self.navigationItem.rightBarButtonItem == nil) {
+            self.navigationItem.rightBarButtonItem = self.nextBarButtonItem
+        }
         
         let index:Int = (self.collectionView?.indexPath(for: cell)?.row)!
         
-        waveformCell.waveformView.progressColor = Constant.COLORS[index]
+        self.waveformCell.waveformView.progressColor = Constant.COLORS[index]
         
-        let scrubberIndexPath:IndexPath = IndexPath(row: 0, section: SliderSections.slices.rawValue)
+        self.dazzleController.touch(atPosition: (self.collectionView?.convert(self.scrubberCell.getPoint(for: index), to: self.view))!, color: Constant.COLORS[index])
         
-        let scrubberCell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: scrubberIndexPath) as! ScrubberCollectionViewCell
+        var time:CMTime = kCMTimeZero
+
+        let timelinePercentageX = self.getTimelinePercentageX(index: index)
+        let percentageX = self.getSpeedPercentageX(index: index)
+        let percentageY = self.getCurrentPercentageY(index: index)
         
-        self.dazzleController.touch(atPosition: scrubberCell.getPoint(for: index))
+        switch self.stutterState {
+        case .prearmed:
+            self.setNavBarToTheView()
+            
+            self.stutterState = .recording
+            time = EditController.shared.storeEdit(percentageOfTime: timelinePercentageX,
+                                            percentageZoom: percentageY,
+                                            percentageSpeed: percentageX)
+//            self.timerLabel.start()
+            
+            self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
+            
+            break
+        case .recording:
+//            self.timerLabel.start()
+            
+            time = EditController.shared.storeEdit(percentageOfTime: timelinePercentageX,
+                                            percentageZoom: percentageY,
+                                            percentageSpeed: percentageX)
+            
+            self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
+            
+            break
+        case .paused:
+            self.stutterState = .recording
+//            self.timerLabel.start()
+            
+            time = EditController.shared.storeEdit(percentageOfTime: timelinePercentageX,
+                                            percentageZoom: percentageY,
+                                            percentageSpeed: percentageX)
+            self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
+            
+            break
+        default:
+            break
+        }
         
-        self.delegate.playButtonWasTapped(index: index,
-                                          timelinePercentageX: self.getTimelinePercentageX(index: index),
-                                          percentageX: self.getSpeedPercentageX(index: index),
-                                          percentageY: self.getCurrentPercentageY(index: index))
+        
+        self.playerViewController.seekToTime(to: time, toleranceBefore: CMTimeMake(1, 600), toleranceAfter: CMTimeMake(1, 600))
+        self.playerViewController.playFromCurrentTime()
+        self.playerViewController.setRate(rate: Float(1 + 1 * percentageX))
+        
+
     }
 }
 
@@ -425,7 +612,8 @@ extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
         
         let newPoint:CGPoint = cell.convert(at, to: self.view.superview)
         
-        self.delegate.scrubbingHasBegun(at: newPoint)
+        self.previewContainerView.frame.origin = newPoint
+        self.previewContainerView.isHidden = false
     }
     
     func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat, to: CGPoint) {
@@ -434,28 +622,115 @@ extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
         
         let newPoint:CGPoint = cell.convert(to, to: self.view.superview)
         
-        self.delegate.scrubbingHasMoved(index: index, percentageX: percentageX, percentageY: percentageY, to: newPoint)
+        self.previewContainerView.frame.origin = to
+        self.scrubberPreviewViewController.view.layer.transform = CATransform3DMakeScale(percentageY+1, percentageY+1, 1)
     }
     
     func scrubbingHasEnded(at: CGPoint) {
-        self.delegate.scrubbingHasEnded(at: at)
+        self.previewContainerView.frame.origin = at
+        self.previewContainerView.isHidden = true
     }
     
     func tapped() {
-        self.delegate.tapped()
+        switch self.playerViewController.playbackState {
+        case .playing:
+//            self.timerLabel.pause()
+            self.playerViewController.pause()
+            break
+        case .paused:
+            self.playerViewController.playFromCurrentTime()
+            break
+        case .stopped:
+            self.playerViewController.playFromBeginning()
+            break
+        default:
+            break
+        }
     }
     
     func timelineScrubbingHasBegun(point: CGPoint) {
-        self.delegate.timelineScrubbingHasBegun(point: point)
+        self.previewContainerView.frame.origin = point
+        self.previewContainerView.isHidden = false
     }
     
     func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint) {
-        self.delegate.timelinePercentageOfWidth(index: index, percentageX: percentageX, percentageY: percentageY, point: point)
+        print("percentage")
+        self.previewContainerView.frame.origin = point
+        self.scrubberPreviewViewController.seekToTime(to: CMTimeMakeWithSeconds(Float64(CGFloat(CMTimeGetSeconds(EditController.shared.currentAssetDuration)) * percentageX), 60), toleranceBefore: CMTimeMake(1, 60), toleranceAfter: CMTimeMake(1, 60))
     }
     
     func timelineScrubbingHasEnded(point: CGPoint) {
-        self.delegate.timelineScrubbingHasEnded(point: point)
+        print("timeline ended")
+        self.previewContainerView.isHidden = true
+        self.previewContainerView.frame.origin = point
     }
 }
 
+extension MainCollectionViewController: PlayerPlaybackDelegate {
+    
+    public func playerPlaybackWillStartFromBeginning(_ player: Player) {
+        
+    }
+    
+    public func playerPlaybackDidEnd(_ player: Player) {
+//        self.timerLabel.pause()
+    }
+    
+    public func playerCurrentTimeDidChange(_ player: Player) {
+        self.assetTimeChanged(player: player)
+    }
+    
+    public func playerPlaybackWillLoop(_ player: Player) {
+        //        if (self.stutterState == .recording) {
+        //            self.editController.closeEdit()
+        //        }
+    }
+}
 
+extension MainCollectionViewController : PlayerDelegate {
+    func playerReady(_ player: Player) {
+        print("ready")
+    }
+    
+    func playerPlaybackStateDidChange(_ player: Player) {
+        switch player.playbackState {
+        case .playing:
+            switch self.stutterState {
+            case .recording:
+                let _:CMTime = EditController.shared.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0, percentageSpeed: 0)
+//                self.timerLabel.start()
+                self.stutterState = .recording
+            default:
+                print("default")
+            }
+            break
+            
+        case .paused:
+            switch self.stutterState {
+            case .recording:
+                let _:CMTime = EditController.shared.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0, percentageSpeed: 0)
+                
+//                self.timerLabel.pause()
+                self.stutterState = .paused
+            default:
+                print("default")
+            }
+            break
+        case .stopped:
+//            self.timerLabel.pause()
+            break
+        default:
+            print("unknown")
+        }
+    }
+    
+    func playerBufferingStateDidChange(_ player: Player) {
+        
+    }
+    
+    //this is the time in seconds that the video has buffered to.
+    //If implementing a UIProgressView, user this value / player.maximumDuration to set progress.
+    func playerBufferTimeDidChange(_ bufferTime: Double) {
+        
+    }
+}

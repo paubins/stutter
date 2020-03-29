@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Cartography
 
 protocol ShapeViewDelegate {
     func slidingHasBegun(point: CGPoint)
@@ -35,8 +36,23 @@ class ShapeView : UIView {
     var count:CGFloat = 0
     var initial:Bool = true
     
+    lazy var zoomLevelView:ZoomLevelView = {
+        let zoomLevelView:ZoomLevelView = ZoomLevelView(frame: .zero)
+        return zoomLevelView
+    }()
+    
     init(frame: CGRect, count: Int) {
         super.init(frame: frame)
+        
+        self.addSubview(self.zoomLevelView)
+        
+        constrain(self.zoomLevelView) { (view) in
+            view.top == view.superview!.top + 5
+            view.left == view.superview!.left
+            view.right == view.superview!.right
+            
+            view.height == Constant.controlSurfaceHeight
+        }
         
         self.count = CGFloat(count)
         
@@ -85,11 +101,11 @@ class ShapeView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        for (i, layer) in self.layer.sublayers!.enumerated() {
-            (layer as! WireLayer).frame = self.bounds
+        for (i, wireLayer) in self.getWireSublayers().enumerated() {
+            wireLayer.frame = self.bounds
             
             if !self.initial {
-                (layer as! WireLayer).currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width*self.getPercentageX(index: i)), y: Int(Constant.controlSurfaceHeight-Constant.controlSurfaceHeight*self.getPercentageY(index: i)))
+                wireLayer.currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width*self.getPercentageX(index: i)), y: Int(Constant.controlSurfaceHeight-Constant.controlSurfaceHeight*self.getPercentageY(index: i)))
             }
             
             (layer as! WireLayer).offset = UIScreen.main.bounds.size.width/self.count * CGFloat(i) + UIScreen.main.bounds.size.width/self.count/2
@@ -105,38 +121,52 @@ class ShapeView : UIView {
     }
     
     func getPoint(for index: Int) -> CGPoint {
-        let point = (self.layer.sublayers![index] as! WireLayer).currentPoint
+        let point = (self.getWire(at: index)).currentPoint
         return CGPoint(x: point.x + 15, y: point.y + 15)
     }
     
     func getPercentageX(index: Int) -> CGFloat {
-        let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
+        let layer:WireLayer = self.getWire(at: index)
         //fabs((layer.currentPoint.x / self.previousScreenWidth) - (layer.offset/self.previousScreenWidth)) as CGFloat
         return layer.currentPoint.x / self.previousScreenWidth
     }
     
     func getSpeedPercentageX(index: Int) -> CGFloat {
-        let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
+        let layer:WireLayer = self.getWire(at: index)
         return ((layer.currentPoint.x / self.previousScreenWidth) - (layer.offset/self.previousScreenWidth)) as CGFloat
     }
     
     func getPercentageY(index: Int) -> CGFloat {
-        guard let layer:WireLayer = self.layer.sublayers![index] as? WireLayer else {
+        guard var layer:WireLayer = self.getWire(at: index) else {
             return 0
         }
         return (Constant.controlSurfaceHeight-layer.currentPoint.y)/Constant.controlSurfaceHeight
     }
     
     func getTimelinePercentageX(index: Int) -> CGFloat {
-        let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
+        let layer:WireLayer = self.getWire(at: index)
         return layer.timelinePoint.x / self.previousScreenWidth
     }
     
     func getTimelinePercentageY(index: Int) -> CGFloat {
-        guard let layer:WireLayer = self.layer.sublayers![index] as? WireLayer else {
+        guard var layer:WireLayer = self.getWire(at: index) else {
             return 0
         }
         return (Constant.controlSurfaceHeight-layer.timelinePoint.y)/Constant.controlSurfaceHeight
+    }
+    
+    func getWire(at index:Int) -> WireLayer {
+        return self.layer.sublayers![index+1] as! WireLayer
+    }
+    
+    func getWireSublayers() -> [WireLayer] {
+        var layers:[WireLayer] = []
+        for wireLayer in self.layer.sublayers! {
+            if wireLayer != self.zoomLevelView.layer {
+                layers.append((wireLayer as! WireLayer))
+            }
+        }
+        return layers
     }
     
     @objc func panned(gestureRecognizer: UIPanGestureRecognizer) {
@@ -144,16 +174,16 @@ class ShapeView : UIView {
         
         switch gestureRecognizer.state {
         case .began:
-            for (i, wireLayer) in (self.layer.sublayers?.enumerated())! {
-                if (wireLayer as! WireLayer).currentRect.contains(point) {
+            for (i, wireLayer) in self.getWireSublayers().enumerated() {
+                if wireLayer.currentRect.contains(point) {
                     self.currentLayerIndex = i
                     self.shouldRedraw = true
-                    (wireLayer as! WireLayer).selected = true
+                    wireLayer.selected = true
                     self.delegate.slidingHasBegun(point: point)
-                } else if (wireLayer as! WireLayer).timelineRect.contains(point) {
+                } else if wireLayer.timelineRect.contains(point) {
                     self.currentLayerIndex = i
                     self.shouldRedrawTimeline = true
-                    (wireLayer as! WireLayer).selected = true
+                    wireLayer.selected = true
                     self.delegate.timelineScrubbingHasBegun(point: point)
                 }
             }
@@ -161,39 +191,39 @@ class ShapeView : UIView {
             
         case .changed:
             if self.shouldRedraw {
-                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).currentPoint = point
-                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
+                self.getWire(at: self.currentLayerIndex).currentPoint = point
+                self.getWire(at: self.currentLayerIndex).setNeedsDisplay()
 
                 if (self.delegate != nil) {
                     self.delegate.percentageOfWidth(index: self.currentLayerIndex,
                                                     percentageX: self.getPercentageX(index: self.currentLayerIndex),
                                                     percentageY: self.getPercentageY(index: self.currentLayerIndex),
-                                                    point: point)
+                                                    point: CGPoint(x: point.x - 15, y: point.y - 120))
                 }
             } else if self.shouldRedrawTimeline {
-                let currentTimelinePoint:CGPoint =  (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).timelinePoint
-                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).timelinePoint = CGPoint(x: point.x, y: currentTimelinePoint.y)
-                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
+                let currentTimelinePoint:CGPoint =  self.getWire(at: self.currentLayerIndex).timelinePoint
+                self.getWire(at: self.currentLayerIndex).timelinePoint = CGPoint(x: point.x, y: currentTimelinePoint.y)
+                self.getWire(at: self.currentLayerIndex).setNeedsDisplay()
                 
                 if (self.delegate != nil) {
                     self.delegate.timelinePercentageOfWidth(index: self.currentLayerIndex,
                                                     percentageX: self.getTimelinePercentageX(index: self.currentLayerIndex),
                                                     percentageY: self.getTimelinePercentageY(index: self.currentLayerIndex),
-                                                    point: point)
+                                                    point: self.getWire(at: self.currentLayerIndex).currentRect.origin)
                 }
             }
             break
             
         case .ended:
             if self.shouldRedraw {
-                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).selected = false
-                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
+                self.getWire(at: self.currentLayerIndex).selected = false
+                self.getWire(at: self.currentLayerIndex).setNeedsDisplay()
                 self.delegate.slidingHasEnded(point: point)
                 self.shouldRedraw = false
                 self.currentLayerIndex = 0
             } else if self.shouldRedrawTimeline {
-                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).selected = false
-                (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
+                self.getWire(at: self.currentLayerIndex).selected = false
+                self.getWire(at: self.currentLayerIndex).setNeedsDisplay()
                 self.delegate.timelineScrubbingHasEnded(point: point)
                 self.shouldRedrawTimeline = false
                 self.currentLayerIndex = 0

@@ -11,14 +11,14 @@
 
 @implementation ExporterController
 
-+ (AVAssetExportSession *)export:(AVMutableComposition *)mixComposition videoAsset:(AVAsset *)videoAsset extraInstructions:(AVMutableVideoCompositionLayerInstruction *)extraInstructions fromOutput:(NSURL *)outputFileURL completionHandler:(void (^)(AVAssetExportSession *, BOOL))completionHandler {
-//    AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo  preferredTrackID:kCMPersistentTrackID_Invalid];
-//    AVMutableCompositionTrack *audioComposition = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-
++ (AVMutableVideoComposition *)getVideoCompositionFrom:(AVMutableComposition *)mixComposition asset:(AVAsset *)videoAsset extraInstructions:(AVMutableVideoCompositionLayerInstruction *)extraInstructions {
+    //    AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo  preferredTrackID:kCMPersistentTrackID_Invalid];
+    //    AVMutableCompositionTrack *audioComposition = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    
     AVAssetTrack *clipVideoTrack = [[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-
-//    [compositionVideoTrack setPreferredTransform:[[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] preferredTransform]];
-
+    
+    //    [compositionVideoTrack setPreferredTransform:[[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] preferredTransform]];
+    
     AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     instruction.timeRange = CMTimeRangeMake(kCMTimeZero, [mixComposition duration]);
     AVAssetTrack *videoTrack = [[mixComposition tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
@@ -29,9 +29,9 @@
     //*****************//
     UIImageOrientation videoAssetOrientation_;// = UIImageOrientationUp;
     BOOL isVideoAssetPortrait_  = NO;
-
+    
     CGAffineTransform videoTransform = clipVideoTrack.preferredTransform;
-
+    
     if (videoTransform.a == 0 && videoTransform.b == 1.0 && videoTransform.c == -1.0 && videoTransform.d == 0) {
         videoAssetOrientation_ = UIImageOrientationRight;
         isVideoAssetPortrait_ = YES;
@@ -48,9 +48,9 @@
         videoAssetOrientation_ = UIImageOrientationDown;
         isVideoAssetPortrait_ = NO;
     }
-
-//    [layerInstruction setOpacity:0.0 atTime:clipVideoTrack.timeRange.duration];
-
+    
+    //    [layerInstruction setOpacity:0.0 atTime:clipVideoTrack.timeRange.duration];
+    
     //*****************//
     CGSize naturalSize;
     if(isVideoAssetPortrait_){
@@ -58,19 +58,27 @@
     } else {
         naturalSize = clipVideoTrack.naturalSize;
     }
-
+    
     NSLog(@"videoSize ++++: %@", NSStringFromCGSize(naturalSize));
     AVMutableVideoComposition* videoComp = [AVMutableVideoComposition videoComposition] ;
-
+    
     float renderWidth, renderHeight;
     renderWidth = naturalSize.width;
     renderHeight = naturalSize.height;
     videoComp.renderSize = CGSizeMake(renderWidth, renderHeight);
     videoComp.frameDuration = CMTimeMake(1, 30);
-
+    
     /// instruction
     instruction.layerInstructions = @[extraInstructions];
     videoComp.instructions = @[instruction];
+    
+    return videoComp;
+}
+
++ (AVAssetExportSession *)export:(AVMutableComposition *)mixComposition videoAsset:(AVAsset *)videoAsset extraInstructions:(AVMutableVideoCompositionLayerInstruction *)extraInstructions fromOutput:(NSURL *)outputFileURL completionHandler:(void (^)(AVAssetExportSession *, BOOL))completionHandler {
+
+    
+    AVMutableVideoComposition *videoComp = [self getVideoCompositionFrom:mixComposition asset:videoAsset extraInstructions:extraInstructions];
     
     AVAssetExportSession *assetExport = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
     

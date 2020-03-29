@@ -24,7 +24,7 @@ class PlayButtonCollectionViewControllerCell : UICollectionViewCell {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
         button.addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
 
-        button.shadowHeight = 2
+        button.shadowHeight = 4
         button.cornerRadius = 5
 
         return button

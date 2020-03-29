@@ -8,37 +8,39 @@
 
 import UIKit
 import SwiftyStoreKit
+import RZTransitions
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-    lazy var viewController:ViewController = {
-        return ViewController()
+    
+    lazy var cameraViewController:CameraViewController = {
+        return CameraViewController()
     }()
-
-    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-
-        self.window?.rootViewController = self.viewController
-        self.window?.makeKeyAndVisible()
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-//        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
-//            for purchase in purchases {
-//                if purchase.transaction.transactionState == .purchased || purchase.transaction.transactionState == .restored {
-//                    if purchase.needsFinishTransaction {
-//                        // Deliver content from server, then:
-//                        SwiftyStoreKit.finishTransaction(purchase.transaction)
-//                    }
-//                    print("purchased: \(purchase)")
-//                }
-//            }
-//        }
+        let navigationController = CustomNavigationController(rootViewController: self.cameraViewController)
+        navigationController.navigationBar.backgroundColor = .clear
+        navigationController.navigationBar.isTranslucent = true
+        navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController.navigationBar.shadowImage = UIImage()
+        
+        RZTransitionsManager.shared().defaultPushPopAnimationController = RZZoomAlphaAnimationController()
+        navigationController.delegate = RZTransitionsManager.shared()
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = navigationController
+        self.window?.makeKeyAndVisible()
         
         return true
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+//        self.viewController.assetChosen(asset: AVURLAsset(url: url))
+        return true
+    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -27,19 +27,18 @@ class WaveformCollectionViewCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .black
+        self.backgroundColor = Constant.COLORS[0].darkerColorForColor()
         self.addSubview(self.waveformView)
         
         constrain(self.waveformView) { (view) in
             view.top == view.superview!.top
             view.bottom == view.superview!.bottom
-            view.right == view.superview!.right
-            view.left == view.superview!.left
+            view.right == view.superview!.right - 20
+            view.left == view.superview!.left + 20
         }
     }
     
     func updateAudioURL(audioURL: URL) {
-        self.backgroundColor = .clear
         self.waveformView.audioURL = audioURL
     }
     
@@ -59,5 +58,6 @@ class WaveformCollectionViewCell : UICollectionViewCell {
 extension WaveformCollectionViewCell : FDWaveformViewDelegate {
     func waveformViewDidLoad(_ waveformView: FDWaveformView) {
         print("wave loaded")
+        self.backgroundColor = .clear
     }
 }

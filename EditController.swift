@@ -10,32 +10,30 @@ import UIKit
 import SwiftyTimer
 
 class EditController: NSObject {
-    var currentPlayTimeInSeconds:CMTime = .zero
-    var currentPlayTimer:Timer!
-    var currentAssetDuration:CMTime = .zero
-    var lastSelectedIndex:Int = 0
-    var lastInsertedTime:CMTime = .zero
-    var started:Bool = true
-    var previousFrameRelativeStartTime:Float64!
-    var previousFrameTime:CFTimeInterval!
-    var currentMediaTime:CFTimeInterval!
-    var currentInterval:CFTimeInterval!
-    var size:CGSize = CGSize.zero
+    static var shared:EditController! = EditController()
     
-    var mainInstruction:AVMutableVideoCompositionInstruction = AVMutableVideoCompositionInstruction()
-    lazy var instructions:AVMutableVideoCompositionLayerInstruction = {
+    var currentAssetDuration:CMTime {
+        get {
+            return self.asset.duration
+        }
+    }
+
+    var lastInsertedTime:CMTime = kCMTimeZero
+
+    var size:CGSize {
+        get {
+            return self.asset.getSize()
+        }
+    }
+    
+    lazy var instructions:AVMutableVideoCompositionLayerInstruction! = {
         let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).first!
         let instruction1:AVMutableVideoCompositionLayerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: assetTrack)
+        
         return instruction1
     }()
-    
-    lazy var currentTransform:CGAffineTransform? = {
-        return self.asset.tracks(withMediaType: AVMediaTypeVideo).first?.preferredTransform
-    }()
-    
-    var exporter:AVAssetExportSession! = nil
-    
-    var originalVolume:Float = 0
+
+    var currentTransform:CGAffineTransform!
     
     var currentEditHandler:((_ endTime:CMTime, _ percentageZoom:CGFloat, _ percentageSpeed:CGFloat) -> CMTime)!
     
@@ -45,12 +43,6 @@ class EditController: NSObject {
     }()
     
     var asset:AVAsset!
-    var timer:Timer!
-    
-    init(asset: AVAsset) {
-        super.init()
-        self.asset = AVURLAsset(url: (asset as! AVURLAsset).url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-    }
     
     func createEditHandler(_ at: CMTime, startTime: CMTime) -> ((_ durationEnd:CMTime, _ percentageZoom:CGFloat, _ percentageSpeed: CGFloat) -> CMTime) {
         var durationStart:CMTime = CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30)
@@ -60,7 +52,7 @@ class EditController: NSObject {
             if (self.currentAssetDuration < CMTimeAdd(startTime, durationInterval)) {
                 durationInterval = CMTimeSubtract(self.currentAssetDuration, startTime)
             }
-            
+
             let timeRange = CMTimeRangeMake(startTime, durationInterval)
             
             // 1. we get the length shown
@@ -92,11 +84,18 @@ class EditController: NSObject {
             
             let scaleX:CGFloat = 1 + percentageZoom
             let scaleY:CGFloat = 1 + percentageZoom
-            
-            self.instructions.setTransform(self.currentTransform!
+
+            self.currentTransform = (self.asset.tracks(withMediaType: AVMediaTypeVideo).first?.preferredTransform
                 .concatenating(CGAffineTransform(scaleX: scaleX, y: scaleY))
                 .concatenating(CGAffineTransform(translationX: -(self.size.width * percentageZoom)/2,
-                                                 y: -(self.size.height * percentageZoom)/2)), at: at)
+                                                 y: -(self.size.height * percentageZoom)/2)))!
+            
+            if (self.instructions == nil) {
+                let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).first!
+                self.instructions = AVMutableVideoCompositionLayerInstruction(assetTrack: assetTrack)
+            }
+            
+            self.instructions.setTransform(self.currentTransform, at: at)
             
             return CMTimeAdd(at, durationInterval)
         }
@@ -118,30 +117,13 @@ class EditController: NSObject {
         }
         
         let time:CMTime = self.secondsFrom(percentage: percentageOfTime)
-        
         self.currentEditHandler = self.createEditHandler(self.lastInsertedTime, startTime: time)
-        
         return time
     }
-    
-    func randomString(length: Int) -> String {
-        
-        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        let len = UInt32(letters.length)
-        
-        var randomString = ""
-        
-        for _ in 0 ..< length {
-            let rand = arc4random_uniform(len)
-            var nextChar = letters.character(at: Int(rand))
-            randomString += NSString(characters: &nextChar, length: 1) as String
-        }
-        
-        return randomString
-    }
+
     
     func export(completionHandler: @escaping (Bool) -> Void) throws -> AVAssetExportSession {
-        let filename = "\(self.randomString(length: 15)).mp4"
+        let filename = "\(String.randomString(length: 15)).mp4"
         let outputPath = NSTemporaryDirectory().appending(filename)
         
         //Check if file already exists and delete it if needed
@@ -153,22 +135,31 @@ class EditController: NSObject {
             try manager.removeItem(atPath: outputPath)
         }
         
-        print(outputPath)
-        
         return ExporterController.export(self.mutableComposition, videoAsset: self.asset,
                                          extraInstructions: self.instructions,
                                          fromOutput: fileUrl, completionHandler: { (assetExportSession, success) in
             self.mutableComposition = AVMutableComposition()
+            self.instructions = AVMutableVideoCompositionLayerInstruction()
             completionHandler(success)
         })
     }
     
-    func load(duration: CMTime, size: CGSize) {
-        self.currentAssetDuration = duration
-        self.size = size
+    func getVideoComposition() -> AVVideoComposition {
+        return ExporterController.getVideoComposition(from: self.mutableComposition, asset: self.asset, extraInstructions: self.instructions)
+    }
+
+    func secondsFrom(percentage: CGFloat) -> CMTime {
+        return CMTimeMakeWithSeconds(CMTimeGetSeconds(self.currentAssetDuration) * Float64(percentage), 30)
     }
     
-    func secondsFrom(percentage: CGFloat) -> CMTime {
-        return CMTimeMakeWithSeconds(CMTimeGetSeconds(self.currentAssetDuration) * Float64(percentage), preferredTimescale: 60)
+    func load(url: URL) {
+        self.asset = AVURLAsset(url: url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+    }
+    
+    func reset() {
+        self.mutableComposition = AVMutableComposition()
+        self.lastInsertedTime = kCMTimeZero
+        self.currentEditHandler = nil
+        self.instructions = nil
     }
 }

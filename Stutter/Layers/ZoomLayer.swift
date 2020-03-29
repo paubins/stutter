@@ -13,7 +13,7 @@ class ZoomLayer : CALayer {
     override func draw(in ctx: CGContext) {
         super.draw(in: ctx)
         
-        ctx.setStrokeColor(UIColor.black.cgColor)
+        ctx.setStrokeColor(UIColor.white.cgColor)
         ctx.setLineWidth(1)
         
         ctx.move(to: CGPoint(x: 0, y: 25))
@@ -40,17 +40,17 @@ class ZoomLayer : CALayer {
         ctx.move(to: CGPoint(x: 0, y: 200))
         ctx.addLine(to: CGPoint(x: 6, y: 200))
         
-        ctx.move(to: CGPoint(x: 0, y: 225))
-        ctx.addLine(to: CGPoint(x: 12, y: 225))
-        
-        ctx.move(to: CGPoint(x: 36, y: 225))
-        ctx.addLine(to: CGPoint(x: UIScreen.main.bounds.width/2 - 25, y: 225))
-        
-        ctx.move(to: CGPoint(x: UIScreen.main.bounds.width/2 - 10, y: 225))
-        ctx.addLine(to: CGPoint(x: UIScreen.main.bounds.width/2 + 10, y: 225))
-        
-        ctx.move(to: CGPoint(x: UIScreen.main.bounds.width/2 + 25, y: 225))
-        ctx.addLine(to: CGPoint(x: UIScreen.main.bounds.width/2 + 25 + UIScreen.main.bounds.width/2 - 58, y: 225))
+//        ctx.move(to: CGPoint(x: 0, y: 225))
+//        ctx.addLine(to: CGPoint(x: 12, y: 225))
+//        
+//        ctx.move(to: CGPoint(x: 36, y: 225))
+//        ctx.addLine(to: CGPoint(x: UIScreen.main.bounds.width/2 - 25, y: 225))
+//        
+//        ctx.move(to: CGPoint(x: UIScreen.main.bounds.width/2 - 10, y: 225))
+//        ctx.addLine(to: CGPoint(x: UIScreen.main.bounds.width/2 + 10, y: 225))
+//
+//        ctx.move(to: CGPoint(x: UIScreen.main.bounds.width/2 + 25, y: 225))
+//        ctx.addLine(to: CGPoint(x: UIScreen.main.bounds.width/2 + 25 + UIScreen.main.bounds.width/2 - 58, y: 225))
 
         ctx.drawPath(using: .stroke)
     }

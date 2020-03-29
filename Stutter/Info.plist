@@ -6,6 +6,27 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>lilstutter</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>/Users/patrickaubin/projects/Stutter/Stutter/Assets.xcassets/AppIcon.appiconset/lilstuttericon.jpg</string>
+				<string>/Users/patrickaubin/projects/Stutter/Stutter/Assets.xcassets/AppIcon.appiconset/lilstuttericon-29.png</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>lilstutter</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.paubins.lilstutter.movie</string>
+			</array>
+		</dict>
+		<dict/>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -44,6 +65,39 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.movie</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>lilstutter</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.paubins.lilstutter.movie</string>
+			<key>UTTypeSize320IconFile</key>
+			<string>lilstuttericon</string>
+			<key>UTTypeSize64IconFile</key>
+			<string>lilstuttericon</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>mov</string>
+					<string>mpg</string>
+					<string>mp4</string>
+				</array>
+			</dict>
+		</dict>
+		<dict/>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict/>
+		<dict/>
+		<dict/>
 	</array>
 </dict>
 </plist>

@@ -28,10 +28,13 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
 //    }
 //    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        // unwrap super's attributes
+        guard let superArray = super.layoutAttributesForElements(in: rect) else { return nil }
         
-        let attributesArray = super.layoutAttributesForElements(in: rect)
+        // copy items
+        guard let attributesArray = NSArray(array: superArray, copyItems: true) as? [UICollectionViewLayoutAttributes] else { return nil }
 
-        for attributes in attributesArray! {
+        for attributes in attributesArray {
             let xPosition = attributes.center.x
             var yPosition = attributes.center.y
             
