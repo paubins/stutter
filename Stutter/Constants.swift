@@ -38,6 +38,7 @@ enum StutterState {
     case prearmed
     case armed
     case recording
+    case paused
     case exporting
     case exported
 }

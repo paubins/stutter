@@ -130,7 +130,7 @@ class MainCollectionViewController : UICollectionViewController {
             count = 1
             break
         case .thumbnails:
-            count = self.thumbnails.count
+            count = self.thumbnails.count == 0 ? 1 : self.thumbnails.count
             break
         default:
             break
@@ -170,7 +170,9 @@ class MainCollectionViewController : UICollectionViewController {
             return cell
         case .thumbnails:
             let cell:ThumbnailCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "ThumbnailCollectionViewCell", for: indexPath) as! ThumbnailCollectionViewCell
-            cell.thumbnailImageView.image = self.thumbnails[indexPath.row]
+            if (0 < self.thumbnails.count) {
+                cell.thumbnailImageView.image = self.thumbnails[indexPath.row]
+            }
             return cell
         default:
             break
@@ -305,7 +307,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .waveform:
             return CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant))
         case .thumbnails:
-            return CGSize(width: collectionView.bounds.size.width/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant))
+            return thumbnails.count == 0 ? CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant)) : CGSize(width: collectionView.bounds.size.width/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant))
         default:
             break
         }

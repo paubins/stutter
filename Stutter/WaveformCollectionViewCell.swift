@@ -9,6 +9,7 @@
 import Foundation
 import FDWaveformView
 import Cartography
+import Shift
 
 class WaveformCollectionViewCell : UICollectionViewCell {
     lazy var waveformView:FDWaveformView = {
@@ -22,18 +23,35 @@ class WaveformCollectionViewCell : UICollectionViewCell {
         newWaveForm.delegate = self
         return newWaveForm
     }()
+
+    lazy var backgroundShiftView:ShiftView = {
+        let v = ShiftView()
+        
+        // set colors
+        v.setColors(Constant.COLORS)
+        return v
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.addSubview(self.backgroundShiftView)
         self.addSubview(self.waveformView)
         
-        constrain(self.waveformView) { (view) in
+        constrain(self.waveformView, self.backgroundShiftView) { (view, view1) in
             view.top == view.superview!.top
             view.bottom == view.superview!.bottom
             view.right == view.superview!.right
             view.left == view.superview!.left
+            
+            view1.right == view1.superview!.right
+            view1.left == view1.superview!.left
+            view1.top == view1.superview!.top
+            view1.bottom == view1.superview!.bottom
         }
+        
+        self.backgroundShiftView.animationDuration(10.0)
+        self.backgroundShiftView.startTimedAnimation()
     }
     
     func updateAudioURL(audioURL: URL) {
@@ -55,6 +73,7 @@ class WaveformCollectionViewCell : UICollectionViewCell {
 
 extension WaveformCollectionViewCell : FDWaveformViewDelegate {
     func waveformViewDidLoad(_ waveformView: FDWaveformView) {
+        self.backgroundShiftView.isHidden = true
         print("wave loaded")
     }
 }

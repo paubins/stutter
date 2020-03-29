@@ -9,7 +9,8 @@
 import Foundation
 import Cartography
 import FontAwesomeKit
-import Photos
+import SwiftyButton
+import Emoji
 
 protocol ButtonViewControllerDelegate {
     func assetChosen(asset: AVAsset)
@@ -45,74 +46,24 @@ class ButtonViewController : UIViewController {
     }()
     
     
-    let loadFromCameraButton:UIView = {
-        let containerView:UIView = UIView(frame: .zero)
-        containerView.clipsToBounds = true
-        
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        
-        blurEffectView.clipsToBounds = true
-        containerView.addSubview(blurEffectView)
-        
-        constrain(blurEffectView) { (view) in
-            view.top == view.superview!.top
-            view.right == view.superview!.right
-            view.left == view.superview!.left
-            view.bottom == view.superview!.bottom
-        }
-        
-        let icon = FAKFontAwesome.cameraRetroIcon(withSize: 40)
-        let playStopBackButton:UIButton = UIButton()
-        playStopBackButton.setImage(icon?.image(with: CGSize(width: 40, height: 40)), for: .normal)
-        playStopBackButton.addTarget(self, action: #selector(loadFromCamera), for: .touchUpInside)
-        
-        containerView.addSubview(playStopBackButton)
-        
-        constrain(playStopBackButton) { (view) in
-            view.width == 30
-            view.height == 30
-            
-            view.centerX == view.superview!.centerX
-            view.centerY == view.superview!.centerY
-        }
-        
-        return containerView
+    let loadFromCameraButton:PressableButton = {
+        let playStopBackButton:PressableButton = PressableButton()
+        playStopBackButton.titleLabel?.font = UIFont.systemFont(ofSize: 35)
+        playStopBackButton.setTitle(":iphone:".emojiUnescapedString, for: .normal)
+        playStopBackButton.addTarget(self, action: #selector(loadFromLibrary), for: .touchUpInside)
+        playStopBackButton.cornerRadius = 40
+        playStopBackButton.shadowHeight = 5
+        return playStopBackButton
     }()
     
-    let loadFromLibraryButton:UIView = {
-        let containerView:UIView = UIView(frame: .zero)
-        containerView.clipsToBounds = true
-        
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        
-        blurEffectView.clipsToBounds = true
-        containerView.addSubview(blurEffectView)
-        
-        constrain(blurEffectView) { (view) in
-            view.top == view.superview!.top
-            view.right == view.superview!.right
-            view.left == view.superview!.left
-            view.bottom == view.superview!.bottom
-        }
-        
-        let icon = FAKFontAwesome.filePhotoOIcon(withSize: 40)
-        let playStopBackButton:UIButton = UIButton()
-        playStopBackButton.setImage(icon?.image(with: CGSize(width: 40, height: 40)), for: .normal)
-        playStopBackButton.addTarget(self, action: #selector(loadFromLibrary), for: .touchUpInside)
-        
-        containerView.addSubview(playStopBackButton)
-        
-        constrain(playStopBackButton) { (view) in
-            view.width == 30
-            view.height == 30
-            
-            view.centerX == view.superview!.centerX
-            view.centerY == view.superview!.centerY
-        }
-        
-        return containerView
+    let loadFromLibraryButton:PressableButton = {
+        let playStopBackButton:PressableButton = PressableButton()
+        playStopBackButton.titleLabel?.font = UIFont.systemFont(ofSize: 35)
+        playStopBackButton.setTitle(":video_camera:".emojiUnescapedString, for: .normal)
+        playStopBackButton.addTarget(self, action: #selector(loadFromCamera), for: .touchUpInside)
+        playStopBackButton.cornerRadius = 40
+        playStopBackButton.shadowHeight = 5
+        return playStopBackButton
     }()
     
     override func viewDidLoad() {

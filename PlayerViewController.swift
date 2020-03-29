@@ -10,8 +10,15 @@ import Foundation
 import Player
 import Cartography
 
+protocol PlayerViewControllerDelegate {
+    func playbackPaused(player: Player)
+    func playbackResumed(player: Player)
+}
+
 class PlayerViewController : UIViewController {
     var playbackDelegate:PlayerPlaybackDelegate!
+    
+    var delegate:PlayerViewControllerDelegate!
     
     lazy var player:Player = {
         return Player()
@@ -68,8 +75,10 @@ class PlayerViewController : UIViewController {
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
         if (gestureRecognizer.location(in: self.view).x < UIScreen.main.bounds.width/4) {
             self.play()
+            self.delegate.playbackResumed(player: self.player)
         } else if self.player.playbackState == .playing {
             self.stop()
+            self.delegate.playbackPaused(player: self.player)
         } else {
             self.player.playFromCurrentTime()
         }

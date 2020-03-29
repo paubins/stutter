@@ -8,12 +8,4 @@
 #import "DazFireController.h"
 #import "AudioExporter.h"
 
-//#import "BezierController.h"
-#import "UIBezierPath+LxThroughPointsBezier.h"
-#import "BezierViewController.h"
-
-
-#import "UIView+YGPulseView.h"
-#import "BAPulseView.h"
-
 #import "ExporterController.h"

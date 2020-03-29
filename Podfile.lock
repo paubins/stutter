@@ -1,13 +1,7 @@
 PODS:
-  - AHKBendableView (1.1)
-  - AnimatablePlayButton (1.0.0)
-  - Beethoven (4.0.2):
-    - Pitchy (~> 3.0)
-  - Cartography (4.0.0)
-  - Device (3.2.1)
-  - DynamicButton (6.2.1)
-  - ElasticTransition (3.1.1):
-    - MotionAnimation (~> 0.1.2)
+  - Cartography (1.1.0)
+  - Device (3.0.1)
+  - Emoji-swift (0.1.0)
   - FCAlertView (1.4.0)
   - FDWaveformView (5.0.1)
   - FontAwesomeKit (2.2.1):
@@ -31,62 +25,40 @@ PODS:
     - FontAwesomeKit/Core
   - FontAwesomeKit/Zocial (2.2.1):
     - FontAwesomeKit/Core
-  - Hue (5.0.0)
-  - JTFadingInfoView (1.0.2)
-  - KDCircularProgress (1.5.4)
-  - LLSpinner (1.0.0)
-  - MotionAnimation (0.1.2)
-  - Overlap (0.3.2)
-  - Pitchy (3.0.0)
-  - Player (0.13.2)
-  - Presentr (1.9)
-  - Pulsator (0.6.0)
-  - Shift (0.2.2)
-  - SwiftyButton (0.8.2)
-  - SwiftyCam (4.0.0)
-  - SwiftyTimer (2.1.0)
+  - HTPressableButton (1.3.3):
+    - HTPressableButton/All (= 1.3.3)
+  - HTPressableButton/All (1.3.3)
+  - Hue (2.0.1)
+  - KDCircularProgress (1.5.2)
+  - LLSpinner (0.0.1)
+  - LxThroughPointsBezier (1.0.0)
   - MZTimerLabel (0.5.4)
-  - Overlap (0.4.0)
-  - Pitchy (2.0.1)
   - Player (0.5.1)
-  - Presentr (1.2.3)
-  - Pulsator (0.3.0)
   - Shift (0.2.0)
   - SwiftyButton (0.6.0)
   - SwiftyCam (2.3.0)
   - SwiftyStoreKit (0.10.8)
   - SwiftyTimer (2.0.0)
-  - VideoViewController (1.1)
-  - VIMVideoPlayer (6.0.1)
 
 DEPENDENCIES:
-  - "AHKBendableView (from `git@github.com:paubins/AHKBendableView.git`)"
-  - AnimatablePlayButton (from `https://github.com/paubins/AnimatablePlayButton`)
-  - Beethoven (from `https://github.com/814349837/Beethoven.git`)
   - Cartography
-  - Device (~> 3.2.1)
-  - DynamicButton (~> 6.2.1)
-  - "ElasticTransition (from `git@github.com:deejeay143/ElasticTransition.git`)"
+  - Device (~> 3.0.1)
+  - Emoji-swift
   - FCAlertView
   - FDWaveformView
   - FontAwesomeKit (~> 2.2.0)
+  - HTPressableButton
   - Hue
-  - JTFadingInfoView
   - KDCircularProgress
   - LLSpinner
   - LxThroughPointsBezier (~> 1.0.0)
   - MZTimerLabel
-  - Overlap
   - Player
-  - Presentr
-  - Pulsator
-  - Shift (from `https://github.com/andre991/Shift.git`)
+  - Shift
   - SwiftyButton
   - SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `2.4.0`)
   - SwiftyStoreKit
   - SwiftyTimer
-  - "VideoViewController (from `git@github.com:paubins/Periscope-VideoViewController.git`)"
-  - VIMVideoPlayer
 
 SPEC REPOS:
   trunk:
@@ -109,21 +81,6 @@ SPEC REPOS:
     - VIMVideoPlayer
 
 EXTERNAL SOURCES:
-  AHKBendableView:
-    :git: "git@github.com:paubins/AHKBendableView.git"
-  AnimatablePlayButton:
-    :git: https://github.com/paubins/AnimatablePlayButton
-  Beethoven:
-    :git: https://github.com/814349837/Beethoven.git
-  ElasticTransition:
-    :git: "git@github.com:deejeay143/ElasticTransition.git"
-  LLSpinner:
-    :branch: 1.0.0
-    :git: https://github.com/alephao/LLSpinner.git
-  MotionAnimation:
-    :git: "git@github.com:paubins/MotionAnimation.git"
-  Shift:
-    :git: https://github.com/andre991/Shift.git
   SwiftyCam:
     :branch: 4.0.0
     :git: "git@github.com:Awalz/SwiftyCam.git"
@@ -131,27 +88,6 @@ EXTERNAL SOURCES:
     :git: "git@github.com:paubins/Periscope-VideoViewController.git"
 
 CHECKOUT OPTIONS:
-  AHKBendableView:
-    :commit: 74e8e14e1db3ac17e743963359533928e1723172
-    :git: "git@github.com:paubins/AHKBendableView.git"
-  AnimatablePlayButton:
-    :commit: e0bf4430d1099cc19b67042d4775ff82cbaa3e97
-    :git: https://github.com/paubins/AnimatablePlayButton
-  Beethoven:
-    :commit: e8147f4a4bbf00ba4047fda5848bf05fcae549f5
-    :git: https://github.com/814349837/Beethoven.git
-  ElasticTransition:
-    :commit: 1b1e312e48397d0104d385c34777ee0136e1dbb0
-    :git: "git@github.com:deejeay143/ElasticTransition.git"
-  LLSpinner:
-    :commit: e40737bffec1f4e7ed4a19a9302d7a9185892319
-    :git: https://github.com/alephao/LLSpinner.git
-  MotionAnimation:
-    :commit: 3b47a5ba70b4186ddc17476079b28130b82c443f
-    :git: "git@github.com:paubins/MotionAnimation.git"
-  Shift:
-    :commit: f2a5aad7781e51c9d2eee02cc5cf7246769cd098
-    :git: https://github.com/andre991/Shift.git
   SwiftyCam:
     :commit: c3dab301b395a267f78e894924bd39257ee5979b
     :git: "git@github.com:Awalz/SwiftyCam.git"
@@ -160,36 +96,25 @@ CHECKOUT OPTIONS:
     :git: "git@github.com:paubins/Periscope-VideoViewController.git"
 
 SPEC CHECKSUMS:
-  AHKBendableView: ce81dc973f5e59367641e769404a9a8ad99f606e
-  AnimatablePlayButton: 529c208dc98499c8fcfca52fff26fee2316d3e82
-  Beethoven: 04f99571a7ad2a37184161762be757fe0b8ccc20
-  Cartography: c5626d29056b20f1e95c017326ee4df57cc39ad8
-  Device: 0738862dd8a30856b4bd9e21cb9b728873d21392
-  DynamicButton: 95f30460793bd3510a5c213ac1b810a5e3d54b6a
-  ElasticTransition: 72405dae44324293360776bb7f6579cdab428dd4
+  Cartography: 0538ccb4044acbbda2266335fc58cb4228794d90
+  Device: c793851589633bc515b65e08a2b5a223bc87c45a
+  Emoji-swift: 20010383183f4d85e6e5a2b9642b96ebdb4f06ae
   FCAlertView: fdddd63381898c1d1a5a20c9f084fbd2c6d12f8b
   FDWaveformView: c188be613947273cc83d6f0056505f60e6c4b9ac
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
-  Hue: c129cb67be7d093a82bbbc30ce8a96757bf6f37a
-  JTFadingInfoView: 9fcb410da4bf8e3ce722b04b14ee0046a8f13a65
+  HTPressableButton: 3109ba7972247ddbd387c8a22b0341b02369b31e
+  Hue: 354caec055fdc9d38b5ef33ca2e7224721843baf
   KDCircularProgress: 12f677b2deb02409ab48c6cae1898d146b8ad549
   LLSpinner: 0ed607d59b3a447ddd157c29ef684de7a5a285ad
   LxThroughPointsBezier: fdebe18dd4ddab9406d9827db77a078b4738b00f
-  MotionAnimation: ff5c8fc2e429d7e10d46ae86819ba9759846c343
   MZTimerLabel: cd9bfb9304540ef2a9e163384fca9c978f0dbf83
-  Overlap: 7c0520cb9110287643e8c64a7b36463e4e16d894
-  Pitchy: 00dbe7cb7ac87fd9c32cb2aa6ce50d11f931289f
   Player: 7bd61af457e558edf938066b03760f035a520837
-  Presentr: a21c7bbb3532c8ff60320e235c0a4869e72f8885
-  Pulsator: 0191f14f7ab82d6dbde6fdbde42036f07a4450e3
   Shift: 489e20a2a95c4ca3ee80fab152cd80a5369c5110
   SwiftyButton: 4c9b61c499f172971a1b8c2eebbbdc20a26d8a08
   SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
   SwiftyStoreKit: 8c193678fabbaafb4430a536497613f89fefd7ec
   SwiftyTimer: 2efd74b060d69ad4f1496baf5bbedbe132125fcf
-  VideoViewController: b251689d8b1cd51b65f718c9bc6109c02078e273
-  VIMVideoPlayer: f4ed0a9986294ec3684a2e6bdc738e30051ef4ef
 
-PODFILE CHECKSUM: 2225e98e96ca12648afe1b85f924f0474c3e9142
+PODFILE CHECKSUM: e0d302cdc55c22c13642cb34445b32d60af3e839
 
 COCOAPODS: 1.8.4

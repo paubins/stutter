@@ -12,11 +12,8 @@ import AVFoundation
 import Photos
 import SwiftyCam
 import SwiftyButton
-import ElasticTransition
 import LLSpinner
 import FDWaveformView
-import VideoViewController
-import DynamicButton
 import Player
 import Device
 import Cartography
@@ -25,6 +22,9 @@ import FCAlertView
 import AVKit
 import SwiftyTimer
 import KDCircularProgress
+import MZTimerLabel
+import SwiftyStoreKit
+import Hue
 
 class ViewController: UIViewController {
     var stutterState:StutterState = .prearmed
@@ -53,6 +53,7 @@ class ViewController: UIViewController {
     lazy var playerViewController:PlayerViewController = {
         let playerController:PlayerViewController = PlayerViewController()
         playerController.playbackDelegate = self
+        playerController.delegate = self
         return playerController
     }()
     
@@ -60,16 +61,44 @@ class ViewController: UIViewController {
     
     let fireController:DazFireController = DazFireController()
     
+    
     var backgroundShiftView:ShiftView = {
         let v = ShiftView()
         
         // set colors
-        v.setColors([UIColor(hex: "#40BAB3"),
-                     UIColor(hex: "#F3C74F"),
-                     UIColor(hex: "#0081C6"),
-                     UIColor(hex: "#F0B0B7")])
+        v.setColors(Constant.COLORS)
         return v
     }()
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+        let appleValidator = AppleReceiptValidator(service: .production)
+        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
+            switch result {
+            case .success(let receipt):
+                // Verify the purchase of Consumable or NonConsumable
+                let purchaseResult = SwiftyStoreKit.verifyPurchase(
+                    productId: "com.musevisions.SwiftyStoreKit.Purchase1",
+                    inReceipt: receipt)
+                
+                switch purchaseResult {
+                case .purchased(let receiptItem):
+                    print("Product is purchased: \(receiptItem)")
+                    self.downloadQueueViewController.timerLabel.addTimeCounted(byTime: 15)
+                    
+                case .notPurchased:
+                    print("The user has never purchased this product")
+                }
+            case .error(let error):
+                print("Receipt verification failed: \(error)")
+            }
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,7 +175,11 @@ extension ViewController : ButtonViewControllerDelegate {
     
     func assetChosen(asset: AVAsset) {
         self.editController = EditController(asset: asset)
-        self.downloadQueueViewController.turnOffShareButton()
+        
+        if (self.stutterState != .exporting) {
+            self.downloadQueueViewController.turnOffShareButton()
+            self.downloadQueueViewController.timerLabel.reset()
+        }
         
         asset.getAudio(completion: { (duration, url) in
             self.editController.load(duration: duration)
@@ -178,9 +211,11 @@ extension ViewController : DownloadQueueViewControllerDelegate {
     }
     
     func exportButtonTapped() {
-        guard self.stutterState == .recording else {
+        guard self.stutterState == .recording || self.stutterState == .paused else {
             return
         }
+        
+        self.downloadQueueViewController.timerLabel.pause()
         
         self.editController.closeEdit()
         self.playerViewController.stop()
@@ -189,6 +224,7 @@ extension ViewController : DownloadQueueViewControllerDelegate {
         self.downloadQueueViewController.updateProgress(exportSession: try! self.editController.export(completionHandler: { (success) in
             DispatchQueue.main.async {
                 self.stutterState = .prearmed
+                self.downloadQueueViewController.timerLabel.reset()
                 
                 if (success) {
                     let alert:FCAlertView = FCAlertView()
@@ -236,8 +272,15 @@ extension ViewController : MainCollectionViewControllerDelegate {
             self.stutterState = .recording
             self.downloadQueueViewController.turnOnShareButton()
             time = editController.storeEdit(percentageOfTime: percentageX)
+            self.downloadQueueViewController.timerLabel.start()
             break
         case .recording:
+            time = editController.storeEdit(percentageOfTime: percentageX)
+            break
+        case .paused:
+            self.stutterState = .recording
+            self.downloadQueueViewController.timerLabel.start()
+            self.downloadQueueViewController.turnOnShareButton()
             time = editController.storeEdit(percentageOfTime: percentageX)
             break
         default:
@@ -276,5 +319,29 @@ extension ViewController: PlayerPlaybackDelegate {
 extension ViewController : FCAlertViewDelegate {
     func fcAlertViewDismissed(_ alertView: FCAlertView!) {
         self.downloadQueueViewController.turnOffShareButton()
+    }
+}
+
+extension ViewController : PlayerViewControllerDelegate {
+    func playbackResumed(player: Player) {
+        switch self.stutterState {
+        case .recording:
+            let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration))
+            self.downloadQueueViewController.timerLabel.start()
+            self.stutterState = .recording
+        default:
+            print("default")
+        }
+    }
+    
+    func playbackPaused(player: Player) {
+        switch self.stutterState {
+        case .recording:
+            let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration))
+            self.downloadQueueViewController.timerLabel.pause()
+            self.stutterState = .paused
+        default:
+            print("default")
+        }
     }
 }

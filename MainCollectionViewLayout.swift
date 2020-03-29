@@ -87,7 +87,7 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
             break
         case .waveform:
             let xPosition = layoutAttributes.center.x
-            let yPosition = layoutAttributes.center.y - 50
+            let yPosition = layoutAttributes.center.y
             layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
             break
         case .thumbnails:

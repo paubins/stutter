@@ -9,6 +9,7 @@
 import Foundation
 import Cartography
 
+
 class ThumbnailCollectionViewCell : UICollectionViewCell {
     lazy var thumbnailImageView:UIImageView = {
         let imageView:UIImageView = UIImageView()
@@ -19,9 +20,11 @@ class ThumbnailCollectionViewCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.addSubview(thumbnailImageView)
         
-        constrain(thumbnailImageView) { (view) in
+        self.clipsToBounds = true
+        self.addSubview(self.thumbnailImageView)
+        
+        constrain(self.thumbnailImageView) { (view) in
             view.right == view.superview!.right
             view.left == view.superview!.left
             view.top == view.superview!.top

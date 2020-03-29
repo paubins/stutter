@@ -29,7 +29,6 @@
 		5F3986A31FA7C25F000B3D9E /* PlayButtonCollectionViewControllerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3986A21FA7C25F000B3D9E /* PlayButtonCollectionViewControllerCell.swift */; };
 		5F3986A61FA7C458000B3D9E /* ScrubberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3986A51FA7C458000B3D9E /* ScrubberCollectionViewCell.swift */; };
 		5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B21EFCB5D000524100 /* AudioExporter.m */; };
-		5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6790B41EFCC12F00524100 /* RecorderController.swift */; };
 		5F95067D1F1F143100DD76C3 /* VarelaRound-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */; };
 		5FA20F4A1F06B2FE006E9076 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA20F491F06B2FE006E9076 /* UIViewController+.swift */; };
 		5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FBFBCCF1F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m */; };
@@ -43,6 +42,7 @@
 		5FC245FE1FA26B260029BBA2 /* AVAsset+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC245FD1FA26B260029BBA2 /* AVAsset+.swift */; };
 		5FC53FB61FA7C61C00E1C1EC /* WaveformCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC53FB51FA7C61C00E1C1EC /* WaveformCollectionViewCell.swift */; };
 		5FC53FB81FA7C70E00E1C1EC /* ThumbnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC53FB71FA7C70E00E1C1EC /* ThumbnailCollectionViewCell.swift */; };
+		5FCF54EF1FABA870006C9BC8 /* DDCHardware-Condensed.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5FCF54EE1FABA868006C9BC8 /* DDCHardware-Condensed.otf */; };
 		5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */; };
 		5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3C8321ED3A8AB0027348C /* ViewController.swift */; };
 		5FE3C8361ED3A8AB0027348C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FE3C8341ED3A8AB0027348C /* Main.storyboard */; };
@@ -75,7 +75,7 @@
 		5F16CF321EFC9FB800486F0D /* DazFlake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFlake.png; path = ../../Dazzle/Dazzle/DazFlake.png; sourceTree = "<group>"; };
 		5F16CF3B1EFCA26200486F0D /* DazFireController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazFireController.h; path = ../../Dazzle/Dazzle/DazFireController.h; sourceTree = "<group>"; };
 		5F16CF3C1EFCA26200486F0D /* DazFireController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazFireController.m; path = ../../Dazzle/Dazzle/DazFireController.m; sourceTree = "<group>"; };
-		5F1A44F71FAA84CD002C57DB /* MainCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionView.swift; sourceTree = "<group>"; };
+		5F1A44F71FAA84CD002C57DB /* MainCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainCollectionView.swift; path = ../MainCollectionView.swift; sourceTree = "<group>"; };
 		5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraScrubberPreviewView.swift; sourceTree = "<group>"; };
 		5F491FE51FA3F49200C751B4 /* UIBezierPath+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+.swift"; sourceTree = "<group>"; };
 		5F3986981FA429A2000B3D9E /* DownloadQueueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DownloadQueueViewController.swift; path = ../DownloadQueueViewController.swift; sourceTree = "<group>"; };
@@ -85,7 +85,6 @@
 		5F3986A51FA7C458000B3D9E /* ScrubberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrubberCollectionViewCell.swift; sourceTree = "<group>"; };
 		5F6790B11EFCB5D000524100 /* AudioExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioExporter.h; sourceTree = "<group>"; };
 		5F6790B21EFCB5D000524100 /* AudioExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioExporter.m; sourceTree = "<group>"; };
-		5F6790B41EFCC12F00524100 /* RecorderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecorderController.swift; path = ../../Beethoven/Example/GuitarTuner/GuitarTuner/Source/RecorderController.swift; sourceTree = "<group>"; };
 		5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VarelaRound-Regular.ttf"; sourceTree = "<group>"; };
 		5FA20F491F06B2FE006E9076 /* UIViewController+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		5FAFB85D1EDDAC6E0025B1BB /* Stutter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stutter-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -102,6 +101,7 @@
 		5FC245FD1FA26B260029BBA2 /* AVAsset+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "AVAsset+.swift"; path = "../AVAsset+.swift"; sourceTree = "<group>"; };
 		5FC53FB51FA7C61C00E1C1EC /* WaveformCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformCollectionViewCell.swift; sourceTree = "<group>"; };
 		5FC53FB71FA7C70E00E1C1EC /* ThumbnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailCollectionViewCell.swift; sourceTree = "<group>"; };
+		5FCF54EE1FABA868006C9BC8 /* DDCHardware-Condensed.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DDCHardware-Condensed.otf"; sourceTree = "<group>"; };
 		5FE3C82D1ED3A8AB0027348C /* Stutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FE3C8301ED3A8AB0027348C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FE3C8321ED3A8AB0027348C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -183,7 +183,6 @@
 		5FE3C8241ED3A8AB0027348C = {
 			isa = PBXGroup;
 			children = (
-				5F1A44F71FAA84CD002C57DB /* MainCollectionView.swift */,
 				5F60A93D1FA992BC008EEB77 /* Layers */,
 				5FE3C82F1ED3A8AB0027348C /* Stutter */,
 				5FE3C82E1ED3A8AB0027348C /* Products */,
@@ -224,6 +223,7 @@
 		5FE3C8421ED3DE680027348C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5F1A44F71FAA84CD002C57DB /* MainCollectionView.swift */,
 				5F142CF31FA977DC00A9A662 /* ShapeView.swift */,
 				5FF10DC71F030B08001205B6 /* BAPulseView.h */,
 				5FF10DC81F030B08001205B6 /* BAPulseView.m */,
@@ -268,6 +268,7 @@
 		5FE3C8561ED48E050027348C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5FCF54EE1FABA868006C9BC8 /* DDCHardware-Condensed.otf */,
 				5F95067C1F1F141700DD76C3 /* VarelaRound-Regular.ttf */,
 				5F16CF3A1EFC9FBD00486F0D /* Sprites */,
 				5FE3C8551ED48E000027348C /* test.mp4 */,
@@ -281,7 +282,6 @@
 				5F00D8B81FA2CF1300865894 /* ExporterController.h */,
 				5F00D8B91FA2CF1400865894 /* ExporterController.m */,
 				5FC245F11FA249390029BBA2 /* EditController.swift */,
-				5F6790B41EFCC12F00524100 /* RecorderController.swift */,
 				5F16CE811EFC9BE500486F0D /* DazTouchController.h */,
 				5F16CE821EFC9BE500486F0D /* DazTouchController.m */,
 				5F16CF3B1EFCA26200486F0D /* DazFireController.h */,
@@ -374,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F95067D1F1F143100DD76C3 /* VarelaRound-Regular.ttf in Resources */,
+				5FCF54EF1FABA870006C9BC8 /* DDCHardware-Condensed.otf in Resources */,
 				5FE3C8571ED48E220027348C /* test.mp4 in Resources */,
 				5F16CF331EFC9FB800486F0D /* DazTriangle.png in Resources */,
 				5FE3C83B1ED3A8AB0027348C /* LaunchScreen.storyboard in Resources */,
@@ -405,11 +406,12 @@
 				"${BUILT_PRODUCTS_DIR}/Device/Device.framework",
 				"${BUILT_PRODUCTS_DIR}/DynamicButton/DynamicButton.framework",
 				"${BUILT_PRODUCTS_DIR}/ElasticTransition/ElasticTransition.framework",
+				"${BUILT_PRODUCTS_DIR}/Emoji-swift/Emoji.framework",
 				"${BUILT_PRODUCTS_DIR}/FCAlertView/FCAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/FDWaveformView/FDWaveformView.framework",
 				"${BUILT_PRODUCTS_DIR}/FontAwesomeKit/FontAwesomeKit.framework",
+				"${BUILT_PRODUCTS_DIR}/HTPressableButton/HTPressableButton.framework",
 				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
-				"${BUILT_PRODUCTS_DIR}/JTFadingInfoView/JTFadingInfoView.framework",
 				"${BUILT_PRODUCTS_DIR}/KDCircularProgress/KDCircularProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/LLSpinner/LLSpinner.framework",
 				"${BUILT_PRODUCTS_DIR}/LxThroughPointsBezier/LxThroughPointsBezier.framework",
@@ -425,40 +427,27 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyTimer/SwiftyTimer.framework",
-				"${BUILT_PRODUCTS_DIR}/VIMVideoPlayer/VIMVideoPlayer.framework",
-				"${BUILT_PRODUCTS_DIR}/VideoViewController/VideoViewController.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AHKBendableView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AnimatablePlayButton.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Beethoven.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cartography.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Device.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicButton.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ElasticTransition.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Emoji.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FCAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FDWaveformView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FontAwesomeKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HTPressableButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTFadingInfoView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KDCircularProgress.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LLSpinner.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LxThroughPointsBezier.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MZTimerLabel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionAnimation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Overlap.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pitchy.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Player.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pulsator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Shift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyTimer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VIMVideoPlayer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VideoViewController.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -500,13 +489,11 @@
 				5F00D8BA1FA2CF1400865894 /* ExporterController.m in Sources */,
 				5FC245FC1FA2667C0029BBA2 /* LoadingViewController.swift in Sources */,
 				5F3986A31FA7C25F000B3D9E /* PlayButtonCollectionViewControllerCell.swift in Sources */,
-				5F6790B51EFCC12F00524100 /* RecorderController.swift in Sources */,
 				5FC245FA1FA2540E0029BBA2 /* ButtonViewController.swift in Sources */,
 				5F142CF51FA977DE00A9A662 /* ShapeView.swift in Sources */,
 				5F16CE831EFC9BE500486F0D /* DazTouchController.m in Sources */,
 				5F3986A11FA7C0BC000B3D9E /* ScrubberPreviewViewControllerCollectionViewCell.swift in Sources */,
 				5FE3C85C1ED4DAF00027348C /* PlayerView.swift in Sources */,
-				5FBFBCD71F016FC900AEA188 /* BezierViewController.m in Sources */,
 				5F142CB11FA7EEB000A9A662 /* MainCollectionViewLayout.swift in Sources */,
 				5FE3C8331ED3A8AB0027348C /* ViewController.swift in Sources */,
 				5F39869B1FA7B873000B3D9E /* MainCollectionViewController.swift in Sources */,
@@ -516,10 +503,8 @@
 				5F3986991FA429A2000B3D9E /* DownloadQueueViewController.swift in Sources */,
 				5FC53FB81FA7C70E00E1C1EC /* ThumbnailCollectionViewCell.swift in Sources */,
 				5F142CF41FA977DE00A9A662 /* WireLayer.swift in Sources */,
-				5FBFBCDE1F01A96000AEA188 /* UIView+YGPulseView.m in Sources */,
 				5F16CE801EFC829600486F0D /* SDevCircleButton.swift in Sources */,
 				5FC53FB61FA7C61C00E1C1EC /* WaveformCollectionViewCell.swift in Sources */,
-				5FBFBCD41F016FB400AEA188 /* UIBezierPath+LxThroughPointsBezier.m in Sources */,
 				5FBFBCE91F02F39E00AEA188 /* Constants.swift in Sources */,
 				5FE3C8311ED3A8AB0027348C /* AppDelegate.swift in Sources */,
 				C1A77BEA24311671000B1328 /* DazTouchController.m in Sources */,

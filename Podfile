@@ -37,5 +37,7 @@ target 'Stutter' do
   pod 'MZTimerLabel'
   pod 'SwiftyStoreKit'
   pod 'LxThroughPointsBezier', '~> 1.0.0'
+  pod 'HTPressableButton'
+  pod 'Emoji-swift'
 
 end
