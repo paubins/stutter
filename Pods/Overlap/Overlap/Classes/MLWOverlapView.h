@@ -19,10 +19,8 @@ CGRect MLWCGRectMinusCGRect(CGRect fromRect, CGRect toRect);
 @property (readonly, nonatomic) NSArray<T> *overViews;
 - (void)enumerateOverViews:(void(^)(T overView, NSUInteger index))block;
 
-+ (instancetype)new NS_UNAVAILABLE;
++ (instancetype) new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
-- (instancetype)initWithCoder:(NSCoder *)coder NS_UNAVAILABLE;
 
 - (instancetype)initWithGenerator:(T (^)(NSUInteger overlapIndex))generator;
 - (instancetype)initWithOverlapsCount:(NSUInteger)overlapsCount generator:(UIView * (^)(NSUInteger overlapIndex))generator;

@@ -24,7 +24,7 @@ class PlayerViewController : UIViewController {
         
         self.player.playbackDelegate = self.playbackDelegate
         self.player.view.frame = self.view.bounds
-        self.player.fillMode = AVLayerVideoGravityResizeAspect
+        self.player.fillMode = AVLayerVideoGravity.resizeAspect
         self.player.playbackLoops = true
         self.player.view.backgroundColor = .clear
         self.player.playbackResumesWhenEnteringForeground = false
@@ -61,11 +61,11 @@ class PlayerViewController : UIViewController {
     }
     
     func seekToTime(time: CMTime) {
-        self.player.seekToTime(to: time, toleranceBefore: CMTimeMake(1, 600), toleranceAfter: CMTimeMake(1, 600))
+        self.player.seekToTime(to: time, toleranceBefore: CMTimeMake(value: 1, timescale: 600), toleranceAfter: CMTimeMake(value: 1, timescale: 600))
         self.player.playFromCurrentTime()
     }
     
-    func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
+    @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer) {
         if (gestureRecognizer.location(in: self.view).x < UIScreen.main.bounds.width/4) {
             self.play()
         } else if self.player.playbackState == .playing {

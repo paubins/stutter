@@ -212,16 +212,16 @@ open class AnimatablePlayButton: UIButton {
     
     fileprivate func setPauseProperty(_ animation: CAKeyframeAnimation) {
         animation.duration = 0.4
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
         animation.isRemovedOnCompletion = false
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
     }
     
     fileprivate func setCommonProperty(_ animation: CAKeyframeAnimation) {
         animation.duration = 0.4
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         animation.isRemovedOnCompletion = false
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
     }
     
     // MARK: - public

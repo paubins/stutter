@@ -48,7 +48,7 @@ class ScrubberPreviewViewController : UIViewController {
     func seek(to: CMTime, distance: Int) {
         self.cameraScrubberPreviewConstraint.constant = 20 + CGFloat(distance)
         self.cameraScrubberPreviewView.playerView.player?.seek(to: to,
-                                                               toleranceBefore: CMTimeMake(1, 60),
-                                                               toleranceAfter: CMTimeMake(1, 60))
+                                                               toleranceBefore: CMTimeMake(value: 1, timescale: 60),
+                                                               toleranceAfter: CMTimeMake(value: 1, timescale: 60))
     }
 }

@@ -9,6 +9,7 @@
 import Foundation
 import Cartography
 import FontAwesomeKit
+import Photos
 
 protocol ButtonViewControllerDelegate {
     func assetChosen(asset: AVAsset)
@@ -49,7 +50,7 @@ class ButtonViewController : UIViewController {
         let containerView:UIView = UIView(frame: .zero)
         containerView.clipsToBounds = true
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         blurEffectView.clipsToBounds = true
@@ -84,7 +85,7 @@ class ButtonViewController : UIViewController {
         let containerView:UIView = UIView(frame: .zero)
         containerView.clipsToBounds = true
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         blurEffectView.clipsToBounds = true
@@ -119,7 +120,7 @@ class ButtonViewController : UIViewController {
         let containerView:UIView = UIView(frame: .zero)
         containerView.clipsToBounds = true
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         blurEffectView.clipsToBounds = true
@@ -165,7 +166,7 @@ class ButtonViewController : UIViewController {
         
         self.view.isUserInteractionEnabled = true
         
-        self.addChildViewController(self.loadingViewController)
+        self.addChild(self.loadingViewController)
         
         self.view.addSubview(self.loadFromCameraButton)
         self.view.addSubview(self.loadFromLibraryButton)
@@ -203,19 +204,32 @@ class ButtonViewController : UIViewController {
         self.saveShareButton.makeCircular()
     }
     
-    func loadFromCamera(sender: UIButton) {
+    @objc func loadFromCamera(sender: UIButton) {
         self.present(self.picker, animated: true) {
             print("load from library")
         }
     }
     
-    func loadFromLibrary(sender: UIButton) {
-        self.present(self.picker2, animated: true) {
-            print("load from camera")
+    @objc func loadFromLibrary(sender: UIButton) {
+        let photos = PHPhotoLibrary.authorizationStatus()
+        if photos == .notDetermined {
+            PHPhotoLibrary.requestAuthorization({status in
+                if status == .authorized {
+                    DispatchQueue.main.async {
+                        self.present(self.picker2, animated: true) {
+                            print("load from camera")
+                        }
+                    }
+                } else {}
+            })
+        } else if photos == .authorized {
+            self.present(self.picker2, animated: true) {
+                print("load from camera")
+            }
         }
     }
     
-    func saveVideo(sender: UIButton) {
+    @objc func saveVideo(sender: UIButton) {
         if (0.0 == self.loadingViewController.progress.progress) {
             self.delegate.exportButtonTapped()
         }
@@ -246,10 +260,8 @@ class ButtonViewController : UIViewController {
 }
 
 extension ButtonViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        print("picked media")
-        
-        let url:URL = info[UIImagePickerControllerMediaURL] as! URL
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let url:URL = info[UIImagePickerController.InfoKey.mediaURL] as! URL
         if (self.picker == picker) {
             self.picker.dismiss(animated: true, completion: {
                 print("dismissed image picker")

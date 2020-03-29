@@ -87,7 +87,7 @@ CGRect MLWCGRectMinusCGRect(CGRect fromRect, CGRect toRect) {
 }
 
 - (instancetype)initWithOverlapsCount:(NSUInteger)overlapsCount generator:(UIView * (^)(NSUInteger overlapIndex))generator {
-    self = [super initWithFrame:CGRectZero];
+    self = [super init];
     if (self) {
         NSMutableArray *overMasks = [NSMutableArray array];
         NSMutableArray *waterViews = [NSMutableArray array];

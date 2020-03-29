@@ -10,7 +10,6 @@
 #endif
 #endif
 
-#import "MLWInverseStatusBar.h"
 #import "MLWOverlapView.h"
 #import "Overlap.h"
 

@@ -8,6 +8,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/Shift.svg?style=flat)](http://cocoapods.org/pods/Shift)
 
 ![Shift_gif.gif](README/Shift_gif.gif)
+![handle_logo_gradient.gif](README/handle_logo_gradient.gif)
 
 Inspired by Pastel: https://github.com/cruisediary/Pastel
 
@@ -83,11 +84,11 @@ ShiftTextView()
 ShiftImageView()
 ```
 
-Each UI class has an Objective-C exuivalend, just add _Objc to the class name, ShiftView_Objc
+Each UI class has an Objective-C equivalent, just add _Objc to the class name, ShiftView_Objc
 
 ## Requirements
 
-Swift 3.0, iOS 8.  Compatible with Obj-c
+Swift 4.0, iOS 8.  Compatible with Obj-c
 
 ## Installation
 

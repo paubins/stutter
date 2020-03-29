@@ -16,8 +16,8 @@
 ## Requirements
 
 - iOS 8.0+ / tvOS 9.0+
-- Xcode 8.0+
-- Swift 3.1+
+- Xcode 10.0+
+- Swift 5+
 
 ## Usage
 
@@ -79,14 +79,15 @@ Here is the symbol list (`DynamicButton.Style`) already implemented by the libra
  - `.rewind`: rewind `≪`
  - `.verticalLine`: vertical line `|`
  - `.verticalMoreOptions`: vertical more options `⋮`
+ - `.location`: location symbol
 
-### Custom symbol
+### Custom symbols
 
 To create your own symbols you have to create an object (or struct) that conforms to the `DynamicButtonBuildableStyle` protocol:
 
 ```swift
 /// Diagonal line style: \
-struct MyCustomLine: Style, DynamicButtonBuildable {
+struct MyCustomLine: DynamicButtonBuildableStyle {
   let pathVector: DynamicButtonPathVector
 
   init(center: CGPoint, size: CGFloat, offset: CGPoint, lineWidth: CGFloat) {
@@ -107,7 +108,7 @@ struct MyCustomLine: Style, DynamicButtonBuildable {
   }
 }
 
-let myButton.style = .custom(MyCustomLine.self)
+myButton.style = .custom(MyCustomLine.self)
 ```
 
 Note that a symbol can not have more than 4 paths.
@@ -136,7 +137,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
 use_frameworks!
-pod 'DynamicButton', '~> 4.0.0'
+pod 'DynamicButton', '~> 6.2.1'
 ```
 
 Install into your project:
@@ -167,7 +168,7 @@ $ brew install carthage
 To integrate `DynamicButton` into your Xcode project using Carthage, specify it in your `Cartfile` file:
 
 ```ogdl
-github "yannickl/DynamicButton" >= 4.0.0
+github "yannickl/DynamicButton" >= 6.2.1
 ```
 
 #### Swift Package Manager
@@ -179,10 +180,10 @@ import PackageDescription
 
 let package = Package(
     name: "YOUR_PROJECT_NAME",
-    targets: [],
     dependencies: [
-        .Package(url: "https://github.com/yannickl/DynamicButton.git", versions: "4.0.0" ..< Version.max)
-    ]
+        .package(url: "https://github.com/yannickl/DynamicButton.git", from: "6.2.1")
+    ],
+    // ...
 )
 ```
 
@@ -199,9 +200,8 @@ Contributions are welcomed and encouraged *♡*.
 ## Contact
 
 Yannick Loriot
+ - [https://21.co/yannickl/](https://21.co/yannickl/)
  - [https://twitter.com/yannickloriot](https://twitter.com/yannickloriot)
- - [contact@yannickloriot.com](mailto:contact@yannickloriot.com)
-
 
 ## License (MIT)
 

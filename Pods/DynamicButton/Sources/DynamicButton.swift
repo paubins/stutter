@@ -96,7 +96,7 @@ between each style changes.
     setStyle(_style, animated: false)
   }
 
-  public override func setTitle(_ title: String?, for state: UIControlState) {
+  public override func setTitle(_ title: String?, for state: UIControl.State) {
     super.setTitle("", for: state)
   }
 
@@ -129,8 +129,8 @@ between each style changes.
     for sublayer in allLayers {
       sublayer.fillColor     = UIColor.clear.cgColor
         sublayer.anchorPoint   = CGPoint(x: 0, y: 0)
-      sublayer.lineJoin      = kCALineJoinRound
-      sublayer.lineCap       = kCALineCapRound
+      sublayer.lineJoin      = CAShapeLayerLineJoin.round
+      sublayer.lineCap       = CAShapeLayerLineCap.round
       sublayer.contentsScale = layer.contentsScale
       sublayer.path          = UIBezierPath().cgPath
       sublayer.lineWidth     = lineWidth
@@ -143,7 +143,7 @@ between each style changes.
   // MARK: - Configuring Buttons
 
   /// The button style. The setter is equivalent to the setStyle(, animated:) method with animated value to false. Defaults to Hamburger.
-  @IBInspectable public var style: Style {
+  public var style: Style {
     get { return _style }
     set (newValue) { setStyle(newValue, animated: false) }
   }
@@ -204,8 +204,8 @@ between each style changes.
     guard #available(iOS 9, *) else {
       let basic            = CABasicAnimation(keyPath: keyPath)
       basic.duration       = 0.16
-      basic.fillMode       = kCAFillModeForwards
-      basic.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
+      basic.fillMode       = CAMediaTimingFillMode.forwards
+      basic.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.default)
 
       return basic
     }
@@ -215,8 +215,8 @@ between each style changes.
     spring.damping         = damping
     spring.initialVelocity = initialVelocity
     spring.stiffness       = stiffness
-    spring.fillMode        = kCAFillModeForwards
-    spring.timingFunction  = CAMediaTimingFunction(name: kCAMediaTimingFunctionDefault)
+    spring.fillMode        = CAMediaTimingFillMode.forwards
+    spring.timingFunction  = CAMediaTimingFunction(name: CAMediaTimingFunctionName.default)
 
     return spring
   }
@@ -226,7 +226,7 @@ between each style changes.
   // Store the background color color variable
   var defaultBackgroundColor: UIColor = .clear
 
-  func highlightAction() {
+  @objc func highlightAction() {
     defaultBackgroundColor = backgroundColor ?? .clear
     backgroundColor        = highlightBackgroundColor ?? defaultBackgroundColor
 
@@ -243,7 +243,7 @@ between each style changes.
     }
   }
 
-  func unhighlightAction() {
+  @objc func unhighlightAction() {
     backgroundColor = defaultBackgroundColor
 
     for sublayer in allLayers {

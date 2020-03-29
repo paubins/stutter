@@ -10,11 +10,7 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-<image src="/images/overlap.gif" width="250">
-
-Even system status bar can be overlapped (`MLWInverseStatusBar` singleton):
-
-<image src="/images/status-bar.gif" width="500">
+<image src="/images/overlap.png" width="250">
 
 ## Requirements
 

@@ -122,10 +122,10 @@ class RecordButtonsView : UIView {
 }
 
 extension RecordButtonsView {
-    func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
+    @objc func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
         let view = gestureRecognizer.view
         
-        if (gestureRecognizer.state == UIGestureRecognizerState.began) {
+        if (gestureRecognizer.state == .began) {
             self.delegate?.recordButtonDraggingHasBegun(index: (view?.tag)!)
         }
         

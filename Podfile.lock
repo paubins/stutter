@@ -1,15 +1,15 @@
 PODS:
   - AHKBendableView (1.1)
   - AnimatablePlayButton (1.0.0)
-  - Beethoven (3.0.1):
-    - Pitchy
-  - Cartography (1.1.0)
-  - Device (3.0.1)
-  - DynamicButton (4.0.0)
+  - Beethoven (4.0.2):
+    - Pitchy (~> 3.0)
+  - Cartography (4.0.0)
+  - Device (3.2.1)
+  - DynamicButton (6.2.1)
   - ElasticTransition (3.1.1):
     - MotionAnimation (~> 0.1.2)
   - FCAlertView (1.4.0)
-  - FDWaveformView (2.2.0)
+  - FDWaveformView (5.0.1)
   - FontAwesomeKit (2.2.1):
     - FontAwesomeKit/Core (= 2.2.1)
     - FontAwesomeKit/FontAwesome (= 2.2.1)
@@ -31,92 +31,149 @@ PODS:
     - FontAwesomeKit/Core
   - FontAwesomeKit/Zocial (2.2.1):
     - FontAwesomeKit/Core
-  - Hue (2.0.1)
+  - Hue (5.0.0)
   - JTFadingInfoView (1.0.2)
-  - KDCircularProgress (1.5.2)
-  - LLSpinner (0.0.1)
+  - KDCircularProgress (1.5.4)
+  - LLSpinner (1.0.0)
   - MotionAnimation (0.1.2)
-  - Overlap (0.4.0)
-  - Pitchy (2.0.1)
-  - Player (0.5.1)
-  - Presentr (1.2.3)
-  - Pulsator (0.3.0)
-  - Shift (0.2.0)
-  - SwiftyButton (0.6.0)
-  - SwiftyCam (2.3.0)
-  - SwiftyTimer (2.0.0)
+  - Overlap (0.3.2)
+  - Pitchy (3.0.0)
+  - Player (0.13.2)
+  - Presentr (1.9)
+  - Pulsator (0.6.0)
+  - Shift (0.2.2)
+  - SwiftyButton (0.8.2)
+  - SwiftyCam (4.0.0)
+  - SwiftyTimer (2.1.0)
   - VideoViewController (1.1)
   - VIMVideoPlayer (6.0.1)
 
 DEPENDENCIES:
-  - AHKBendableView
+  - "AHKBendableView (from `git@github.com:paubins/AHKBendableView.git`)"
   - AnimatablePlayButton (from `https://github.com/paubins/AnimatablePlayButton`)
-  - Beethoven
+  - Beethoven (from `https://github.com/814349837/Beethoven.git`)
   - Cartography
-  - Device (~> 3.0.1)
-  - DynamicButton (~> 4.0.0)
-  - ElasticTransition
+  - Device (~> 3.2.1)
+  - DynamicButton (~> 6.2.1)
+  - "ElasticTransition (from `git@github.com:deejeay143/ElasticTransition.git`)"
   - FCAlertView
   - FDWaveformView
   - FontAwesomeKit (~> 2.2.0)
   - Hue
   - JTFadingInfoView
   - KDCircularProgress
-  - LLSpinner
-  - Overlap
+  - LLSpinner (from `https://github.com/alephao/LLSpinner.git`, branch `1.0.0`)
+  - "MotionAnimation (from `git@github.com:paubins/MotionAnimation.git`)"
+  - Overlap (~> 0.3.2)
   - Player
   - Presentr
   - Pulsator
-  - Shift
+  - Shift (from `https://github.com/andre991/Shift.git`)
   - SwiftyButton
-  - SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `2.4.0`)
+  - "SwiftyCam (from `git@github.com:Awalz/SwiftyCam.git`, branch `4.0.0`)"
   - SwiftyTimer
-  - VideoViewController
+  - "VideoViewController (from `git@github.com:paubins/Periscope-VideoViewController.git`)"
   - VIMVideoPlayer
 
+SPEC REPOS:
+  trunk:
+    - Cartography
+    - Device
+    - DynamicButton
+    - FCAlertView
+    - FDWaveformView
+    - FontAwesomeKit
+    - Hue
+    - JTFadingInfoView
+    - KDCircularProgress
+    - Overlap
+    - Pitchy
+    - Player
+    - Presentr
+    - Pulsator
+    - SwiftyButton
+    - SwiftyTimer
+    - VIMVideoPlayer
+
 EXTERNAL SOURCES:
+  AHKBendableView:
+    :git: "git@github.com:paubins/AHKBendableView.git"
   AnimatablePlayButton:
     :git: https://github.com/paubins/AnimatablePlayButton
+  Beethoven:
+    :git: https://github.com/814349837/Beethoven.git
+  ElasticTransition:
+    :git: "git@github.com:deejeay143/ElasticTransition.git"
+  LLSpinner:
+    :branch: 1.0.0
+    :git: https://github.com/alephao/LLSpinner.git
+  MotionAnimation:
+    :git: "git@github.com:paubins/MotionAnimation.git"
+  Shift:
+    :git: https://github.com/andre991/Shift.git
   SwiftyCam:
-    :branch: 2.4.0
-    :git: git@github.com:Awalz/SwiftyCam.git
+    :branch: 4.0.0
+    :git: "git@github.com:Awalz/SwiftyCam.git"
+  VideoViewController:
+    :git: "git@github.com:paubins/Periscope-VideoViewController.git"
 
 CHECKOUT OPTIONS:
+  AHKBendableView:
+    :commit: 74e8e14e1db3ac17e743963359533928e1723172
+    :git: "git@github.com:paubins/AHKBendableView.git"
   AnimatablePlayButton:
-    :commit: 380f6272e0b0262d475c6bc58755744d0aa3237b
+    :commit: e0bf4430d1099cc19b67042d4775ff82cbaa3e97
     :git: https://github.com/paubins/AnimatablePlayButton
+  Beethoven:
+    :commit: e8147f4a4bbf00ba4047fda5848bf05fcae549f5
+    :git: https://github.com/814349837/Beethoven.git
+  ElasticTransition:
+    :commit: 1b1e312e48397d0104d385c34777ee0136e1dbb0
+    :git: "git@github.com:deejeay143/ElasticTransition.git"
+  LLSpinner:
+    :commit: e40737bffec1f4e7ed4a19a9302d7a9185892319
+    :git: https://github.com/alephao/LLSpinner.git
+  MotionAnimation:
+    :commit: 3b47a5ba70b4186ddc17476079b28130b82c443f
+    :git: "git@github.com:paubins/MotionAnimation.git"
+  Shift:
+    :commit: f2a5aad7781e51c9d2eee02cc5cf7246769cd098
+    :git: https://github.com/andre991/Shift.git
   SwiftyCam:
-    :commit: 9b8e7fd95131d98d145c956c925267c0a674d7bf
-    :git: git@github.com:Awalz/SwiftyCam.git
+    :commit: c3dab301b395a267f78e894924bd39257ee5979b
+    :git: "git@github.com:Awalz/SwiftyCam.git"
+  VideoViewController:
+    :commit: cff3fa1153d196e89a17664905e1bb2d478884a4
+    :git: "git@github.com:paubins/Periscope-VideoViewController.git"
 
 SPEC CHECKSUMS:
   AHKBendableView: ce81dc973f5e59367641e769404a9a8ad99f606e
   AnimatablePlayButton: 529c208dc98499c8fcfca52fff26fee2316d3e82
-  Beethoven: 2530f27d1881f24f9e5d757aeb7f654b735f1080
-  Cartography: 0538ccb4044acbbda2266335fc58cb4228794d90
-  Device: c793851589633bc515b65e08a2b5a223bc87c45a
-  DynamicButton: ddc1e8d79e37f2761ab64df0c02e89061b05d812
-  ElasticTransition: 6c4e4739e32480c864217db912100f3657f6447a
+  Beethoven: 04f99571a7ad2a37184161762be757fe0b8ccc20
+  Cartography: c5626d29056b20f1e95c017326ee4df57cc39ad8
+  Device: 0738862dd8a30856b4bd9e21cb9b728873d21392
+  DynamicButton: 95f30460793bd3510a5c213ac1b810a5e3d54b6a
+  ElasticTransition: 72405dae44324293360776bb7f6579cdab428dd4
   FCAlertView: fdddd63381898c1d1a5a20c9f084fbd2c6d12f8b
-  FDWaveformView: 21127c3dab35b522e87a799ec96fe3b4f868ab0e
+  FDWaveformView: c188be613947273cc83d6f0056505f60e6c4b9ac
   FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
-  Hue: 354caec055fdc9d38b5ef33ca2e7224721843baf
+  Hue: c129cb67be7d093a82bbbc30ce8a96757bf6f37a
   JTFadingInfoView: 9fcb410da4bf8e3ce722b04b14ee0046a8f13a65
-  KDCircularProgress: 12f677b2deb02409ab48c6cae1898d146b8ad549
-  LLSpinner: 0ed607d59b3a447ddd157c29ef684de7a5a285ad
-  MotionAnimation: ff5c8fc2e429d7e10d46ae86819ba9759846c343
-  Overlap: 7c0520cb9110287643e8c64a7b36463e4e16d894
-  Pitchy: 00dbe7cb7ac87fd9c32cb2aa6ce50d11f931289f
-  Player: 7bd61af457e558edf938066b03760f035a520837
-  Presentr: a21c7bbb3532c8ff60320e235c0a4869e72f8885
-  Pulsator: 0191f14f7ab82d6dbde6fdbde42036f07a4450e3
-  Shift: 489e20a2a95c4ca3ee80fab152cd80a5369c5110
-  SwiftyButton: 4c9b61c499f172971a1b8c2eebbbdc20a26d8a08
-  SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
-  SwiftyTimer: 2efd74b060d69ad4f1496baf5bbedbe132125fcf
+  KDCircularProgress: 98200c6b8e85d22bc04eb644721d3b1e12b0686b
+  LLSpinner: 682270ec95d5fc025a67e899c33c146a75dd2df9
+  MotionAnimation: 0257eb90f766f6d58c70524f956faf8d56c5e7bf
+  Overlap: 30898683f40d7acf83917988ce5df8ae7d3f5360
+  Pitchy: 15407e4425b6d88fa3e7eef8927ba659fab52d7a
+  Player: 7a2bcad3631034fa47d4b6fdedf7c4075fc236fe
+  Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
+  Pulsator: eb5a9f9be4bdcbd19903984c65deca6aabe50a17
+  Shift: 6aa4729ec2d7fbb0eaf016b2ee624fa5508892d8
+  SwiftyButton: 5b0ef314e9cf61cf8a83e456ddd1ea1f53f30598
+  SwiftyCam: 4b75d005ad7f68194ecd236de94218cde0e2fd7f
+  SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
   VideoViewController: b251689d8b1cd51b65f718c9bc6109c02078e273
   VIMVideoPlayer: f4ed0a9986294ec3684a2e6bdc738e30051ef4ef
 
-PODFILE CHECKSUM: e9974355971369b9d1d3e9fef28e8b4422acd73d
+PODFILE CHECKSUM: 96f15db5983241287a2ce1fb4ed9943e9face77f
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.8.4

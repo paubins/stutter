@@ -1,9 +1,10 @@
 LLSpinner
 ===========
 
-[![Swift 3.0](https://img.shields.io/badge/Swift-3.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
-[![Platforms iOS](https://img.shields.io/badge/Platforms-iOS-lightgray.svg?style=flat)](https://developer.apple.com/swift/)
-[![Xcode 8.0+](https://img.shields.io/badge/Xcode-8.0+-blue.svg?style=flat)](https://developer.apple.com/swift/)
+[![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://developer.apple.com/swift/)
+[![Platform](https://img.shields.io/cocoapods/p/LLSpinner.svg?style=flat)](https://cocoapods.org/pods/LLSpinner)
+[![Version](https://img.shields.io/cocoapods/v/LLSpinner.svg?style=flat)](https://cocoapods.org/pods/LLSpinner)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 An easy way to handle full screen activity indicator.
 
@@ -38,7 +39,7 @@ LLSpinner.style = .whiteLarge
 LLSpinner.spin(style: .whiteLarge, backgroundColor: UIColor(white: 0, alpha: 0.6))
 ```
 
-#### Tap
+#### Tap handler
 
 ```swift
 // Add a handler that will trigger when the spinner is tapped
@@ -47,3 +48,19 @@ LLSpinner.spin() {
 }
 ```
 
+Installation
+---
+### Cocoapods
+LLSpinner is available through [CocoaPods](http://cocoapods.org).
+
+To install add the following line to your Podfile:
+
+    pod 'LLSpinner'
+
+### Carthage
+Add the following line to your Cartfile:
+
+    github "alaphao/LLSpinner"
+   
+### Manually
+Download and drop ```LLSpinner.swift``` in your project.

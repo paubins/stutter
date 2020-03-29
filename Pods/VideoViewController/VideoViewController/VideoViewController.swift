@@ -41,7 +41,7 @@ open class VideoViewController: UIViewController {
     
     fileprivate let rewindDimView = UIVisualEffectView()
     fileprivate let rewindContentView = UIView()
-    open let rewindTimelineView = TimelineView()
+    public let rewindTimelineView = TimelineView()
     fileprivate let rewindPreviewShadowLayer = CALayer()
     fileprivate let rewindPreviewImageView = UIImageView()
     fileprivate let rewindCurrentTimeLabel = UILabel()
@@ -162,7 +162,7 @@ open class VideoViewController: UIViewController {
         player.pause()
     }
     
-    open func longPressed(_ gesture: UILongPressGestureRecognizer) {
+    @objc   open func longPressed(_ gesture: UILongPressGestureRecognizer) {
         let location = gesture.location(in: gesture.view!)
         rewindTimelineView.zoom = (location.y - rewindTimelineView.center.y - 10.0) / 30.0
         

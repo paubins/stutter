@@ -162,11 +162,11 @@ extension ScrubberView {
         return slices[index].superview!.frame.origin.x
     }
     
-    func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
+    @objc func tapped(gestureRecognizer: UILongPressGestureRecognizer) {
         print("tapped")
         let view = gestureRecognizer.view
         
-        if (gestureRecognizer.state == UIGestureRecognizerState.began) {
+        if (gestureRecognizer.state == .began) {
             self.delegate?.draggingHasBegun(index: (view?.tag)!)
         }
         

@@ -10,6 +10,7 @@ import Foundation
 import KDCircularProgress
 import Cartography
 import FCAlertView
+import Hue
 
 class LoadingViewController : UIViewController {
     var progressTimer:Timer!

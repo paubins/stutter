@@ -27,7 +27,7 @@ import SwiftyTimer
 import KDCircularProgress
 
 class ViewController: UIViewController {
-    var times:[Int: CMTime] = [0: kCMTimeZero, 1: kCMTimeZero, 2: kCMTimeZero, 3: kCMTimeZero, 4: kCMTimeZero]
+    var times:[Int: CMTime] = [0: .zero, 1: .zero, 2: .zero, 3: .zero, 4: .zero]
     var asset:AVAsset!
     var lastSelectedIndex:Int = -1
     
@@ -76,10 +76,10 @@ class ViewController: UIViewController {
         
         self.view.backgroundColor = .clear
         
-        self.addChildViewController(self.buttonViewController)
-        self.addChildViewController(self.playerViewController)
-        self.addChildViewController(self.scrubberPreviewViewController)
-        self.addChildViewController(self.mainControlViewController)
+        self.addChild(self.buttonViewController)
+        self.addChild(self.playerViewController)
+        self.addChild(self.scrubberPreviewViewController)
+        self.addChild(self.mainControlViewController)
         
         self.view.addSubview(self.backgroundShiftView)
         self.view.addSubview(self.playerViewController.view)
@@ -204,7 +204,10 @@ extension ViewController : MainControlViewControllerDelegate {
 
 
 extension ViewController: PlayerPlaybackDelegate {
-    
+    func playerPlaybackDidLoop(_ player: Player) {
+        
+    }
+
     public func playerPlaybackWillStartFromBeginning(_ player: Player) {
         
     }

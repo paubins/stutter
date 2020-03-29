@@ -56,7 +56,7 @@ class MainControlViewController : UIViewController {
         
         self.view.isUserInteractionEnabled = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChange), name:NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChange), name:UIDevice.orientationDidChangeNotification, object: nil)
         
         self.view.addSubview(self.dazzleController.view)
         
@@ -122,7 +122,7 @@ class MainControlViewController : UIViewController {
         }
     }
     
-    func orientationChange(notification: Notification) {
+    @objc func orientationChange(notification: Notification) {
         self.scrubberView.setNeedsDisplay()
         
         for (i, bezierViewController) in  self.bezierViewControllers.enumerated() {
@@ -251,7 +251,7 @@ class MainControlViewController : UIViewController {
     
     func assetTimeChanged(player: Player) {
         let fraction = Double(player.currentTime) / Double(player.maximumDuration)
-        self.scrubberView.waveformView.progressSamples = Int(CGFloat(fraction) * CGFloat(self.scrubberView.waveformView.totalSamples))
+        self.scrubberView.waveformView.zoomSamples = 0..<abs(Int(CGFloat(fraction) * CGFloat(self.scrubberView.waveformView.totalSamples)))
     }
 }
 
@@ -292,7 +292,7 @@ extension MainControlViewController : PlayButtonViewDelegate {
         
         let distance = self.scrubberView.getSlicePosition(index: index)
         
-        self.scrubberView.waveformView.progressSamples = Int((distance + 10)/self.scrubberView.frame.width * CGFloat(self.scrubberView.waveformView.totalSamples))
+        self.scrubberView.waveformView.zoomSamples = 0..<Int((distance + 10)/self.scrubberView.frame.width * CGFloat(self.scrubberView.waveformView.totalSamples))
         
         _ =  self.scrubberView.frame.origin.y + self.scrubberView.frame.size.height/2
         

@@ -8,6 +8,8 @@
 
 FDWaveformView is an easy way to display an audio waveform in your app. It is a nice visualization to show a playing audio file or to select a position in a file.
 
+**:hatching_chick: Virtual tip jar: https://amazon.com/hz/wishlist/ls/EE78A23EEGQB**
+
 Usage
 -----
 
@@ -36,7 +38,7 @@ self.waveform.progressSamples = self.waveform.totalSamples / 2
 <img src="https://i.imgur.com/fRrHiRP.png" width=250>
 </p>
 
-**Zoom in** to show only part of the waveform, of course, zooming in will smoothly rerender to show progressively more detail:
+**Zoom in** to show only part of the waveform, of course, zooming in will smoothly re-render to show progressively more detail:
 
 ```swift
 self.waveform.zoomStartSamples = 0
@@ -79,13 +81,10 @@ Supports **iOS8+** and Swift 3.
 
 **Includes unit tests** which run successfully using Travis CI.
 
-Installation
-------------
+## Installation
 
-1. Add `pod 'FDWaveformView'` to your <a href="https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking">Podfile</a>
-2. The the API documentation under "Class Reference" at http://cocoadocs.org/docsets/FDWaveformView/
-3. Please add your project to "I USE THIS" at https://www.cocoacontrols.com/controls/fdwaveformview
+Add this to your project using Swift Package Manager. In Xcode that is simply: File > Swift Packages > Add Package Dependency... and you're done. Alternative installations options are shown below for legacy projects.
 
 ## Contributing
 
-This project's layout is based on https://github.com/fulldecent/swift3-module-template If you would like to change the layout, please change that project FIRST. Also you may appreciate that project has "recipes" -- you don't just change code you explain why you are doing things. As a maintainer this makes my job MUCH simpler. In a similar respect, if you are introducing non-minor changes, it will be VERY helpful if you could please reference to another project (like AlamoFire) that has seen and discussed the types of design challenges you are touching.) Thanks again and we all really do appreciate your contributions.
+This project's layout is based on https://github.com/fulldecent/swift4-module-template If you would like to change the layout, please change that project FIRST. Also you may appreciate that project has "recipes" -- you don't just change code, you also explain why you are doing things. As a maintainer this makes my job MUCH simpler. In a similar respect, if you are introducing non-minor changes, it will be VERY helpful if you could please reference to another project (like AlamoFire) that has seen and discussed the types of design challenges you are touching.) Thanks again and we all really do appreciate your contributions.
