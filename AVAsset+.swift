@@ -9,15 +9,16 @@
 import Foundation
 
 extension AVAsset {
-    func getThumbnails(completionHandler: @escaping (_ images: [UIImage]) -> Void) {
+    func getThumbnails(size: CGSize, completionHandler: @escaping (_ images: [UIImage]) -> Void) {
         var images:[UIImage] = []
         var times:[NSValue] = []
         
         // 320 / 30
         var i:Int64 = 0
-        while(i < 10) {
-            let interval:Int64 = self.duration.value/Int64(10)
-            times.append(NSValue(time: CMTimeMake(value: interval * i, timescale: self.duration.timescale)))
+        let count = Int64(UIScreen.main.bounds.width/size.width)
+        while(i < count) {
+            let interval:Int64 = self.duration.value/count
+            times.append(NSValue(time: CMTimeMake(interval * i, self.duration.timescale)))
             i += 1
         }
         
@@ -67,4 +68,12 @@ extension AVAsset {
         
         
     }
+    
+    func getSize() -> CGSize {
+        guard let track = self.tracks(withMediaType: AVMediaTypeVideo).first else { return CGSize.zero }
+        let size = track.naturalSize.applying(track.preferredTransform)
+        
+        return CGSize(width: fabs(size.width), height: fabs(size.height))
+    }
+
 }

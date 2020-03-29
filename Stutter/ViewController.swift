@@ -27,10 +27,6 @@ import SwiftyTimer
 import KDCircularProgress
 
 class ViewController: UIViewController {
-    var times:[Int: CMTime] = [0: .zero, 1: .zero, 2: .zero, 3: .zero, 4: .zero]
-    var asset:AVAsset!
-    var lastSelectedIndex:Int = -1
-    
     var stutterState:StutterState = .prearmed
     
     lazy var downloadQueueViewController:DownloadQueueViewController = {
@@ -47,7 +43,7 @@ class ViewController: UIViewController {
     
     lazy var mainControlViewController:MainCollectionViewController = {
         let flowLayout:MainCollectionViewLayout = MainCollectionViewLayout()
-        flowLayout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+//        flowLayout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
         flowLayout.minimumInteritemSpacing = 0.0
         let mainControlViewController:MainCollectionViewController = MainCollectionViewController(collectionViewLayout: flowLayout)
         mainControlViewController.delegate = self
@@ -149,8 +145,7 @@ extension ViewController : ButtonViewControllerDelegate {
     
     func assetChosen(asset: AVAsset) {
         self.editController = EditController(asset: asset)
-        self.mainControlViewController.reset()
-        
+
         self.downloadQueueViewController.turnOffShareButton()
         
         asset.getAudio(completion: { (duration, url) in
@@ -159,7 +154,10 @@ extension ViewController : ButtonViewControllerDelegate {
             
             try! FileManager.default.removeItem(at: url)
             
-            asset.getThumbnails(completionHandler: { (images) in
+            let size:CGSize = asset.getSize()
+            let newSize:CGSize = AVMakeRect(aspectRatio: size, insideRect: CGRect(x: 0, y: 0, width: 100, height: 50)).size
+            
+            asset.getThumbnails(size: newSize, completionHandler: { (images) in
                 DispatchQueue.main.sync {
                     self.mainControlViewController.loadThumbnails(images: images)
                     self.mainControlViewController.load(asset: asset)
@@ -225,27 +223,26 @@ extension ViewController : DownloadQueueViewControllerDelegate {
 
 extension ViewController : MainCollectionViewControllerDelegate {
 
-    func playButtonWasTapped(index: Int) {
+    func playButtonWasTapped(index: Int, percentageX: CGFloat, percentageY: CGFloat) {
         print("play button tapped")
+        
+        var time:CMTime = kCMTimeZero
+        
         switch self.stutterState {
-        case .armed:
+        case .prearmed:
             self.stutterState = .recording
             self.downloadQueueViewController.turnOnShareButton()
+            time = self.editController.storeEdit(percentageOfTime: percentageX)
             break
         case .recording:
-            self.editController.storeEdit(time: self.times[index]!)
+            time = self.editController.storeEdit(percentageOfTime: percentageX)
             break
         default:
-            self.playerViewController.seekToTime(time: self.times[index]!)
-            self.lastSelectedIndex = index
+            break
         }
+        
+        self.playerViewController.seekToTime(time: time)
     }
-
-    func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat) {
-        print("slice was moved")
-        self.times[index] = self.editController.secondsFrom(percentage: percentageX)
-    }
-    
 }
 
 

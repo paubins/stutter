@@ -11,6 +11,8 @@ import Cartography
 
 class ScrubberPreviewViewControllerCollectionViewCell : UICollectionViewCell {
     
+    var duration:CMTime = kCMTimeZero
+    
     lazy var scrubberPreviewViewController:ScrubberPreviewViewController = {
         let scrubberPreviewViewController:ScrubberPreviewViewController = ScrubberPreviewViewController()
         return scrubberPreviewViewController
@@ -41,11 +43,11 @@ class ScrubberPreviewViewControllerCollectionViewCell : UICollectionViewCell {
         scrubberPreviewViewController.show()
     }
     
-    func seek(to: CMTime, distance: CGFloat) {
-//        scrubberPreviewViewController.seek(to: time, distance: distance)
+    func seek(to: CGFloat) {
+        self.scrubberPreviewViewController.seek(to: CMTimeMakeWithSeconds(Float64(CGFloat(CMTimeGetSeconds(self.duration)) * to), 60))
     }
     
     func hideScrubberPreview() {
-        scrubberPreviewViewController.hide()
+        self.scrubberPreviewViewController.hide()
     }
 }

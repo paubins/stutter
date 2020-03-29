@@ -16,17 +16,16 @@ enum SliderSections : Int {
     case scrubberPreview = 0
     case slices
     case buttons
-    case waveform
     case thumbnails
+    case waveform
     
     static func count() -> Int {
-        return SliderSections.thumbnails.rawValue + 1
+        return SliderSections.waveform.rawValue + 1
     }
 }
 
 protocol MainCollectionViewControllerDelegate {
-    func playButtonWasTapped(index: Int)
-    func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat)
+    func playButtonWasTapped(index: Int, percentageX: CGFloat, percentageY: CGFloat)
 }
 
 class MainCollectionViewController : UICollectionViewController {
@@ -38,23 +37,11 @@ class MainCollectionViewController : UICollectionViewController {
         }
     }
     
-    var waveformColor:UIColor!
-    var progressSamples:CGFloat = 0
-    var longPressGesture: UILongPressGestureRecognizer!
-    
-    var delegate:MainCollectionViewControllerDelegate!
+    var asset:AVAsset!
+    var currentTimer:Timer!
 
-    var path:UIBezierPath!
-    
-    var bezierViewControllers:[BezierViewController] = []
+    var delegate:MainCollectionViewControllerDelegate!
     let dazzleController:DazTouchController = DazTouchController()
-    
-    let bezierView:UIView = {
-        let view = UIView(frame: .zero)
-        view.isUserInteractionEnabled = true
-        view.backgroundColor = .clear
-        return view
-    }()
 
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
@@ -75,9 +62,6 @@ class MainCollectionViewController : UICollectionViewController {
         self.addChildViewController(self.dazzleController)
         
         self.view.insertSubview(self.dazzleController.view, belowSubview: self.collectionView!)
-        self.view.insertSubview(self.bezierView, belowSubview: self.collectionView!)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChange), name:NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         constrain(self.dazzleController.view) { (view) in
             view.top == view.superview!.top
@@ -86,26 +70,35 @@ class MainCollectionViewController : UICollectionViewController {
             view.bottom == view.superview!.bottom
         }
         
-        constrain(self.bezierView) { (view) in
-            view.top == view.superview!.top
-            view.left == view.superview!.left
-            view.right == view.superview!.right
-            view.bottom == view.superview!.bottom
-        }
-        
         self.collectionView?.backgroundColor = .clear
         self.collectionView?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureMethod)))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChange), name:NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func removeAllImages() {
-        self.thumbnails = []
-        self.collectionView?.reloadData()
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        guard let asset = self.asset else {
+            return
+        }
+        
+        self.loadThumbnails(images: [])
+        let size:CGSize = asset.getSize()
+        let newSize:CGSize = AVMakeRect(aspectRatio: size, insideRect: CGRect(x: 0, y: 0, width: 100, height: 50)).size
+        
+        asset.getThumbnails(size: newSize, completionHandler: { (images) in
+            DispatchQueue.main.sync {
+                self.loadThumbnails(images: images)
+                self.collectionView?.collectionViewLayout.invalidateLayout()
+            }
+        })
+        
+        self.collectionView?.collectionViewLayout.invalidateLayout()
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         guard let section = SliderSections(rawValue: section) else {
@@ -126,7 +119,7 @@ class MainCollectionViewController : UICollectionViewController {
             count = 1
             break
         case .waveform:
-            count = self.audioURL != nil ? 1 : 0
+            count = 1
             break
         case .thumbnails:
             count = self.thumbnails.count
@@ -163,7 +156,9 @@ class MainCollectionViewController : UICollectionViewController {
             return cell
         case .waveform:
             let cell:WaveformCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "WaveformCollectionViewCell", for: indexPath) as! WaveformCollectionViewCell
-            cell.updateAudioURL(audioURL: self.audioURL)
+            if (self.audioURL != nil) {
+                cell.updateAudioURL(audioURL: self.audioURL)
+            }
             return cell
         case .thumbnails:
             let cell:ThumbnailCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "ThumbnailCollectionViewCell", for: indexPath) as! ThumbnailCollectionViewCell
@@ -180,38 +175,21 @@ class MainCollectionViewController : UICollectionViewController {
 
     func loadThumbnails(images: [UIImage]) {
         self.thumbnails = images
-        self.collectionView?.reloadData()
+        self.collectionView?.reloadSections(IndexSet(integer: SliderSections.thumbnails.rawValue))
     }
     
     func orientationChange(notification: Notification) {
-        //        for (i, bezierViewController) in  self.bezierViewControllers.enumerated() {
-        //            var slicePositionX:CGFloat = self.recordButtonView.getSlicePosition(index: i)
-        //            if (UIScreen.main.bounds.size.width < slicePositionX) {
-        //                slicePositionX = slicePositionX/self.previousScreenWidth * UIScreen.main.bounds.width
-        //                self.recordButtonView.updateFlipper(index: i, distance: CGFloat(slicePositionX))
-        //            }
-        //
-        //            let slicePositionY:CGFloat = self.scrubberViewCollectionViewController.view.frame.origin.y
-        //
-        //            bezierViewController.points = self.generatePoints(index: i, slicePositionX: slicePositionX,
-        //                                                              slicePositionY: slicePositionY)
-        //
-        //            bezierViewController.pointsChanged()
-        //
-        //            self.mainCollectionViewController.updateFlipper(index: i, distance: CGFloat(slicePositionX))
-        //        }
-        //
-        //        self.previousScreenWidth = UIScreen.main.bounds.size.width
+        
     }
     
-    func reset() {
-        self.removeAllImages()
-    }
-
     func load(duration: CMTime, audioURL: URL) {
         DispatchQueue.main.sync {
-            //            self.thumbnailViewController.resetTimes()
             self.audioURL = audioURL
+            
+            let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.scrubberPreview.rawValue)
+            let cell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
+            
+            cell.duration = duration
         }
     }
     
@@ -220,81 +198,27 @@ class MainCollectionViewController : UICollectionViewController {
         let cell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
         
         cell.load(asset: asset)
+        
+        self.asset = asset
     }
     
     func assetTimeChanged(player: Player) {
-        let fraction:Double = Double(player.currentTime) / Double(player.maximumDuration)
-        
-        self.updateSamples(distance: CGFloat(fraction))
-        //        self.mainCollectionViewController.waveformView.progressSamples = Int(CGFloat(fraction) * CGFloat(self.scrubberView.waveformView.totalSamples))
-    }
-    
-    func blowUpSliceAt(index: Int) {
-//        self.slices[index].shake()
-//
-//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: .allowUserInteraction, animations: {
-//            self.slices[index].frame.origin.x += 5
-//            self.slices[index].frame.origin.x -= 5
-//        }, completion: nil)
-    }
-    
-    
-    func getSlicePosition(index:Int) -> CGFloat {
-//        return slices[index].superview!.frame.origin.x
-        return 0.0
-    }
-    
-    func updateFlipper(index:Int, distance: CGFloat) {
-//        let layoutConstraint:NSLayoutConstraint = self.flippers[index]
-//        layoutConstraint.constant = distance
-    }
-    
-    func resetTimes() {
-//        for slice:UIView in self.slices {
-//            let currentTime = Int(floor(Float(self.length) * Float(((slice.superview?.frame.origin.x)!/(UIScreen.main.bounds.width - 10.0)))))
-//            self.delegate?.sliceWasMovedTo(index: (slice.tag), distance: Int((slice.superview?.frame.origin.x)!))
-//        }
-    }
-    
-    func playButtonWasTapped(index: Int) {
-//        self.progressColor = Constant.COLORS[index]
-//        self.mainCollectionViewController
-//
-//        self.mainCollectionViewController.blowUpSliceAt(index: index)
-//
-//        let distance = self.mainCollectionViewController.getSlicePosition(index: index)
-//
-//        self.mainCollectionViewController.waveformView.progressSamples = Int((distance + 10)/self.thumbnailViewController.view.frame.width * CGFloat(self.waveformView.totalSamples))
-//
-//        _ =  self.mainCollectionViewController.view.frame.origin.y + self.thumbnailViewController.view.frame.size.height/2
-        self.updateColor(index: index)
-        self.blowUpSliceAt(index: index)
-        
-        let distance = self.getSlicePosition(index: index)
-        
-        self.updateSamples(distance: distance)
-        
-        //        self.dazzleController.touch(atPosition: CGPoint(x: self.recordButtonView.getSlicePosition(index: index) + 10, y: self.recordButtonView.frame.origin.y + CGFloat(index*10)))
-        //
-//        self.delegate.playerButtonWasTapped(index: index)
-    }
-    
-    
-    func updateColor(index: Int) {
-        self.waveformColor = Constant.COLORS[index]
+        self.updateSamples(distance: CGFloat(Double(player.currentTime) / Double(player.maximumDuration)))
     }
     
     func updateSamples(distance: CGFloat) {
-        let cell:WaveformCollectionViewCell = self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.waveform.rawValue)) as! WaveformCollectionViewCell
-        
-        cell.waveformView.progressSamples = Int(CGFloat(cell.waveformView.totalSamples) * distance)
+        DispatchQueue.main.async {
+            if (self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.waveform.rawValue)) != nil) {
+                let cell:WaveformCollectionViewCell = self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.waveform.rawValue)) as! WaveformCollectionViewCell
+                
+                cell.waveformView.progressSamples = Int(CGFloat(cell.waveformView.totalSamples) * distance)
+            }
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("selected")
     }
-    
-    var currentTimer:Timer!
     
     func panGestureMethod(gesture:UIPanGestureRecognizer) {
         // Get the gesture's point location within its view
@@ -341,6 +265,18 @@ class MainCollectionViewController : UICollectionViewController {
             print("not a button")
         }
     }
+    
+    func getCurrentPercentageX(index: Int) -> CGFloat {
+        let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.slices.rawValue)) as! ScrubberCollectionViewCell
+        
+        return cell.getPercentageX(index: index)
+    }
+    
+    func getCurrentPercentageY(index: Int) -> CGFloat {
+        let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.slices.rawValue)) as! ScrubberCollectionViewCell
+        
+        return cell.getPercentageY(index: index)
+    }
 }
 
 extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
@@ -359,7 +295,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .scrubberPreview:
             return CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant))
         case .buttons:
-            return CGSize(width: collectionView.bounds.size.width/5, height: CGFloat(kWhateverHeightYouWant))
+            return CGSize(width: collectionView.bounds.size.width/6, height: CGFloat(kWhateverHeightYouWant))
         case .slices:
             return CGSize(width: collectionView.bounds.size.width, height: 200)
         case .waveform:
@@ -373,6 +309,55 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         return CGSize()
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        guard let section = SliderSections(rawValue: section) else {
+            assertionFailure()
+            return 0
+        }
+        
+        switch(section) {
+        case .scrubberPreview:
+            return 0
+        case .buttons:
+            return 10
+        case .slices:
+            return 0
+        case .waveform:
+            return 0
+        case .thumbnails:
+            return  0
+        default:
+            break
+        }
+        
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        guard let section = SliderSections(rawValue: section) else {
+            assertionFailure()
+            return 0
+        }
+        
+        switch(section) {
+        case .scrubberPreview:
+            return 0
+        case .buttons:
+            return 5
+        case .slices:
+            return 0
+        case .waveform:
+            return 0
+        case .thumbnails:
+            return  0
+        default:
+            break
+        }
+        
+        return 0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         guard let section = SliderSections(rawValue: section) else {
             assertionFailure()
@@ -383,7 +368,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .scrubberPreview:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .buttons:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+            return UIEdgeInsets(top: 0, left: 10, bottom: 20, right: 10)
         case .slices:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .waveform:
@@ -406,7 +391,8 @@ extension MainCollectionViewController : PlayButtonCollectionViewControllerCellD
         let index:Int = (self.collectionView?.indexPath(for: cell)?.row)!
         
         waveformCell.waveformView.progressColor = Constant.COLORS[index]
-        self.delegate.playButtonWasTapped(index: index)
+        self.delegate.playButtonWasTapped(index: index, percentageX: self.getCurrentPercentageX(index: index),
+                                          percentageY: self.getCurrentPercentageY(index: index))
     }
 }
 
@@ -421,10 +407,8 @@ extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
     func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat) {
         let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.scrubberPreview.rawValue)
         let scrubberPreviewCell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
-        
-//        cell.seek(to: time, distance: distance)
-        
-        self.delegate.scrubbed(index: index, percentageX: percentageX, percentageY: percentageY)
+
+        scrubberPreviewCell.seek(to: percentageX)
     }
     
     func scrubbingHasEnded() {

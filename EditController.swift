@@ -68,12 +68,16 @@ class EditController: NSObject {
         }
     }
     
-    func storeEdit(time: CMTime) {
+    func storeEdit(percentageOfTime: CGFloat)  -> CMTime {
         if (self.currentEditHandler != nil) {
             self.lastInsertedTime = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 600))
         }
         
+        let time:CMTime = self.secondsFrom(percentage: percentageOfTime)
+        
         self.currentEditHandler = self.createEditHandler(self.lastInsertedTime, startTime: time)
+        
+        return time
     }
     
     func randomString(length: Int) -> String {

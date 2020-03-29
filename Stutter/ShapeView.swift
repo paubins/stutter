@@ -21,6 +21,7 @@ class ShapeView : UIView {
     
     var gestureRecognizer:UIPanGestureRecognizer!
     
+    var previousScreenWidth:CGFloat = UIScreen.main.bounds.width
     var currentLayerIndex:Int = 0
     var shouldRedraw:Bool = false
     
@@ -33,22 +34,28 @@ class ShapeView : UIView {
         
         self.gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.panned))
         self.addGestureRecognizer(self.gestureRecognizer)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         
         let layer:WireLayer = WireLayer()
         layer.frame = self.bounds
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+        layer.contentsScale = UIScreen.main.scale
+        
+        layer.color = Constant.COLORS[0]
         layer.currentPoint = CGPoint(x: 100, y: 100)
-        layer.offset = UIScreen.main.bounds.size.width/5/2
+        layer.offset = UIScreen.main.bounds.size.width/self.count/2
+        
         self.layer.addSublayer(layer)
         layer.setNeedsDisplay()
         
         for i in 1..<Int(self.count) {
             let layer:WireLayer = WireLayer()
-            
+            layer.color = Constant.COLORS[i]
             layer.frame = self.bounds
+            layer.shouldRasterize = true
+            layer.rasterizationScale = UIScreen.main.scale
+            layer.contentsScale = UIScreen.main.scale
+            
             layer.currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width/self.count * CGFloat(i)), y: 0)
             layer.offset = UIScreen.main.bounds.size.width/self.count * CGFloat(i) + UIScreen.main.bounds.size.width/self.count/2
             
@@ -57,8 +64,32 @@ class ShapeView : UIView {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        for (i, layer) in self.layer.sublayers!.enumerated() {
+            (layer as! WireLayer).frame = self.bounds
+            (layer as! WireLayer).currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width*self.getPercentageX(index: i)), y: 0)
+            (layer as! WireLayer).offset = UIScreen.main.bounds.size.width/self.count * CGFloat(i) + UIScreen.main.bounds.size.width/self.count/2
+            
+            (layer as! WireLayer).setNeedsDisplay()
+        }
+        
+        self.previousScreenWidth = UIScreen.main.bounds.size.width
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getPercentageX(index: Int) -> CGFloat {
+        let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
+        return layer.currentPoint.x / self.previousScreenWidth
+    }
+    
+    func getPercentageY(index: Int) -> CGFloat {
+        let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
+        return layer.currentPoint.y/UIScreen.main.bounds.height
     }
     
     @objc func panned(gestureRecognizer: UIPanGestureRecognizer) {
@@ -107,5 +138,13 @@ class ShapeView : UIView {
             print("no bueno")
         }
         
+    }
+    
+    override func action(for layer: CALayer, forKey event: String) -> CAAction? {
+        if (event == "contents") {
+            return nil
+        }
+        
+        return super.action(for: layer, forKey: event)
     }
 }

@@ -41,8 +41,22 @@ class ScrubberCollectionViewCell : UICollectionViewCell {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.shapeView.setNeedsDisplay()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getPercentageX(index: Int) -> CGFloat {
+        return self.shapeView.getPercentageX(index: index)
+    }
+    
+    func getPercentageY(index: Int) -> CGFloat {
+        return self.shapeView.getPercentageY(index: index)
     }
 }
 

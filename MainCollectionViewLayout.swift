@@ -10,8 +10,6 @@ import Foundation
 
 class MainCollectionViewLayout: UICollectionViewFlowLayout {
     
-    var overlap: CGFloat = 30
-    
 //    override var collectionViewContentSize: CGSize{
 //        let xSize = CGFloat(self.collectionView!.numberOfItems(inSection: 0)) * self.itemSize.width
 //        let ySize = CGFloat(self.collectionView!.numberOfSections) * self.itemSize.height
@@ -32,10 +30,9 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
         let attributesArray = super.layoutAttributesForElements(in: rect)
-        let numberOfItems = self.collectionView!.numberOfItems(inSection: 0)
-        
+
         for attributes in attributesArray! {
-            var xPosition = attributes.center.x
+            let xPosition = attributes.center.x
             var yPosition = attributes.center.y
             
             guard let section = SliderSections(rawValue: attributes.indexPath.section) else {
@@ -45,7 +42,7 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
             
             switch(section) {
             case .slices:
-                attributes.zIndex = 1
+                attributes.zIndex = 90
                 break
             case .buttons:
                 yPosition -= 130
@@ -53,13 +50,13 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .waveform:
-                yPosition -= 120
-                attributes.zIndex = 0
+                yPosition -= 170
+                attributes.zIndex = 80
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .thumbnails:
-                yPosition -= 170
-                attributes.zIndex = -1
+                yPosition -= 120
+                attributes.zIndex = 70
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             default:

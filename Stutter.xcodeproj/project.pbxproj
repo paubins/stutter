@@ -19,6 +19,8 @@
 		5F16CF371EFC9FB800486F0D /* DazHeart.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF301EFC9FB800486F0D /* DazHeart.png */; };
 		5F16CF381EFC9FB800486F0D /* DazFire.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF311EFC9FB800486F0D /* DazFire.png */; };
 		5F16CF391EFC9FB800486F0D /* DazFlake.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F16CF321EFC9FB800486F0D /* DazFlake.png */; };
+		5F16CF3D1EFCA26200486F0D /* DazFireController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F16CF3C1EFCA26200486F0D /* DazFireController.m */; };
+		5F1A44F81FAA84CD002C57DB /* MainCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1A44F71FAA84CD002C57DB /* MainCollectionView.swift */; };
 		5F36DBBE1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */; };
 		5F491FE61FA3F49200C751B4 /* UIBezierPath+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F491FE51FA3F49200C751B4 /* UIBezierPath+.swift */; };
 		5F3986991FA429A2000B3D9E /* DownloadQueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3986981FA429A2000B3D9E /* DownloadQueueViewController.swift */; };
@@ -71,6 +73,9 @@
 		5F16CF301EFC9FB800486F0D /* DazHeart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazHeart.png; path = ../../Dazzle/Dazzle/DazHeart.png; sourceTree = "<group>"; };
 		5F16CF311EFC9FB800486F0D /* DazFire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFire.png; path = ../../Dazzle/Dazzle/DazFire.png; sourceTree = "<group>"; };
 		5F16CF321EFC9FB800486F0D /* DazFlake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DazFlake.png; path = ../../Dazzle/Dazzle/DazFlake.png; sourceTree = "<group>"; };
+		5F16CF3B1EFCA26200486F0D /* DazFireController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DazFireController.h; path = ../../Dazzle/Dazzle/DazFireController.h; sourceTree = "<group>"; };
+		5F16CF3C1EFCA26200486F0D /* DazFireController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DazFireController.m; path = ../../Dazzle/Dazzle/DazFireController.m; sourceTree = "<group>"; };
+		5F1A44F71FAA84CD002C57DB /* MainCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionView.swift; sourceTree = "<group>"; };
 		5F36DBBD1ED68DEB00BA3910 /* CameraScrubberPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraScrubberPreviewView.swift; sourceTree = "<group>"; };
 		5F491FE51FA3F49200C751B4 /* UIBezierPath+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+.swift"; sourceTree = "<group>"; };
 		5F3986981FA429A2000B3D9E /* DownloadQueueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DownloadQueueViewController.swift; path = ../DownloadQueueViewController.swift; sourceTree = "<group>"; };
@@ -178,7 +183,7 @@
 		5FE3C8241ED3A8AB0027348C = {
 			isa = PBXGroup;
 			children = (
-				5F491FE51FA3F49200C751B4 /* UIBezierPath+.swift */,
+				5F1A44F71FAA84CD002C57DB /* MainCollectionView.swift */,
 				5F60A93D1FA992BC008EEB77 /* Layers */,
 				5FE3C82F1ED3A8AB0027348C /* Stutter */,
 				5FE3C82E1ED3A8AB0027348C /* Products */,
@@ -491,6 +496,7 @@
 				5FA20F4A1F06B2FE006E9076 /* UIViewController+.swift in Sources */,
 				5F6790B31EFCB5D000524100 /* AudioExporter.m in Sources */,
 				5FC245F41FA24A9F0029BBA2 /* PlayerViewController.swift in Sources */,
+				5F1A44F81FAA84CD002C57DB /* MainCollectionView.swift in Sources */,
 				5F00D8BA1FA2CF1400865894 /* ExporterController.m in Sources */,
 				5FC245FC1FA2667C0029BBA2 /* LoadingViewController.swift in Sources */,
 				5F3986A31FA7C25F000B3D9E /* PlayButtonCollectionViewControllerCell.swift in Sources */,

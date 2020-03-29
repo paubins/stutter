@@ -23,8 +23,8 @@ class PlayButtonCollectionViewControllerCell : UICollectionViewCell {
     lazy var button0:PressableButton = {
         let button:PressableButton = PressableButton(frame: CGRect.zero)
         button.addTarget(self, action: #selector(self.tapped), for: .touchUpInside)
-        button.colors = .init(button: self.color,
-                              shadow: .white)
+
+        
         button.shadowHeight = 2
         button.cornerRadius = 5
 
@@ -33,24 +33,25 @@ class PlayButtonCollectionViewControllerCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        self.backgroundColor = UIColor.clear
- 
-//        self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureMethod)))
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         
         self.addSubview(self.button0)
         
         constrain(self.button0) { (view) in
             view.top == view.superview!.top
-            view.centerX == view.superview!.centerX
             view.bottom == view.superview!.bottom
-            view.height == 50
-            view.width == 50
+            view.left == view.superview!.left
+            view.right == view.superview!.right
         }
+        
+        self.isUserInteractionEnabled = true
+        self.backgroundColor = UIColor.clear
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.button0.colors = .init(button: self.color,
+                              shadow: .white)
     }
     
     required init?(coder aDecoder: NSCoder) {
