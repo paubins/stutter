@@ -11,19 +11,21 @@
 
 @implementation ExporterController
 
-+ (AVAssetExportSession *)export:(AVMutableComposition *)mixComposition videoAsset:(AVAsset *)videoAsset fromOutput:(NSURL *)outputFileURL completionHandler:(void (^)(AVAssetExportSession *, BOOL))completionHandler {
-    AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo  preferredTrackID:kCMPersistentTrackID_Invalid];
-    AVMutableCompositionTrack *audioComposition = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
++ (AVAssetExportSession *)export:(AVMutableComposition *)mixComposition videoAsset:(AVAsset *)videoAsset extraInstructions:(AVMutableVideoCompositionLayerInstruction *)extraInstructions fromOutput:(NSURL *)outputFileURL completionHandler:(void (^)(AVAssetExportSession *, BOOL))completionHandler {
+//    AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo  preferredTrackID:kCMPersistentTrackID_Invalid];
+//    AVMutableCompositionTrack *audioComposition = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
 
     AVAssetTrack *clipVideoTrack = [[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
 
-    [compositionVideoTrack setPreferredTransform:[[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] preferredTransform]];
+//    [compositionVideoTrack setPreferredTransform:[[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] preferredTransform]];
 
     AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     instruction.timeRange = CMTimeRangeMake(kCMTimeZero, [mixComposition duration]);
     AVAssetTrack *videoTrack = [[mixComposition tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
     AVMutableVideoCompositionLayerInstruction* layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
-
+    
+    [layerInstruction setTransform:clipVideoTrack.preferredTransform atTime:kCMTimeZero];
+    
     //*****************//
     UIImageOrientation videoAssetOrientation_;// = UIImageOrientationUp;
     BOOL isVideoAssetPortrait_  = NO;
@@ -47,7 +49,6 @@
         isVideoAssetPortrait_ = NO;
     }
 
-    [layerInstruction setTransform:clipVideoTrack.preferredTransform atTime:kCMTimeZero];
 //    [layerInstruction setOpacity:0.0 atTime:clipVideoTrack.timeRange.duration];
 
     //*****************//
@@ -65,13 +66,11 @@
     renderWidth = naturalSize.width;
     renderHeight = naturalSize.height;
     videoComp.renderSize = CGSizeMake(renderWidth, renderHeight);
-    videoComp.instructions = [NSArray arrayWithObject:instruction];
     videoComp.frameDuration = CMTimeMake(1, 30);
 
     /// instruction
-
-    instruction.layerInstructions = [NSArray arrayWithObject:layerInstruction];
-    videoComp.instructions = [NSArray arrayWithObject: instruction];
+    instruction.layerInstructions = @[extraInstructions];
+    videoComp.instructions = @[instruction];
     
     AVAssetExportSession *assetExport = [[AVAssetExportSession alloc] initWithAsset:mixComposition presetName:AVAssetExportPresetHighestQuality];
     

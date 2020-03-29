@@ -182,12 +182,13 @@ extension ViewController : ButtonViewControllerDelegate {
         }
         
         asset.getAudio(completion: { (duration, url) in
-            self.editController.load(duration: duration)
+            let size:CGSize = asset.getSize()
+            self.editController.load(duration: duration, size: size)
             self.mainControlViewController.load(duration: duration, audioURL: url)
             
             try! FileManager.default.removeItem(at: url)
             
-            let size:CGSize = asset.getSize()
+            
             let newSize:CGSize = AVMakeRect(aspectRatio: size, insideRect: CGRect(x: 0, y: 0, width: 100, height: 50)).size
             
             asset.getThumbnails(size: newSize, completionHandler: { (images) in
@@ -271,17 +272,17 @@ extension ViewController : MainCollectionViewControllerDelegate {
         case .prearmed:
             self.stutterState = .recording
             self.downloadQueueViewController.turnOnShareButton()
-            time = editController.storeEdit(percentageOfTime: percentageX)
+            time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
             self.downloadQueueViewController.timerLabel.start()
             break
         case .recording:
-            time = editController.storeEdit(percentageOfTime: percentageX)
+            time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
             break
         case .paused:
             self.stutterState = .recording
             self.downloadQueueViewController.timerLabel.start()
             self.downloadQueueViewController.turnOnShareButton()
-            time = editController.storeEdit(percentageOfTime: percentageX)
+            time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
             break
         default:
             break
@@ -326,7 +327,7 @@ extension ViewController : PlayerViewControllerDelegate {
     func playbackResumed(player: Player) {
         switch self.stutterState {
         case .recording:
-            let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration))
+            let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0)
             self.downloadQueueViewController.timerLabel.start()
             self.stutterState = .recording
         default:
@@ -337,7 +338,8 @@ extension ViewController : PlayerViewControllerDelegate {
     func playbackPaused(player: Player) {
         switch self.stutterState {
         case .recording:
-            let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration))
+            let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0)
+            
             self.downloadQueueViewController.timerLabel.pause()
             self.stutterState = .paused
         default:

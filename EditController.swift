@@ -20,12 +20,26 @@ class EditController: NSObject {
     var previousFrameTime:CFTimeInterval!
     var currentMediaTime:CFTimeInterval!
     var currentInterval:CFTimeInterval!
+    var size:CGSize = CGSize.zero
+    
+    var mainInstruction:AVMutableVideoCompositionInstruction = AVMutableVideoCompositionInstruction()
+    lazy var instructions:AVMutableVideoCompositionLayerInstruction = {
+        let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).first!
+        let instruction1:AVMutableVideoCompositionLayerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: assetTrack)
+        return instruction1
+    }()
+    
+    lazy var currentTransform:CGAffineTransform = {
+        let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).first!
+        
+        return assetTrack.preferredTransform
+    }()
     
     var exporter:AVAssetExportSession! = nil
     
     var originalVolume:Float = 0
     
-    var currentEditHandler:((_ endTime:CMTime) -> CMTime)!
+    var currentEditHandler:((_ endTime:CMTime, _ percentageZoom:CGFloat) -> CMTime)!
     
     lazy var mutableComposition:AVMutableComposition = {
         let mutableComposition:AVMutableComposition = AVMutableComposition()
@@ -41,18 +55,28 @@ class EditController: NSObject {
         self.asset = AVURLAsset(url: (asset as! AVURLAsset).url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
     }
     
-    func createEditHandler(_ at: CMTime, startTime: CMTime) -> ((_ durationEnd:CMTime) -> CMTime) {
-        var durationStart:CMTime = CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 600)
+    func createEditHandler(_ at: CMTime, startTime: CMTime) -> ((_ durationEnd:CMTime, _ percentageZoom:CGFloat) -> CMTime) {
+        var durationStart:CMTime = CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30)
         
-        func endTimeHandler(durationEnd: CMTime) -> CMTime {
+        func endTimeHandler(durationEnd: CMTime, percentageZoom: CGFloat) -> CMTime {
             let durationInterval:CMTime = CMTimeSubtract(durationEnd, durationStart)
             let timeRange = CMTimeRangeMake(start: startTime, duration: durationInterval)
-            print("at: \(at) range: \(timeRange)")
             do {
+                print(at.value)
                 try self.mutableComposition.insertTimeRange(timeRange, of: self.asset, at: at)
             } catch {
                 print("something fucked up")
             }
+            
+            let scaleX:CGFloat = 1 + percentageZoom
+            let scaleY:CGFloat = 1 + percentageZoom
+            
+            
+
+            self.instructions.setTransform(self.currentTransform
+                .concatenating(CGAffineTransform(scaleX: scaleX, y: scaleY))
+                .concatenating(CGAffineTransform(translationX: -(self.size.width * percentageZoom)/2, y: -(self.size.height * percentageZoom)/2)),
+                                           at: at)
             
             return CMTimeAdd(at, timeRange.duration)
         }
@@ -62,15 +86,15 @@ class EditController: NSObject {
     
     func closeEdit() {
         if (self.currentEditHandler != nil) {
-            self.lastInsertedTime = .zero
-            let _ = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 600))
+            self.lastInsertedTime = kCMTimeZero
+            let _ = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30), 0)
             self.currentEditHandler = nil
         }
     }
     
-    func storeEdit(percentageOfTime: CGFloat)  -> CMTime {
+    func storeEdit(percentageOfTime: CGFloat, percentageZoom: CGFloat)  -> CMTime {
         if (self.currentEditHandler != nil) {
-            self.lastInsertedTime = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 600))
+            self.lastInsertedTime = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30), percentageZoom)
         }
         
         let time:CMTime = self.secondsFrom(percentage: percentageOfTime)
@@ -111,14 +135,17 @@ class EditController: NSObject {
         
         print(outputPath)
         
-        return ExporterController.export(self.mutableComposition, videoAsset: self.asset, fromOutput: fileUrl, completionHandler: { (assetExportSession, success) in
+        return ExporterController.export(self.mutableComposition, videoAsset: self.asset,
+                                         extraInstructions: self.instructions,
+                                         fromOutput: fileUrl, completionHandler: { (assetExportSession, success) in
             self.mutableComposition = AVMutableComposition()
             completionHandler(success)
         })
     }
     
-    func load(duration: CMTime) {
+    func load(duration: CMTime, size: CGSize) {
         self.currentAssetDuration = duration
+        self.size = size
     }
     
     func secondsFrom(percentage: CGFloat) -> CMTime {

@@ -42,21 +42,22 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
             
             switch(section) {
             case .slices:
-                yPosition += 100
+                yPosition += 135
                 attributes.zIndex = 90
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .buttons:
-                yPosition -= 50
+                yPosition -= 25
                 attributes.zIndex = 99
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .waveform:
-                yPosition -= 50
+                yPosition -= 25
                 attributes.zIndex = 80
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .thumbnails:
+                yPosition += 25
                 attributes.zIndex = 70
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break

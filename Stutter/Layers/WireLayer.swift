@@ -1,3 +1,4 @@
+
 //
 //  WireLayer.swift
 //  TestCGPath
@@ -21,7 +22,9 @@ class WireLayer : CALayer {
     
     var currentPoint:CGPoint = CGPoint(x: 15, y: 15) {
         didSet {
-            currentPoint = (self.bounds.size.height - 80) < currentPoint.y ? CGPoint(x: currentPoint.x, y: self.bounds.size.height - 80) : (currentPoint.y < 5 ? CGPoint(x: currentPoint.x, y: 5) : currentPoint)
+            currentPoint = (UIScreen.main.bounds.size.height - 400) < currentPoint.y ?
+                CGPoint(x: currentPoint.x, y: UIScreen.main.bounds.size.height - 400) :
+                (currentPoint.y < 5 ? CGPoint(x: currentPoint.x, y: 5) : currentPoint)
         }
     }
     

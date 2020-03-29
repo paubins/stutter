@@ -46,7 +46,10 @@ class MainCollectionViewController : UICollectionViewController {
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
         
-         self.view.backgroundColor = .clear
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.edgesForExtendedLayout = []
+        
+        self.view.backgroundColor = .clear
         
         self.collectionView?.register(ScrubberPreviewViewControllerCollectionViewCell.self, forCellWithReuseIdentifier: "ScrubberPreviewViewControllerCollectionViewCell")
         self.collectionView?.register(PlayButtonCollectionViewControllerCell.self, forCellWithReuseIdentifier: "PlayButtonCollectionViewControllerCell")
