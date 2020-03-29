@@ -31,6 +31,12 @@ class ViewController: UIViewController {
     var asset:AVAsset!
     var lastSelectedIndex:Int = -1
     
+    lazy var downloadQueueViewController:DownloadQueueViewController = {
+        let downloadQueueViewController:DownloadQueueViewController = DownloadQueueViewController()
+        downloadQueueViewController.delegate = self
+        return downloadQueueViewController
+    }()
+    
     lazy var scrubberPreviewViewController:ScrubberPreviewViewController = {
         let scrubberPreviewViewController:ScrubberPreviewViewController = ScrubberPreviewViewController()
         return scrubberPreviewViewController
@@ -76,16 +82,18 @@ class ViewController: UIViewController {
         
         self.view.backgroundColor = .clear
         
-        self.addChild(self.buttonViewController)
-        self.addChild(self.playerViewController)
-        self.addChild(self.scrubberPreviewViewController)
-        self.addChild(self.mainControlViewController)
+        self.addChildViewController(self.buttonViewController)
+        self.addChildViewController(self.playerViewController)
+        self.addChildViewController(self.scrubberPreviewViewController)
+        self.addChildViewController(self.mainControlViewController)
+        self.addChildViewController(self.downloadQueueViewController)
         
         self.view.addSubview(self.backgroundShiftView)
         self.view.addSubview(self.playerViewController.view)
         self.view.addSubview(self.buttonViewController.view)
         self.view.addSubview(self.scrubberPreviewViewController.view)
         self.view.addSubview(self.mainControlViewController.view)
+        self.view.addSubview(self.downloadQueueViewController.view)
         
         constrain(self.backgroundShiftView) { (view) in
             view.top == view.superview!.top
@@ -102,10 +110,10 @@ class ViewController: UIViewController {
         }
         
         constrain(self.buttonViewController.view, self.scrubberPreviewViewController.view) { (view, view1) in
-            view.right == view.superview!.right
+            view.left == view.superview!.left
             view.top == view.superview!.top
             view.bottom == view1.top
-            view.width == 150
+            view.width == 90
         }
         
         constrain(self.scrubberPreviewViewController.view, self.mainControlViewController.view) { (view, view1) in
@@ -118,6 +126,13 @@ class ViewController: UIViewController {
             view.bottom == view1.top
             view.left == view.superview!.left
             view.right == view.superview!.right
+        }
+        
+        constrain(self.downloadQueueViewController.view) { (view) in
+            view.right == view.superview!.right
+            view.top == view.superview!.top
+            view.width == 90
+            view.height == 150
         }
         
         self.backgroundShiftView.animationDuration(3.0)
@@ -142,7 +157,7 @@ extension ViewController : ButtonViewControllerDelegate {
         self.editController = EditController(asset: asset)
         self.mainControlViewController.reset()
         
-        self.buttonViewController.turnOffShareButton()
+        self.downloadQueueViewController.turnOffShareButton()
         
         asset.getAudio(completion: { (duration, url) in
             self.editController.load(duration: duration)
@@ -160,15 +175,44 @@ extension ViewController : ButtonViewControllerDelegate {
             })
         })
     }
+}
+
+extension ViewController : DownloadQueueViewControllerDelegate {
     
     func exportButtonTapped() {
         if (self.editController != nil ) {
             self.editController.closeEdit()
             
             self.playerViewController.stop()
-            self.buttonViewController.turnOffShareButton()
+            self.downloadQueueViewController.turnOffShareButton()
             
-            self.buttonViewController.updateProgress(exportSession: try! self.editController.export())
+            self.downloadQueueViewController.updateProgress(exportSession: try! self.editController.export(completionHandler: { (success) in
+                DispatchQueue.main.async {
+                    if (success) {
+                        let alert:FCAlertView = FCAlertView()
+                        alert.makeAlertTypeSuccess()
+                        alert.showAlert(inView: self,
+                                        withTitle: "Saved!",
+                                        withSubtitle: "Your video saved!",
+                                        withCustomImage: nil,
+                                        withDoneButtonTitle: "👌",
+                                        andButtons: nil)
+                        
+                        alert.colorScheme = UIColor(hex: "#8C9AFF")
+                    } else {
+                        let alert:FCAlertView = FCAlertView()
+                        alert.makeAlertTypeCaution()
+                        alert.showAlert(inView: self,
+                                        withTitle: "Error!",
+                                        withSubtitle: "Something went wrong!",
+                                        withCustomImage: nil,
+                                        withDoneButtonTitle: "Okay",
+                                        andButtons: nil)
+                        
+                        alert.colorScheme = UIColor(hex: "#8C9AFF")
+                    }
+                }
+            }))
         }
     }
 }
@@ -176,7 +220,7 @@ extension ViewController : ButtonViewControllerDelegate {
 extension ViewController : MainControlViewControllerDelegate {
     func playerButtonWasTapped(index: Int) {
         if (self.editController != nil) {
-            self.buttonViewController.turnOnShareButton()
+            self.downloadQueueViewController.turnOnShareButton()
             
             self.editController.storeEdit(time: self.times[index]!)
             self.playerViewController.seekToTime(time: self.times[index]!)

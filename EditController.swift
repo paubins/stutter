@@ -34,7 +34,6 @@ class EditController: NSObject {
     }()
     
     var asset:AVAsset!
-    
     var timer:Timer!
     
     init(asset: AVAsset) {
@@ -93,7 +92,7 @@ class EditController: NSObject {
         return randomString
     }
     
-    func export() throws -> AVAssetExportSession {
+    func export(completionHandler: @escaping (Bool) -> Void) throws -> AVAssetExportSession {
         let filename = "\(self.randomString(length: 15)).mp4"
         let outputPath = NSTemporaryDirectory().appending(filename)
         
@@ -106,8 +105,11 @@ class EditController: NSObject {
             try manager.removeItem(atPath: outputPath)
         }
         
-        return ExporterController.export(self.mutableComposition, videoAsset: self.asset, fromOutput: fileUrl, completionHandler: { (assetExportSession) in 
+        print(outputPath)
+        
+        return ExporterController.export(self.mutableComposition, videoAsset: self.asset, fromOutput: fileUrl, completionHandler: { (assetExportSession, success) in
             self.mutableComposition = AVMutableComposition()
+            completionHandler(success)
         })
     }
     

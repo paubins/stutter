@@ -59,65 +59,51 @@ class LoadingViewController : UIViewController {
     }
     
     func updateProgress(exportSession: AVAssetExportSession, completion: @escaping () -> Void) {
+        func resetTimers() {
+            self.progressTimer.invalidate()
+            self.progressTimer = nil
+            self.progress.progress = 0.0
+        }
+        
         self.progressTimer = Timer.every(0.2.seconds) {
-            if exportSession.error != nil {
-                self.completion = completion
-                self.showErrorAlert()
-                
-                self.progressTimer.invalidate()
-                self.progressTimer = nil
-            } else if (exportSession.progress == 1.0) {
-                self.progress.progress = Double(exportSession.progress)
-                
-                self.completion = completion
-                
-                DispatchQueue.global(qos: .background).async {
-                    UISaveVideoAtPathToSavedPhotosAlbum((exportSession.outputURL?.path)!, self, #selector(self.saveCompleted), nil);
+            switch(exportSession.status) {
+            case .completed:
+                DispatchQueue.main.async {
+                    if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((exportSession.outputURL?.relativePath)!)) {
+                        UISaveVideoAtPathToSavedPhotosAlbum((exportSession.outputURL?.relativePath)!, self, nil, nil);
+                    }
                 }
                 
-                self.outputURL = exportSession.outputURL
+                resetTimers()
+                completion()
+                break
                 
-                self.progressTimer.invalidate()
-                self.progressTimer = nil
-            } else {
+            case .cancelled:
+                resetTimers()
+                completion()
+                break
+                
+            case .exporting:
                 self.progress.progress = Double(exportSession.progress)
+                break
+                
+            case .failed:
+                resetTimers()
+                completion()
+                break
+                
+            case .unknown:
+                resetTimers()
+                completion()
+                break
+                
+            case .waiting:
+                break
+                
+            default:
+                break
             }
+            
         }
-    }
-    
-    @objc func saveCompleted(video: String, didFinishSavingWithError: Error, contextInfo: UnsafeMutableRawPointer) {
-        let alert:FCAlertView = FCAlertView()
-        alert.makeAlertTypeSuccess()
-        alert.showAlert(inView: self,
-                        withTitle: "Saved!",
-                        withSubtitle: "Your video saved!",
-                        withCustomImage: nil,
-                        withDoneButtonTitle: "👌",
-                        andButtons: nil)
-        alert.delegate = self
-        
-        alert.colorScheme = UIColor(hex: "#8C9AFF")
-    }
-    
-    func showErrorAlert() {
-        let alert:FCAlertView = FCAlertView()
-        alert.makeAlertTypeCaution()
-        alert.showAlert(inView: self,
-                        withTitle: "Error!",
-                        withSubtitle: "Something went wrong!",
-                        withCustomImage: nil,
-                        withDoneButtonTitle: "Okay",
-                        andButtons: nil)
-        
-        alert.delegate = self
-        
-        alert.colorScheme = UIColor(hex: "#8C9AFF")
-    }
-}
-
-extension LoadingViewController : FCAlertViewDelegate {
-    func fcAlertViewDismissed(_ alertView: FCAlertView!) {
-        self.progress.progress = 0.0
-        self.completion()
     }
 }

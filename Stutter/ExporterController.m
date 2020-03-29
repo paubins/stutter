@@ -11,7 +11,7 @@
 
 @implementation ExporterController
 
-+ (AVAssetExportSession *)export:(AVMutableComposition *)mixComposition videoAsset:(AVAsset *)videoAsset fromOutput:(NSURL *)outputFileURL completionHandler:(void (^)(AVAssetExportSession *))completionHandler {
++ (AVAssetExportSession *)export:(AVMutableComposition *)mixComposition videoAsset:(AVAsset *)videoAsset fromOutput:(NSURL *)outputFileURL completionHandler:(void (^)(AVAssetExportSession *, BOOL))completionHandler {
     AVMutableCompositionTrack *compositionVideoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo  preferredTrackID:kCMPersistentTrackID_Invalid];
     AVMutableCompositionTrack *audioComposition = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
 
@@ -87,14 +87,15 @@
                  NSLog(@"Fail");
                  NSLog(@"asset export fail error : %@", assetExport.error);
                  
-                 
-                 completionHandler(assetExport);
+                 completionHandler(assetExport, false);
                  
                  break;
              }
              case AVAssetExportSessionStatusCompleted:{
                  NSLog(@"Success");
-                 completionHandler(assetExport);
+                 
+                 completionHandler(assetExport, true);
+                 
                  break;
              }
                  

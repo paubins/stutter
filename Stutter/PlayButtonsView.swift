@@ -252,7 +252,7 @@ class PlayButtonsView: UIView {
         if fireButton != nil {
             if (self.currentTimer == nil) {
                 fireButton.isHighlighted = true
-                self.currentTimer = Timer.after(0.15.seconds) {
+                self.currentTimer = Timer.after(0.25.seconds) {
                     fireButton.sendActions(for: UIControlEvents.touchUpInside)
                     fireButton.isHighlighted = false
                     
