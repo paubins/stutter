@@ -1,6 +1,0 @@
-framework module Pods_Stutter {
-  umbrella header "Pods-Stutter-umbrella.h"
-
-  export *
-  module * { export * }
-}
