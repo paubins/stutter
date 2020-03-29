@@ -10,9 +10,10 @@ import Foundation
 import Cartography
 
 protocol ScrubberCollectionViewCellDelegate {
-    func scrubbingHasBegun()
-    func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat)
-    func scrubbingHasEnded()
+    func scrubbingHasBegun(at: CGPoint)
+    func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat, to: CGPoint)
+    func scrubbingHasEnded(at: CGPoint)
+    func tapped()
 }
 
 class ScrubberCollectionViewCell : UICollectionViewCell {
@@ -50,6 +51,10 @@ class ScrubberCollectionViewCell : UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func getPoint(for index:Int) -> CGPoint {
+        return self.shapeView.getPoint(for: index)
+    }
+    
     func getPercentageX(index: Int) -> CGFloat {
         return self.shapeView.getPercentageX(index: index)
     }
@@ -57,22 +62,18 @@ class ScrubberCollectionViewCell : UICollectionViewCell {
     func getPercentageY(index: Int) -> CGFloat {
         return self.shapeView.getPercentageY(index: index)
     }
-    
-    func animate() {
-        self.shapeView.animate()
-    }
 }
 
 extension ScrubberCollectionViewCell : ShapeViewDelegate {
-    func slidingHasBegun() {
-        self.delegate.scrubbingHasBegun()
+    func slidingHasBegun(point: CGPoint) {
+        self.delegate.scrubbingHasBegun(at: point)
     }
     
-    func percentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat) {
-        self.delegate.scrubbed(index: index, percentageX: percentageX, percentageY: percentageY)
+    func percentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint) {
+        self.delegate.scrubbed(index: index, percentageX: percentageX, percentageY: percentageY, to: point)
     }
     
-    func slidingHasEnded() {
-        self.delegate.scrubbingHasEnded()
+    func slidingHasEnded(point: CGPoint) {
+        self.delegate.scrubbingHasEnded(at: point)
     }
 }

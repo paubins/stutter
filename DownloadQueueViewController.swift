@@ -12,6 +12,7 @@ import FontAwesomeKit
 import MZTimerLabel
 import Emoji
 import SwiftyStoreKit
+import KDCircularProgress
 
 protocol DownloadQueueViewControllerDelegate {
     func armRecording()
@@ -20,50 +21,31 @@ protocol DownloadQueueViewControllerDelegate {
 
 class DownloadQueueViewController : UIViewController {
     var delegate:DownloadQueueViewControllerDelegate!
+
+    var progressTimer:Timer!
+    var outputURL:URL!
     
-    lazy var loadingViewController:LoadingViewController = {
-        let loadingViewController = LoadingViewController()
-        loadingViewController.view.alpha = 0.0
+    lazy var progress: KDCircularProgress = {
+        let progress:KDCircularProgress = KDCircularProgress(frame: .zero)
+        progress.startAngle = -90
+        progress.progressThickness = 0.2
+        progress.trackThickness = 0.6
+        progress.clockwise = true
+        progress.gradientRotateSpeed = 2
+        progress.roundedCorners = false
+        progress.glowMode = .forward
+        progress.glowAmount = 0.9
+        progress.isHidden = false
+        progress.alpha = 0.0
+        progress.set(colors: UIColor(hex: "#40BAB3"),
+                     UIColor(hex: "#F3C74F"),
+                     UIColor(hex: "#0081C6"),
+                     UIColor(hex: "#F0B0B7"))
         
-        return loadingViewController
+        progress.backgroundColor = .clear
+        
+        return progress
     }()
-    
-    let openNodeButton:UIView = {
-        let containerView:UIView = UIView(frame: .zero)
-        containerView.clipsToBounds = true
-        
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        
-        blurEffectView.clipsToBounds = true
-        containerView.addSubview(blurEffectView)
-        
-        constrain(blurEffectView) { (view) in
-            view.top == view.superview!.top
-            view.right == view.superview!.right
-            view.left == view.superview!.left
-            view.bottom == view.superview!.bottom
-        }
-        
-        let playStopBackButton:UIButton = UIButton()
-        playStopBackButton.setImage(ButtonIcons.downloadImage, for: .normal)
-        playStopBackButton.addTarget(self, action: #selector(openVideos), for: .touchUpInside)
-        
-        containerView.addSubview(playStopBackButton)
-        
-        constrain(playStopBackButton) { (view) in
-            view.width == 30
-            view.height == 30
-            
-            view.centerX == view.superview!.centerX
-            view.centerY == view.superview!.centerY
-        }
-        
-        containerView.alpha = 0.0
-        
-        return containerView
-    }()
-    
     
     lazy var timerLabel:MZTimerLabel = {
         let timerLabel:MZTimerLabel = MZTimerLabel(timerType: MZTimerLabelTypeTimer)
@@ -153,15 +135,13 @@ class DownloadQueueViewController : UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .clear
-        self.addChildViewController(self.loadingViewController)
-        
+
         self.view.addSubview(self.buyButton)
         self.view.addSubview(self.saveShareButton)
-        self.view.addSubview(self.openNodeButton)
-        self.view.addSubview(self.loadingViewController.view)
+        self.view.addSubview(self.progress)
         // self.view.addSubview(self.timerLabel)
         
-        constrain(self.saveShareButton, self.loadingViewController.view, self.openNodeButton, self.buyButton) { (view, view1, view2, 
+        constrain(self.saveShareButton, self.progress, self.buyButton) { (view, view1,
             view3) in
             
             view3.top == view3.superview!.top + 40
@@ -178,11 +158,6 @@ class DownloadQueueViewController : UIViewController {
             view1.top == view3.bottom + 15
             view1.height == 60
             view1.width == 60
-            
-            view1.bottom == view2.top
-            view2.height == 60
-            view2.width == 60
-            view2.right == view2.superview!.right - 15
         }
     }
     
@@ -193,7 +168,7 @@ class DownloadQueueViewController : UIViewController {
     }
     
     func saveVideo(sender: UIButton) {
-        if (0.0 == self.loadingViewController.progress.progress) {
+        if (0.0 == self.progress.progress) {
             self.timerLabel.reset()
             self.delegate.exportButtonTapped()
         }
@@ -204,7 +179,7 @@ class DownloadQueueViewController : UIViewController {
             self.timerLabel.start()
             UIView.animate(withDuration: 0.5) {
                 self.saveShareButton.alpha = 1.0
-                self.loadingViewController.view.alpha = 1.0
+                self.progress.alpha = 1.0
             }
         }
     }
@@ -214,21 +189,10 @@ class DownloadQueueViewController : UIViewController {
             self.timerLabel.pause()
             UIView.animate(withDuration: 0.5) {
                 self.saveShareButton.alpha = 0.0
-                self.loadingViewController.view.alpha = 0.0
+                self.progress.alpha = 0.0
             }
         }
     }
-    
-    func updateProgress(exportSession: AVAssetExportSession) {
-        self.loadingViewController.updateProgress(exportSession: exportSession, completion: {
-            self.turnOffShareButton()
-        })
-    }
-    
-    func openVideos() {
-
-    }
-    
     
     func buyMoreTime(sender: UITapGestureRecognizer) {
         SwiftyStoreKit.purchaseProduct("com.musevisions.SwiftyStoreKit.Purchase1", quantity: 1, atomically: true) { result in
@@ -248,6 +212,55 @@ class DownloadQueueViewController : UIViewController {
                 case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
                 }
             }
+        }
+    }
+    
+    func updateProgress(exportSession: AVAssetExportSession) {
+        func resetTimers() {
+            self.progressTimer.invalidate()
+            self.progressTimer = nil
+            self.progress.progress = 0.0
+        }
+        
+        self.progressTimer = Timer.every(0.2.seconds) {
+            switch(exportSession.status) {
+            case .completed:
+                DispatchQueue.main.async {
+                    if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum((exportSession.outputURL?.relativePath)!)) {
+                        UISaveVideoAtPathToSavedPhotosAlbum((exportSession.outputURL?.relativePath)!, self, nil, nil);
+                    }
+                }
+                
+                resetTimers()
+                self.turnOffShareButton()
+                break
+                
+            case .cancelled:
+                resetTimers()
+                self.turnOffShareButton()
+                break
+                
+            case .exporting:
+                self.progress.progress = Double(exportSession.progress)
+                break
+                
+            case .failed:
+                resetTimers()
+                self.turnOffShareButton()
+                break
+                
+            case .unknown:
+                resetTimers()
+                self.turnOffShareButton()
+                break
+                
+            case .waiting:
+                break
+                
+            default:
+                break
+            }
+            
         }
     }
 }

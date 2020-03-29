@@ -29,6 +29,8 @@ import Hue
 class ViewController: UIViewController {
     var stutterState:StutterState = .prearmed
     
+    var exportAlert:FCAlertView!
+    
     lazy var downloadQueueViewController:DownloadQueueViewController = {
         let downloadQueueViewController:DownloadQueueViewController = DownloadQueueViewController()
         downloadQueueViewController.delegate = self
@@ -50,13 +52,32 @@ class ViewController: UIViewController {
         return mainControlViewController
     }()
     
-    lazy var playerViewController:PlayerViewController = {
-        let playerController:PlayerViewController = PlayerViewController()
-        playerController.playbackDelegate = self
-        playerController.delegate = self
-        return playerController
+    lazy var scrubberPreviewViewController:Player = {
+        let scrubberPreviewViewController:Player = Player()
+        scrubberPreviewViewController.view.backgroundColor = .clear
+        scrubberPreviewViewController.playbackResumesWhenEnteringForeground = false
+        scrubberPreviewViewController.view.isHidden = true
+        return scrubberPreviewViewController
     }()
     
+    lazy var playerViewController:Player = {
+        let player:Player = Player()
+        
+        player.playbackDelegate = self
+        player.view.frame = self.view.bounds
+        player.fillMode = AVLayerVideoGravityResizeAspect
+        player.playbackLoops = false
+        player.view.backgroundColor = .clear
+        player.playbackResumesWhenEnteringForeground = false
+        
+        player.view.isUserInteractionEnabled = true
+        
+        let tapGestureRecognizer:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playerViewtapped))
+        player.view.addGestureRecognizer(tapGestureRecognizer)
+        
+        return player
+    }()
+
     var editController:EditController!
     
     let fireController:DazFireController = DazFireController()
@@ -111,6 +132,7 @@ class ViewController: UIViewController {
         self.addChildViewController(self.playerViewController)
         self.addChildViewController(self.mainControlViewController)
         self.addChildViewController(self.downloadQueueViewController)
+        self.addChildViewController(self.scrubberPreviewViewController)
         
         self.view.addSubview(self.backgroundShiftView)
         self.view.addSubview(self.playerViewController.view)
@@ -118,6 +140,7 @@ class ViewController: UIViewController {
         self.view.addSubview(self.mainControlViewController.view)
         self.view.addSubview(self.buttonViewController.view)
         self.view.addSubview(self.downloadQueueViewController.view)
+        self.view.addSubview(self.scrubberPreviewViewController.view)
         
         constrain(self.backgroundShiftView) { (view) in
             view.top == view.superview!.top
@@ -137,7 +160,7 @@ class ViewController: UIViewController {
             view.left == view.superview!.left
             view.top == view.superview!.top
             
-            view.height == 300
+            view.height == 150
             view.width == 90
         }
         
@@ -145,7 +168,7 @@ class ViewController: UIViewController {
             view.left == view.superview!.left
             view.right == view.superview!.right
             view.bottom == view.superview!.bottom
-            view.height == UIScreen.main.bounds.size.height
+            view.height == Constant.mainControlHeight
         }
         
         constrain(self.downloadQueueViewController.view) { (view) in
@@ -155,8 +178,19 @@ class ViewController: UIViewController {
             view.height == 150
         }
         
+        constrain(self.scrubberPreviewViewController.view) { (view) in
+            view.height == 50
+            view.width == 50
+        }
+        
         self.backgroundShiftView.animationDuration(3.0)
         self.backgroundShiftView.startTimedAnimation()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.scrubberPreviewViewController.view.isHidden = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -168,6 +202,16 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func playerViewtapped(gestureRecognizer: UITapGestureRecognizer) {
+        if (gestureRecognizer.location(in: self.view).x < UIScreen.main.bounds.width/4) {
+            self.playerViewController.playFromBeginning()
+        } else if self.playerViewController.playbackState == .playing {
+            self.playerViewController.stop()
+        } else {
+            self.playerViewController.playFromCurrentTime()
+        }
     }
 }
 
@@ -181,24 +225,23 @@ extension ViewController : ButtonViewControllerDelegate {
             self.downloadQueueViewController.timerLabel.reset()
         }
         
+        self.mainControlViewController.asset = asset
+        self.playerViewController.url = (asset as! AVURLAsset).url
+        self.scrubberPreviewViewController.url = (asset as! AVURLAsset).url
+        self.scrubberPreviewViewController.view.isHidden = true
+        
         asset.getAudio(completion: { (duration, url) in
             let size:CGSize = asset.getSize()
             self.editController.load(duration: duration, size: size)
-            self.mainControlViewController.load(duration: duration, audioURL: url)
+            self.mainControlViewController.load(duration: duration, audioURL: url, size: size)
             
             try! FileManager.default.removeItem(at: url)
-            
             
             let newSize:CGSize = AVMakeRect(aspectRatio: size, insideRect: CGRect(x: 0, y: 0, width: 100, height: 50)).size
             
             asset.getThumbnails(size: newSize, completionHandler: { (images) in
                 DispatchQueue.main.sync {
                     self.mainControlViewController.loadThumbnails(images: images)
-                    self.mainControlViewController.load(asset: asset)
-                    
-                    self.playerViewController.load(asset: asset)
-                    self.playerViewController.play()
-                    
                     self.stutterState = .prearmed
                 }
             })
@@ -226,6 +269,10 @@ extension ViewController : DownloadQueueViewControllerDelegate {
             DispatchQueue.main.async {
                 self.stutterState = .prearmed
                 self.downloadQueueViewController.timerLabel.reset()
+                
+                if (self.exportAlert != nil) {
+                    self.exportAlert.dismiss()
+                }
                 
                 if (success) {
                     let alert:FCAlertView = FCAlertView()
@@ -258,7 +305,22 @@ extension ViewController : DownloadQueueViewControllerDelegate {
 }
 
 extension ViewController : MainCollectionViewControllerDelegate {
-
+    func tapped() {
+        switch self.playerViewController.playbackState {
+        case .playing:
+            self.playerViewController.pause()
+            break
+        case .paused:
+            self.playerViewController.playFromCurrentTime()
+            break
+        case .stopped:
+            self.playerViewController.playFromBeginning()
+            break
+        default:
+            break
+        }
+    }
+    
     func playButtonWasTapped(index: Int, percentageX: CGFloat, percentageY: CGFloat) {
         guard let editController = self.editController else {
             return
@@ -274,21 +336,63 @@ extension ViewController : MainCollectionViewControllerDelegate {
             self.downloadQueueViewController.turnOnShareButton()
             time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
             self.downloadQueueViewController.timerLabel.start()
+            
+            self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
             break
         case .recording:
             time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
+            
+            self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
             break
         case .paused:
             self.stutterState = .recording
             self.downloadQueueViewController.timerLabel.start()
             self.downloadQueueViewController.turnOnShareButton()
             time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
+            self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
+            
             break
+        case .exporting:
+            self.exportAlert = FCAlertView()
+            exportAlert.makeAlertTypeWarning()
+            exportAlert.showAlert(inView: self,
+                            withTitle: "Currently exporting!",
+                            withSubtitle: "lil stutter is saving your video!",
+                            withCustomImage: nil,
+                            withDoneButtonTitle: "👌",
+                            andButtons: nil)
+            
+            exportAlert.colorScheme = UIColor(hex: "#8C9AFF")
+            return
         default:
             break
         }
         
-        self.playerViewController.seekToTime(time: time)
+        self.playerViewController.seekToTime(to: time, toleranceBefore: CMTimeMake(1, 600), toleranceAfter: CMTimeMake(1, 600))
+        self.playerViewController.playFromCurrentTime()
+    }
+    
+    func scrubbingHasBegun(at point: CGPoint) {
+        print("cool")
+        self.scrubberPreviewViewController.view.frame.origin = Constant.addInset(to: point)
+        self.scrubberPreviewViewController.view.isHidden = false
+    }
+    
+
+    func scrubbingHasMoved(index: Int, percentageX: CGFloat, percentageY: CGFloat, to point: CGPoint) {
+        if (self.editController == nil) {
+            return
+        }
+        
+        self.scrubberPreviewViewController.view.frame.origin = Constant.addInset(to: point)
+        self.scrubberPreviewViewController.view.layer.transform = CATransform3DMakeScale(percentageY+1, percentageY+1, 1)
+        
+        self.scrubberPreviewViewController.seekToTime(to: CMTimeMakeWithSeconds(Float64(CGFloat(CMTimeGetSeconds(self.editController.currentAssetDuration)) * percentageX), 60), toleranceBefore: CMTimeMake(1, 60), toleranceAfter: CMTimeMake(1, 60))
+        
+    }
+    
+    func scrubbingHasEnded(at point: CGPoint) {
+        self.scrubberPreviewViewController.view.isHidden = true
     }
 }
 
@@ -311,39 +415,60 @@ extension ViewController: PlayerPlaybackDelegate {
     }
     
     public func playerPlaybackWillLoop(_ player: Player) {
-        if (self.stutterState == .recording) {
-            self.editController.closeEdit()
-        }
+//        if (self.stutterState == .recording) {
+//            self.editController.closeEdit()
+//        }
     }
 }
+
+extension ViewController : PlayerDelegate {
+    func playerReady(_ player: Player) {
+        
+    }
+    
+    func playerPlaybackStateDidChange(_ player: Player) {
+        switch player.playbackState {
+        case .playing:
+            switch self.stutterState {
+            case .recording:
+                let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0)
+                self.downloadQueueViewController.timerLabel.start()
+                self.stutterState = .recording
+            default:
+                print("default")
+            }
+            break
+            
+        case .paused:
+            switch self.stutterState {
+            case .recording:
+                let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0)
+                
+                self.downloadQueueViewController.timerLabel.pause()
+                self.stutterState = .paused
+            default:
+                print("default")
+            }
+            break
+        default:
+            print("unknown")
+        }
+    }
+    
+    func playerBufferingStateDidChange(_ player: Player) {
+        
+    }
+    
+    //this is the time in seconds that the video has buffered to.
+    //If implementing a UIProgressView, user this value / player.maximumDuration to set progress.
+    func playerBufferTimeDidChange(_ bufferTime: Double) {
+        
+    }
+}
+
 
 extension ViewController : FCAlertViewDelegate {
     func fcAlertViewDismissed(_ alertView: FCAlertView!) {
         self.downloadQueueViewController.turnOffShareButton()
-    }
-}
-
-extension ViewController : PlayerViewControllerDelegate {
-    func playbackResumed(player: Player) {
-        switch self.stutterState {
-        case .recording:
-            let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0)
-            self.downloadQueueViewController.timerLabel.start()
-            self.stutterState = .recording
-        default:
-            print("default")
-        }
-    }
-    
-    func playbackPaused(player: Player) {
-        switch self.stutterState {
-        case .recording:
-            let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0)
-            
-            self.downloadQueueViewController.timerLabel.pause()
-            self.stutterState = .paused
-        default:
-            print("default")
-        }
     }
 }

@@ -26,7 +26,7 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
 //        
 //        return contentSize
 //    }
-    
+//    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
         let attributesArray = super.layoutAttributesForElements(in: rect)
@@ -42,22 +42,31 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
             
             switch(section) {
             case .slices:
-                yPosition += 135
                 attributes.zIndex = 90
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .buttons:
-                yPosition -= 25
+                yPosition -= Constant.tertiaryControlCenterOffset
                 attributes.zIndex = 99
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .waveform:
-                yPosition -= 25
+                if UIScreen.isPhoneX {
+                    yPosition -= Constant.waveformCenterPointOffset - 25
+                } else {
+                    yPosition -= Constant.waveformCenterPointOffset
+                }
+                
                 attributes.zIndex = 80
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
             case .thumbnails:
-                yPosition += 25
+                if UIScreen.isPhoneX {
+                    yPosition -= Constant.waveformCenterPointOffset - 25
+                } else {
+                    yPosition -= Constant.thumbnailsCenterPointOffset
+                }
+                
                 attributes.zIndex = 70
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
@@ -68,40 +77,40 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
         
         return attributesArray
     }
-    
-    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        guard let section = SliderSections(rawValue: indexPath.section) else {
-            assertionFailure()
-            return UICollectionViewLayoutAttributes(forCellWith: indexPath)
-        }
-        
-        let kWhateverHeightYouWant = 50
-        let layoutAttributes:UICollectionViewLayoutAttributes = super.layoutAttributesForItem(at: indexPath)!
-        
-        switch(section) {
-        case .buttons:
-            let xPosition = layoutAttributes.center.x
-            let yPosition = layoutAttributes.center.y
-            layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
-            break
-        case .slices:
-            return layoutAttributes
-            break
-        case .waveform:
-            let xPosition = layoutAttributes.center.x
-            let yPosition = layoutAttributes.center.y
-            layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
-            break
-        case .thumbnails:
-            let xPosition = layoutAttributes.center.x
-            let yPosition = layoutAttributes.center.y
-            layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
-        default:
-            break
-        }
-        
-        return layoutAttributes
-    }
-    
+//
+//    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+//        guard let section = SliderSections(rawValue: indexPath.section) else {
+//            assertionFailure()
+//            return UICollectionViewLayoutAttributes(forCellWith: indexPath)
+//        }
+//        
+//        let kWhateverHeightYouWant = 50
+//        let layoutAttributes:UICollectionViewLayoutAttributes = super.layoutAttributesForItem(at: indexPath)!
+//        
+//        switch(section) {
+//        case .buttons:
+//            let xPosition = layoutAttributes.center.x
+//            let yPosition = layoutAttributes.center.y
+//            layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
+//            break
+//        case .slices:
+//            return layoutAttributes
+//            break
+//        case .waveform:
+//            let xPosition = layoutAttributes.center.x
+//            let yPosition = layoutAttributes.center.y
+//            layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
+//            break
+//        case .thumbnails:
+//            let xPosition = layoutAttributes.center.x
+//            let yPosition = layoutAttributes.center.y
+//            layoutAttributes.center = CGPoint(x: xPosition, y: yPosition)
+//        default:
+//            break
+//        }
+//        
+//        return layoutAttributes
+//    }
+//    
     
 }

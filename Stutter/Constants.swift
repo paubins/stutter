@@ -27,6 +27,29 @@ struct Constant {
     static let flipperWidthFirst:CGFloat = 5
     static let flipperWidth:CGFloat = 20
     static let flipperPadding:CGFloat = CGFloat(50.0)
+    
+    static let mainControlHeight:CGFloat = 400.0
+    
+    static let secondaryControlHeight:CGFloat = Constant.mainControlHeight - 80
+    static let secondaryControlHeightControlPoint1:CGFloat = Constant.secondaryControlHeight + 5
+    static let secondaryControlHeightControlPoint2:CGFloat = Constant.secondaryControlHeight + 10
+    static let secondaryControlDiameter:CGFloat = 10.0
+    
+    static let primaryControlDiameter:CGFloat = 30.0
+    
+    static let mainControllCutoffMin:CGFloat = 200.0
+    static let mainControllCutoffMax:CGFloat = 5.0
+    
+    static let tertiaryControlCenterOffset:CGFloat = 150.0
+    static let waveformCenterPointOffset:CGFloat = 150.0
+    static let thumbnailsCenterPointOffset:CGFloat = 100.0
+    
+    static let controlSurfaceHeight:CGFloat = 200.0
+    
+    static func addInset(to point:CGPoint) -> CGPoint {
+        return CGPoint(x: point.x - 25,
+                       y: point.y - 120)
+    }
 }
 
 struct ButtonIcons {

@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 
 protocol ShapeViewDelegate {
-    func slidingHasBegun()
-    func percentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat)
-    func slidingHasEnded()
+    func slidingHasBegun(point: CGPoint)
+    func percentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint)
+    func slidingHasEnded(point: CGPoint)
+    func tapped()
 }
 
 class ShapeView : UIView {
@@ -20,6 +21,7 @@ class ShapeView : UIView {
     var delegate:ShapeViewDelegate!
     
     var gestureRecognizer:UIPanGestureRecognizer!
+    var touchGestureRecognizer:UITapGestureRecognizer!
     
     var previousScreenWidth:CGFloat = UIScreen.main.bounds.width
     var currentLayerIndex:Int = 0
@@ -36,6 +38,9 @@ class ShapeView : UIView {
         self.gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.panned))
         self.addGestureRecognizer(self.gestureRecognizer)
         
+        self.touchGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tapped))
+        self.addGestureRecognizer(self.touchGestureRecognizer)
+        
         let layer:WireLayer = WireLayer()
         layer.frame = self.bounds
         layer.shouldRasterize = true
@@ -43,7 +48,7 @@ class ShapeView : UIView {
         layer.contentsScale = UIScreen.main.scale
         
         layer.color = Constant.COLORS[0]
-        layer.currentPoint =  CGPoint(x: 10, y: Int(UIScreen.main.bounds.size.height))
+        layer.currentPoint =  CGPoint(x: 10, y: Constant.mainControllCutoffMin)
         layer.offset = UIScreen.main.bounds.size.width/self.count/2
         
         self.layer.addSublayer(layer)
@@ -58,7 +63,7 @@ class ShapeView : UIView {
             layer.contentsScale = UIScreen.main.scale
             
             layer.currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width/self.count * CGFloat(i)),
-                                         y: Int(UIScreen.main.bounds.size.height))
+                                         y: Int(Constant.mainControllCutoffMin))
             layer.offset = UIScreen.main.bounds.size.width/self.count * CGFloat(i) + UIScreen.main.bounds.size.width/self.count/2
             
             self.layer.addSublayer(layer)
@@ -73,12 +78,10 @@ class ShapeView : UIView {
             (layer as! WireLayer).frame = self.bounds
             
             if !self.initial {
-                (layer as! WireLayer).currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width*self.getPercentageX(index: i)),
-                                                             y: Int((UIScreen.main.bounds.size.height)*self.getPercentageY(index: i)))
+                (layer as! WireLayer).currentPoint = CGPoint(x: Int(UIScreen.main.bounds.size.width*self.getPercentageX(index: i)), y: Int(Constant.controlSurfaceHeight-Constant.controlSurfaceHeight*self.getPercentageY(index: i)))
             }
             
             (layer as! WireLayer).offset = UIScreen.main.bounds.size.width/self.count * CGFloat(i) + UIScreen.main.bounds.size.width/self.count/2
-            
             (layer as! WireLayer).setNeedsDisplay()
         }
         
@@ -86,30 +89,13 @@ class ShapeView : UIView {
         self.previousScreenWidth = UIScreen.main.bounds.size.width
     }
     
-    func animate() {
-        for (i, layer) in self.layer.sublayers!.enumerated() {
-            let animation = CABasicAnimation(keyPath: "v1x")
-            animation.duration = 10
-            
-            // Your new shape here
-            animation.toValue = 20
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-            
-            (layer as! WireLayer).add(animation, forKey: "v1x")
-            
-            let animation2 = CABasicAnimation(keyPath: "v1y")
-            animation2.duration = 10
-            
-            // Your new shape here
-            animation2.toValue = 20
-            animation2.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-            
-            (layer as! WireLayer).add(animation2, forKey: "v1y")
-        }
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getPoint(for index: Int) -> CGPoint {
+        let point = (self.layer.sublayers![index] as! WireLayer).currentPoint
+        return CGPoint(x: point.x + 15, y: point.y + 15)
     }
     
     func getPercentageX(index: Int) -> CGFloat {
@@ -118,12 +104,10 @@ class ShapeView : UIView {
     }
     
     func getPercentageY(index: Int) -> CGFloat {
-        let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
-        if let window = UIApplication.shared.keyWindow {
-            return (UIScreen.main.bounds.height-self.superview!.convert(layer.currentPoint, to: window).y)/UIScreen.main.bounds.height
+        guard let layer:WireLayer = self.layer.sublayers![index] as? WireLayer else {
+            return 0
         }
-        
-        return layer.currentPoint.y/UIScreen.main.bounds.height
+        return (Constant.controlSurfaceHeight-layer.currentPoint.y)/Constant.controlSurfaceHeight
     }
     
     @objc func panned(gestureRecognizer: UIPanGestureRecognizer) {
@@ -136,7 +120,7 @@ class ShapeView : UIView {
                     self.currentLayerIndex = i
                     self.shouldRedraw = true
                     (wireLayer as! WireLayer).selected = true
-                    self.delegate.slidingHasBegun()
+                    self.delegate.slidingHasBegun(point: point)
                     break
                 } else {
                     print("nah")
@@ -150,8 +134,9 @@ class ShapeView : UIView {
 
                 if (self.delegate != nil) {
                     self.delegate.percentageOfWidth(index: self.currentLayerIndex,
-                                                    percentageX: point.x/UIScreen.main.bounds.width,
-                                                    percentageY: point.y/UIScreen.main.bounds.height)
+                                                    percentageX: self.getPercentageX(index: self.currentLayerIndex),
+                                                    percentageY: self.getPercentageY(index: self.currentLayerIndex),
+                                                    point: point)
                 }
             }
             
@@ -159,7 +144,7 @@ class ShapeView : UIView {
             if self.shouldRedraw {
                 (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).selected = false
                 (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
-                self.delegate.slidingHasEnded()
+                self.delegate.slidingHasEnded(point: point)
                 self.shouldRedraw = false
                 self.currentLayerIndex = 0
             }
@@ -175,6 +160,10 @@ class ShapeView : UIView {
             print("no bueno")
         }
         
+    }
+    
+    func tapped(sender: UITapGestureRecognizer) {
+        self.delegate.tapped()
     }
     
     override func action(for layer: CALayer, forKey event: String) -> CAAction? {

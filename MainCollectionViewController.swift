@@ -13,8 +13,7 @@ import Device
 import FDWaveformView
 
 enum SliderSections : Int {
-    case scrubberPreview = 0
-    case slices
+    case slices = 0
     case buttons
     case thumbnails
     case waveform
@@ -26,6 +25,10 @@ enum SliderSections : Int {
 
 protocol MainCollectionViewControllerDelegate {
     func playButtonWasTapped(index: Int, percentageX: CGFloat, percentageY: CGFloat)
+    func scrubbingHasBegun(at point:CGPoint)
+    func scrubbingHasMoved(index: Int, percentageX: CGFloat, percentageY: CGFloat, to point:CGPoint)
+    func scrubbingHasEnded(at point:CGPoint)
+    func tapped()
 }
 
 class MainCollectionViewController : UICollectionViewController {
@@ -38,6 +41,7 @@ class MainCollectionViewController : UICollectionViewController {
     }
     
     var asset:AVAsset!
+    var size:CGSize!
     var currentTimer:Timer!
 
     var delegate:MainCollectionViewControllerDelegate!
@@ -46,12 +50,14 @@ class MainCollectionViewController : UICollectionViewController {
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
         
+        self.collectionView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
         self.automaticallyAdjustsScrollViewInsets = false
         self.edgesForExtendedLayout = []
+        self.extendedLayoutIncludesOpaqueBars = true
         
         self.view.backgroundColor = .clear
-        
-        self.collectionView?.register(ScrubberPreviewViewControllerCollectionViewCell.self, forCellWithReuseIdentifier: "ScrubberPreviewViewControllerCollectionViewCell")
+
         self.collectionView?.register(PlayButtonCollectionViewControllerCell.self, forCellWithReuseIdentifier: "PlayButtonCollectionViewControllerCell")
         self.collectionView?.register(ScrubberCollectionViewCell.self, forCellWithReuseIdentifier: "ScrubberCollectionViewCell")
         self.collectionView?.register(WaveformCollectionViewCell.self, forCellWithReuseIdentifier: "WaveformCollectionViewCell")
@@ -102,13 +108,6 @@ class MainCollectionViewController : UICollectionViewController {
         
         self.collectionView?.collectionViewLayout.invalidateLayout()
     }
-
-    
-    func animate() {
-        let indexPath = IndexPath(row: 0, section: SliderSections.slices.rawValue)
-        let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberCollectionViewCell
-        (cell as! ScrubberCollectionViewCell).animate()
-    }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -120,9 +119,6 @@ class MainCollectionViewController : UICollectionViewController {
         var count:Int = 0
         
         switch(section) {
-        case .scrubberPreview:
-            count = 1
-            break
         case .buttons:
             count = 5
             break
@@ -153,9 +149,6 @@ class MainCollectionViewController : UICollectionViewController {
         }
         
         switch(section) {
-        case .scrubberPreview:
-            let cell:ScrubberPreviewViewControllerCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "ScrubberPreviewViewControllerCollectionViewCell", for: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
-            return cell
         case .buttons:
             let cell:PlayButtonCollectionViewControllerCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayButtonCollectionViewControllerCell", for: indexPath) as! PlayButtonCollectionViewControllerCell
             cell.delegate = self
@@ -195,26 +188,13 @@ class MainCollectionViewController : UICollectionViewController {
         
     }
     
-    func load(duration: CMTime, audioURL: URL) {
+    func load(duration: CMTime, audioURL: URL, size: CGSize) {
         DispatchQueue.main.sync {
             self.audioURL = audioURL
-            
-            let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.scrubberPreview.rawValue)
-            let cell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
-            
-            cell.duration = duration
+            self.size = size
         }
     }
-    
-    func load(asset: AVAsset) {
-        let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.scrubberPreview.rawValue)
-        let cell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
-        
-        cell.load(asset: asset)
-        
-        self.asset = asset
-    }
-    
+
     func assetTimeChanged(player: Player) {
         self.updateSamples(distance: CGFloat(Double(player.currentTime) / Double(player.maximumDuration)))
     }
@@ -314,10 +294,17 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .buttons:
             return CGSize(width: collectionView.bounds.size.width/6, height: CGFloat(kWhateverHeightYouWant))
         case .slices:
-            return CGSize(width: collectionView.bounds.size.width, height: UIScreen.main.bounds.height - CGFloat(kWhateverHeightYouWant)*4)
+            return CGSize(width: collectionView.bounds.size.width, height: Constant.mainControlHeight)
         case .waveform:
+            if UIScreen.isPhoneX {
+                return CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant+10))
+            }
             return CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant))
         case .thumbnails:
+            if UIScreen.isPhoneX {
+                return thumbnails.count == 0 ? CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant+10)) : CGSize(width: collectionView.bounds.size.width/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant+10))
+            }
+            
             return thumbnails.count == 0 ? CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant)) : CGSize(width: collectionView.bounds.size.width/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant))
         default:
             break
@@ -333,8 +320,6 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         }
         
         switch(section) {
-        case .scrubberPreview:
-            return 0
         case .buttons:
             return 10
         case .slices:
@@ -358,8 +343,6 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         }
         
         switch(section) {
-        case .scrubberPreview:
-            return 0
         case .buttons:
             return 0
         case .slices:
@@ -382,8 +365,6 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         }
         
         switch(section) {
-        case .scrubberPreview:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .buttons:
             return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         case .slices:
@@ -408,30 +389,43 @@ extension MainCollectionViewController : PlayButtonCollectionViewControllerCellD
         let index:Int = (self.collectionView?.indexPath(for: cell)?.row)!
         
         waveformCell.waveformView.progressColor = Constant.COLORS[index]
+        
+        let scrubberIndexPath:IndexPath = IndexPath(row: 0, section: SliderSections.slices.rawValue)
+        
+        let scrubberCell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: scrubberIndexPath) as! ScrubberCollectionViewCell
+        
+        self.dazzleController.touch(atPosition: scrubberCell.getPoint(for: index))
+        
         self.delegate.playButtonWasTapped(index: index, percentageX: self.getCurrentPercentageX(index: index),
                                           percentageY: self.getCurrentPercentageY(index: index))
     }
 }
 
 extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
-    
-    func scrubbingHasBegun() {
-        let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.scrubberPreview.rawValue)
-        let cell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
-        cell.showScrubberPreview()
+    func scrubbingHasBegun(at: CGPoint) {
+        let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.slices.rawValue)
+        let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberCollectionViewCell
+        
+        let newPoint:CGPoint = cell.convert(at, to: self.view.superview)
+        
+        self.delegate.scrubbingHasBegun(at: newPoint)
     }
     
-    func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat) {
-        let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.scrubberPreview.rawValue)
-        let scrubberPreviewCell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
-
-        scrubberPreviewCell.seek(to: percentageX, x: percentageX*UIScreen.main.bounds.width)
+    func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat, to: CGPoint) {
+        let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.slices.rawValue)
+        let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberCollectionViewCell
+        
+        let newPoint:CGPoint = cell.convert(to, to: self.view.superview)
+        
+        self.delegate.scrubbingHasMoved(index: index, percentageX: percentageX, percentageY: percentageY, to: newPoint)
     }
     
-    func scrubbingHasEnded() {
-        let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.scrubberPreview.rawValue)
-        let cell:ScrubberPreviewViewControllerCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberPreviewViewControllerCollectionViewCell
-        cell.hideScrubberPreview()
+    func scrubbingHasEnded(at: CGPoint) {
+        self.delegate.scrubbingHasEnded(at: at)
+    }
+    
+    func tapped() {
+        self.delegate.tapped()
     }
 }
 
