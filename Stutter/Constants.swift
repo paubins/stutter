@@ -21,6 +21,13 @@ struct Constant {
                                      UIColor(rgbColorCodeRed: 255, green: 0, blue: 170, alpha: 1.0),
                                      UIColor(rgbColorCodeRed: 170, green: 1, blue: 255, alpha: 1.0),
                                      UIColor(rgbColorCodeRed: 0, green: 170, blue: 255, alpha: 1.0)]
+    
+    static let DARKER_COLORS = [UIColor(rgbColorCodeRed: 170, green: 255, blue: 3, alpha: 1.0).darkerColorForColor(),
+                         UIColor(rgbColorCodeRed: 255, green: 170, blue: 3, alpha: 1.0).darkerColorForColor(),
+                         UIColor(rgbColorCodeRed: 255, green: 0, blue: 170, alpha: 1.0).darkerColorForColor(),
+                         UIColor(rgbColorCodeRed: 170, green: 1, blue: 255, alpha: 1.0).darkerColorForColor(),
+                         UIColor(rgbColorCodeRed: 0, green: 170, blue: 255, alpha: 1.0).darkerColorForColor()]
+    
     static let scrubberSliceDamping:CGFloat = 0.7
     static let scrubberSpringVelocity:CGFloat = 0.8
     
@@ -30,6 +37,7 @@ struct Constant {
     
     static let mainControlHeight:CGFloat = 400.0
     
+    static let secondaryControlHeightFromBottom:CGFloat = 80
     static let secondaryControlHeight:CGFloat = Constant.mainControlHeight - 80
     static let secondaryControlHeightControlPoint1:CGFloat = Constant.secondaryControlHeight + 5
     static let secondaryControlHeightControlPoint2:CGFloat = Constant.secondaryControlHeight + 10

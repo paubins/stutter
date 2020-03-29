@@ -83,15 +83,13 @@ class ViewController: UIViewController {
     }()
 
     var editController:EditController!
-    
     let fireController:DazFireController = DazFireController()
-    
     
     var backgroundShiftView:ShiftView = {
         let v = ShiftView()
         
         // set colors
-        v.setColors(Constant.COLORS)
+        v.setColors(Constant.DARKER_COLORS)
         return v
     }()
     
@@ -188,10 +186,11 @@ class ViewController: UIViewController {
         }
         
         constrain(self.buttonViewController.view, self.zoomLevelView) { (view1, view2) in
-            view1.bottom == view2.top
+            view1.bottom == view2.top - 40
             view2.left == view2.superview!.left
+            view2.right == view2.superview!.right
+            
             view2.height == 200
-            view2.width == 90
         }
         
         self.backgroundShiftView.animationDuration(20.0)
@@ -332,7 +331,7 @@ extension ViewController : MainCollectionViewControllerDelegate {
         }
     }
     
-    func playButtonWasTapped(index: Int, percentageX: CGFloat, percentageY: CGFloat) {
+    func playButtonWasTapped(index: Int, timelinePercentageX: CGFloat, percentageX: CGFloat, percentageY: CGFloat) {
         guard let editController = self.editController else {
             return
         }
@@ -345,21 +344,29 @@ extension ViewController : MainCollectionViewControllerDelegate {
         case .prearmed:
             self.stutterState = .recording
             self.downloadQueueViewController.turnOnShareButton()
-            time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
+            time = editController.storeEdit(percentageOfTime: timelinePercentageX,
+                                            percentageZoom: percentageY,
+                                            percentageSpeed: percentageX)
             self.downloadQueueViewController.timerLabel.start()
             
             self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
+            
             break
         case .recording:
-            time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
+            time = editController.storeEdit(percentageOfTime: timelinePercentageX,
+                                            percentageZoom: percentageY,
+                                            percentageSpeed: percentageX)
             
             self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
+            
             break
         case .paused:
             self.stutterState = .recording
             self.downloadQueueViewController.timerLabel.start()
             self.downloadQueueViewController.turnOnShareButton()
-            time = editController.storeEdit(percentageOfTime: percentageX, percentageZoom: percentageY)
+            time = editController.storeEdit(percentageOfTime: timelinePercentageX,
+                                            percentageZoom: percentageY,
+                                            percentageSpeed: percentageX)
             self.playerViewController.view.layer.transform = CATransform3DMakeScale(1 + percentageY, 1 + percentageY, 1)
             
             break
@@ -375,24 +382,41 @@ extension ViewController : MainCollectionViewControllerDelegate {
                                       andButtons: nil)
                 
                 exportAlert.colorScheme = UIColor(hex: "#8C9AFF")
+                exportAlert.delegate = self
             }
             return
         default:
             break
         }
         
+        
         self.playerViewController.seekToTime(to: time, toleranceBefore: CMTimeMake(1, 600), toleranceAfter: CMTimeMake(1, 600))
         self.playerViewController.playFromCurrentTime()
+        self.playerViewController.setRate(rate: Float(1 + 1 * percentageX))
     }
     
     func scrubbingHasBegun(at point: CGPoint) {
         print("cool")
-        self.scrubberPreviewViewController.view.frame.origin = Constant.addInset(to: point)
-        self.scrubberPreviewViewController.view.isHidden = false
+        
     }
     
 
     func scrubbingHasMoved(index: Int, percentageX: CGFloat, percentageY: CGFloat, to point: CGPoint) {
+        
+    }
+    
+    func scrubbingHasEnded(at point: CGPoint) {
+        
+    }
+    
+    func timelineScrubbingHasBegun(point: CGPoint) {
+        print("timeline began")
+        self.scrubberPreviewViewController.view.frame.origin = Constant.addInset(to: point)
+        self.scrubberPreviewViewController.view.isHidden = false
+    }
+    
+    func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint) {
+        print("percentage")
         if (self.editController == nil) {
             return
         }
@@ -401,10 +425,10 @@ extension ViewController : MainCollectionViewControllerDelegate {
         self.scrubberPreviewViewController.view.layer.transform = CATransform3DMakeScale(percentageY+1, percentageY+1, 1)
         
         self.scrubberPreviewViewController.seekToTime(to: CMTimeMakeWithSeconds(Float64(CGFloat(CMTimeGetSeconds(self.editController.currentAssetDuration)) * percentageX), 60), toleranceBefore: CMTimeMake(1, 60), toleranceAfter: CMTimeMake(1, 60))
-        
     }
     
-    func scrubbingHasEnded(at point: CGPoint) {
+    func timelineScrubbingHasEnded(point: CGPoint) {
+        print("timeline ended")
         self.scrubberPreviewViewController.view.isHidden = true
     }
 }
@@ -444,7 +468,7 @@ extension ViewController : PlayerDelegate {
         case .playing:
             switch self.stutterState {
             case .recording:
-                let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0)
+                let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0, percentageSpeed: 0)
                 self.downloadQueueViewController.timerLabel.start()
                 self.stutterState = .recording
             default:
@@ -455,7 +479,7 @@ extension ViewController : PlayerDelegate {
         case .paused:
             switch self.stutterState {
             case .recording:
-                let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0)
+                let _:CMTime = self.editController.storeEdit(percentageOfTime: CGFloat(player.currentTime/player.maximumDuration), percentageZoom: 0, percentageSpeed: 0)
                 
                 self.downloadQueueViewController.timerLabel.pause()
                 self.stutterState = .paused
@@ -475,13 +499,17 @@ extension ViewController : PlayerDelegate {
     //this is the time in seconds that the video has buffered to.
     //If implementing a UIProgressView, user this value / player.maximumDuration to set progress.
     func playerBufferTimeDidChange(_ bufferTime: Double) {
-        
+
     }
 }
 
 
 extension ViewController : FCAlertViewDelegate {
     func fcAlertViewDismissed(_ alertView: FCAlertView!) {
-        self.downloadQueueViewController.turnOffShareButton()
+        if (alertView == self.exportAlert) {
+            self.exportAlert = nil
+        } else {
+            self.downloadQueueViewController.turnOffShareButton()
+        }
     }
 }

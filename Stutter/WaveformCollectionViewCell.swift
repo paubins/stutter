@@ -39,6 +39,7 @@ class WaveformCollectionViewCell : UICollectionViewCell {
     }
     
     func updateAudioURL(audioURL: URL) {
+        self.backgroundColor = .clear
         self.waveformView.audioURL = audioURL
     }
     

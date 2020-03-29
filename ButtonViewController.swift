@@ -49,7 +49,7 @@ class ButtonViewController : UIViewController {
     let loadFromCameraButton:PressableButton = {
         let playStopBackButton:PressableButton = PressableButton()
         playStopBackButton.titleLabel?.font = UIFont.systemFont(ofSize: 35)
-        playStopBackButton.setImage(FAKFontAwesome.bookIcon(withSize: 35).image(with: CGSize(width: 35, height: 35)), for: .normal)
+        playStopBackButton.setTitle(":iphone:".emojiUnescapedString, for: .normal)
         playStopBackButton.addTarget(self, action: #selector(loadFromLibrary), for: .touchUpInside)
         playStopBackButton.cornerRadius = 40
         playStopBackButton.shadowHeight = 5
@@ -59,7 +59,7 @@ class ButtonViewController : UIViewController {
     let loadFromLibraryButton:PressableButton = {
         let playStopBackButton:PressableButton = PressableButton()
         playStopBackButton.titleLabel?.font = UIFont.systemFont(ofSize: 35)
-        playStopBackButton.setImage(FAKFontAwesome.cameraIcon(withSize: 35).image(with: CGSize(width: 35, height: 35)), for: .normal)
+        playStopBackButton.setTitle(":video_camera:".emojiUnescapedString, for: .normal)
         playStopBackButton.addTarget(self, action: #selector(loadFromCamera), for: .touchUpInside)
         playStopBackButton.cornerRadius = 40
         playStopBackButton.shadowHeight = 5

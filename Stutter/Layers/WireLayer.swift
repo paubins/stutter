@@ -31,7 +31,15 @@ class WireLayer : CALayer {
         }
     }
     
-    var timelinePoint:CGPoint = CGPoint.zero
+    var timelinePoint:CGPoint = CGPoint.zero {
+        didSet {
+            timelinePoint = 20 <= timelinePoint.x ?
+                (UIScreen.main.bounds.width-20 < timelinePoint.x ?
+                    CGPoint(x: UIScreen.main.bounds.width-20, y: timelinePoint.y) :
+                    timelinePoint) :
+                CGPoint(x: 20, y: timelinePoint.y)
+        }
+    }
     
     var currentRect:CGRect {
         get {
@@ -47,7 +55,7 @@ class WireLayer : CALayer {
             return CGRect(x: self.timelinePoint.x - Constant.primaryControlDiameter,
                           y: self.timelinePoint.y - Constant.primaryControlDiameter,
                           width: Constant.primaryControlDiameter*2,
-                          height: Constant.primaryControlDiameter*2)
+                          height: Constant.secondaryControlHeightFromBottom)
         }
     }
     

@@ -14,6 +14,10 @@ protocol ScrubberCollectionViewCellDelegate {
     func scrubbed(index: Int, percentageX: CGFloat, percentageY: CGFloat, to: CGPoint)
     func scrubbingHasEnded(at: CGPoint)
     func tapped()
+    
+    func timelineScrubbingHasBegun(point: CGPoint)
+    func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint)
+    func timelineScrubbingHasEnded(point: CGPoint)
 }
 
 class ScrubberCollectionViewCell : UICollectionViewCell {
@@ -55,8 +59,16 @@ class ScrubberCollectionViewCell : UICollectionViewCell {
         return self.shapeView.getPoint(for: index)
     }
     
+    func getTimelinePercentageX(index: Int) -> CGFloat {
+        return self.shapeView.getTimelinePercentageX(index: index)
+    }
+    
     func getPercentageX(index: Int) -> CGFloat {
         return self.shapeView.getPercentageX(index: index)
+    }
+    
+    func getSpeedPercentageX(index: Int) -> CGFloat {
+        return self.shapeView.getSpeedPercentageX(index: index)
     }
     
     func getPercentageY(index: Int) -> CGFloat {
@@ -75,5 +87,21 @@ extension ScrubberCollectionViewCell : ShapeViewDelegate {
     
     func slidingHasEnded(point: CGPoint) {
         self.delegate.scrubbingHasEnded(at: point)
+    }
+    
+    func tapped() {
+        self.delegate.tapped()
+    }
+    
+    func timelineScrubbingHasBegun(point: CGPoint) {
+        self.delegate.timelineScrubbingHasBegun(point: point)
+    }
+    
+    func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint) {
+        self.delegate.timelinePercentageOfWidth(index: index, percentageX: percentageX, percentageY: percentageY, point: point)
+    }
+    
+    func timelineScrubbingHasEnded(point: CGPoint) {
+        self.delegate.timelineScrubbingHasEnded(point: point)
     }
 }

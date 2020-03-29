@@ -29,21 +29,18 @@ class EditController: NSObject {
         return instruction1
     }()
     
-    lazy var currentTransform:CGAffineTransform = {
-        let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).first!
-        
-        return assetTrack.preferredTransform
+    lazy var currentTransform:CGAffineTransform? = {
+        return self.asset.tracks(withMediaType: AVMediaTypeVideo).first?.preferredTransform
     }()
     
     var exporter:AVAssetExportSession! = nil
     
     var originalVolume:Float = 0
     
-    var currentEditHandler:((_ endTime:CMTime, _ percentageZoom:CGFloat) -> CMTime)!
+    var currentEditHandler:((_ endTime:CMTime, _ percentageZoom:CGFloat, _ percentageSpeed:CGFloat) -> CMTime)!
     
     lazy var mutableComposition:AVMutableComposition = {
         let mutableComposition:AVMutableComposition = AVMutableComposition()
-        
         return mutableComposition
     }()
     
@@ -55,30 +52,53 @@ class EditController: NSObject {
         self.asset = AVURLAsset(url: (asset as! AVURLAsset).url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
     }
     
-    func createEditHandler(_ at: CMTime, startTime: CMTime) -> ((_ durationEnd:CMTime, _ percentageZoom:CGFloat) -> CMTime) {
+    func createEditHandler(_ at: CMTime, startTime: CMTime) -> ((_ durationEnd:CMTime, _ percentageZoom:CGFloat, _ percentageSpeed: CGFloat) -> CMTime) {
         var durationStart:CMTime = CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30)
         
-        func endTimeHandler(durationEnd: CMTime, percentageZoom: CGFloat) -> CMTime {
-            let durationInterval:CMTime = CMTimeSubtract(durationEnd, durationStart)
-            let timeRange = CMTimeRangeMake(start: startTime, duration: durationInterval)
+        func endTimeHandler(durationEnd: CMTime, percentageZoom: CGFloat, percentageSpeed: CGFloat) -> CMTime {
+            var durationInterval:CMTime = CMTimeSubtract(durationEnd, durationStart)
+            if (self.currentAssetDuration < CMTimeAdd(startTime, durationInterval)) {
+                durationInterval = CMTimeSubtract(self.currentAssetDuration, startTime)
+            }
+            
+            let timeRange = CMTimeRangeMake(startTime, durationInterval)
+            
+            // 1. we get the length shown
+            // NOTE: They're inverted in logic because if we're sped up, we need
+            // that component to be extra long, because the scrubber sped through
+            // that section faster than other sections
             do {
-                print(at.value)
                 try self.mutableComposition.insertTimeRange(timeRange, of: self.asset, at: at)
             } catch {
                 print("something fucked up")
             }
             
+            // 3. scale that time range
+            if 0.1 <= fabs(percentageSpeed) {
+                let offset = percentageSpeed < 0 ? -1 : 1
+                if (0 < offset) {
+                    durationInterval = CMTimeMultiplyByRatio(durationInterval,
+                                                             Int32(fabs(percentageSpeed)*100), 100)
+                    self.mutableComposition.scaleTimeRange(CMTimeRangeMake(at, timeRange.duration),
+                                                           toDuration: durationInterval)
+                    
+                } else {
+                    durationInterval = CMTimeAdd(durationInterval, CMTimeMultiplyByRatio(durationInterval,
+                                                                                         Int32(fabs(percentageSpeed)*100), 100))
+                    self.mutableComposition.scaleTimeRange(CMTimeRangeMake(at, timeRange.duration),
+                                                           toDuration: durationInterval)
+                }
+            }
+            
             let scaleX:CGFloat = 1 + percentageZoom
             let scaleY:CGFloat = 1 + percentageZoom
             
-            
-
-            self.instructions.setTransform(self.currentTransform
+            self.instructions.setTransform(self.currentTransform!
                 .concatenating(CGAffineTransform(scaleX: scaleX, y: scaleY))
-                .concatenating(CGAffineTransform(translationX: -(self.size.width * percentageZoom)/2, y: -(self.size.height * percentageZoom)/2)),
-                                           at: at)
+                .concatenating(CGAffineTransform(translationX: -(self.size.width * percentageZoom)/2,
+                                                 y: -(self.size.height * percentageZoom)/2)), at: at)
             
-            return CMTimeAdd(at, timeRange.duration)
+            return CMTimeAdd(at, durationInterval)
         }
         
         return endTimeHandler
@@ -87,14 +107,14 @@ class EditController: NSObject {
     func closeEdit() {
         if (self.currentEditHandler != nil) {
             self.lastInsertedTime = kCMTimeZero
-            let _ = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30), 0)
+            let _ = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30), 0, 0)
             self.currentEditHandler = nil
         }
     }
     
-    func storeEdit(percentageOfTime: CGFloat, percentageZoom: CGFloat)  -> CMTime {
+    func storeEdit(percentageOfTime: CGFloat, percentageZoom: CGFloat, percentageSpeed: CGFloat)  -> CMTime {
         if (self.currentEditHandler != nil) {
-            self.lastInsertedTime = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30), percentageZoom)
+            self.lastInsertedTime = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30), percentageZoom, percentageSpeed)
         }
         
         let time:CMTime = self.secondsFrom(percentage: percentageOfTime)

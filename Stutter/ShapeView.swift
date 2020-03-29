@@ -14,6 +14,10 @@ protocol ShapeViewDelegate {
     func percentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint)
     func slidingHasEnded(point: CGPoint)
     func tapped()
+    
+    func timelineScrubbingHasBegun(point: CGPoint)
+    func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint)
+    func timelineScrubbingHasEnded(point: CGPoint)
 }
 
 class ShapeView : UIView {
@@ -107,7 +111,13 @@ class ShapeView : UIView {
     
     func getPercentageX(index: Int) -> CGFloat {
         let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
+        //fabs((layer.currentPoint.x / self.previousScreenWidth) - (layer.offset/self.previousScreenWidth)) as CGFloat
         return layer.currentPoint.x / self.previousScreenWidth
+    }
+    
+    func getSpeedPercentageX(index: Int) -> CGFloat {
+        let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
+        return ((layer.currentPoint.x / self.previousScreenWidth) - (layer.offset/self.previousScreenWidth)) as CGFloat
     }
     
     func getPercentageY(index: Int) -> CGFloat {
@@ -115,6 +125,18 @@ class ShapeView : UIView {
             return 0
         }
         return (Constant.controlSurfaceHeight-layer.currentPoint.y)/Constant.controlSurfaceHeight
+    }
+    
+    func getTimelinePercentageX(index: Int) -> CGFloat {
+        let layer:WireLayer = self.layer.sublayers![index] as! WireLayer
+        return layer.timelinePoint.x / self.previousScreenWidth
+    }
+    
+    func getTimelinePercentageY(index: Int) -> CGFloat {
+        guard let layer:WireLayer = self.layer.sublayers![index] as? WireLayer else {
+            return 0
+        }
+        return (Constant.controlSurfaceHeight-layer.timelinePoint.y)/Constant.controlSurfaceHeight
     }
     
     @objc func panned(gestureRecognizer: UIPanGestureRecognizer) {
@@ -132,7 +154,7 @@ class ShapeView : UIView {
                     self.currentLayerIndex = i
                     self.shouldRedrawTimeline = true
                     (wireLayer as! WireLayer).selected = true
-                    self.delegate.slidingHasBegun(point: point)
+                    self.delegate.timelineScrubbingHasBegun(point: point)
                 }
             }
             break
@@ -154,9 +176,9 @@ class ShapeView : UIView {
                 (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
                 
                 if (self.delegate != nil) {
-                    self.delegate.percentageOfWidth(index: self.currentLayerIndex,
-                                                    percentageX: self.getPercentageX(index: self.currentLayerIndex),
-                                                    percentageY: self.getPercentageY(index: self.currentLayerIndex),
+                    self.delegate.timelinePercentageOfWidth(index: self.currentLayerIndex,
+                                                    percentageX: self.getTimelinePercentageX(index: self.currentLayerIndex),
+                                                    percentageY: self.getTimelinePercentageY(index: self.currentLayerIndex),
                                                     point: point)
                 }
             }
@@ -172,7 +194,7 @@ class ShapeView : UIView {
             } else if self.shouldRedrawTimeline {
                 (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).selected = false
                 (self.layer.sublayers![self.currentLayerIndex] as! WireLayer).setNeedsDisplay()
-                self.delegate.slidingHasEnded(point: point)
+                self.delegate.timelineScrubbingHasEnded(point: point)
                 self.shouldRedrawTimeline = false
                 self.currentLayerIndex = 0
             }

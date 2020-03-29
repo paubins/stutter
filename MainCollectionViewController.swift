@@ -24,11 +24,14 @@ enum SliderSections : Int {
 }
 
 protocol MainCollectionViewControllerDelegate {
-    func playButtonWasTapped(index: Int, percentageX: CGFloat, percentageY: CGFloat)
+    func playButtonWasTapped(index: Int, timelinePercentageX: CGFloat, percentageX: CGFloat, percentageY: CGFloat)
     func scrubbingHasBegun(at point:CGPoint)
     func scrubbingHasMoved(index: Int, percentageX: CGFloat, percentageY: CGFloat, to point:CGPoint)
     func scrubbingHasEnded(at point:CGPoint)
     func tapped()
+    func timelineScrubbingHasBegun(point: CGPoint)
+    func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint)
+    func timelineScrubbingHasEnded(point: CGPoint)
 }
 
 class MainCollectionViewController : UICollectionViewController {
@@ -255,10 +258,22 @@ class MainCollectionViewController : UICollectionViewController {
         }
     }
     
+    func getTimelinePercentageX(index: Int) -> CGFloat {
+        let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.slices.rawValue)) as! ScrubberCollectionViewCell
+        
+        return cell.getTimelinePercentageX(index: index)
+    }
+    
     func getCurrentPercentageX(index: Int) -> CGFloat {
         let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.slices.rawValue)) as! ScrubberCollectionViewCell
         
         return cell.getPercentageX(index: index)
+    }
+    
+    func getSpeedPercentageX(index: Int) -> CGFloat {
+        let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.slices.rawValue)) as! ScrubberCollectionViewCell
+        
+        return cell.getSpeedPercentageX(index: index)
     }
     
     func getCurrentPercentageY(index: Int) -> CGFloat {
@@ -297,15 +312,15 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionView.bounds.size.width, height: Constant.mainControlHeight)
         case .waveform:
             if UIScreen.isPhoneX {
-                return CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant+10))
+                return CGSize(width: (collectionView.bounds.size.width - 40), height: CGFloat(kWhateverHeightYouWant+10))
             }
-            return CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant))
+            return CGSize(width: (collectionView.bounds.size.width - 40), height: CGFloat(kWhateverHeightYouWant))
         case .thumbnails:
             if UIScreen.isPhoneX {
-                return thumbnails.count == 0 ? CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant+10)) : CGSize(width: collectionView.bounds.size.width/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant+10))
+                return thumbnails.count == 0 ? CGSize(width: (collectionView.bounds.size.width - 40), height: CGFloat(kWhateverHeightYouWant+10)) : CGSize(width: (collectionView.bounds.size.width - 40)/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant+10))
             }
             
-            return thumbnails.count == 0 ? CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant)) : CGSize(width: collectionView.bounds.size.width/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant))
+            return thumbnails.count == 0 ? CGSize(width: (collectionView.bounds.size.width - 40), height: CGFloat(kWhateverHeightYouWant)) : CGSize(width: (collectionView.bounds.size.width - 40)/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant))
         default:
             break
         }
@@ -370,9 +385,9 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         case .slices:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .waveform:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         case .thumbnails:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         default:
             break
         }
@@ -396,7 +411,9 @@ extension MainCollectionViewController : PlayButtonCollectionViewControllerCellD
         
         self.dazzleController.touch(atPosition: scrubberCell.getPoint(for: index))
         
-        self.delegate.playButtonWasTapped(index: index, percentageX: self.getCurrentPercentageX(index: index),
+        self.delegate.playButtonWasTapped(index: index,
+                                          timelinePercentageX: self.getTimelinePercentageX(index: index),
+                                          percentageX: self.getSpeedPercentageX(index: index),
                                           percentageY: self.getCurrentPercentageY(index: index))
     }
 }
@@ -426,6 +443,18 @@ extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
     
     func tapped() {
         self.delegate.tapped()
+    }
+    
+    func timelineScrubbingHasBegun(point: CGPoint) {
+        self.delegate.timelineScrubbingHasBegun(point: point)
+    }
+    
+    func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint) {
+        self.delegate.timelinePercentageOfWidth(index: index, percentageX: percentageX, percentageY: percentageY, point: point)
+    }
+    
+    func timelineScrubbingHasEnded(point: CGPoint) {
+        self.delegate.timelineScrubbingHasEnded(point: point)
     }
 }
 
