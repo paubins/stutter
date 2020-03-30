@@ -27,6 +27,7 @@ class ScrubberCollectionViewCell : UICollectionViewCell {
     lazy var shapeView:ShapeView = {
         let shapeView:ShapeView = ShapeView(frame: .zero, count: 5)
         shapeView.delegate = self
+        shapeView.backgroundColor = .clear
         return shapeView
     }()
     
