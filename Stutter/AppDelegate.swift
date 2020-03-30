@@ -21,27 +21,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return CameraViewController()
     }()
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+//    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+//        Fabric.with([Crashlytics.self])
+//
+//        let navigationController = CustomNavigationController(rootViewController: self.cameraViewController)
+//        navigationController.navigationBar.backgroundColor = .clear
+//        navigationController.navigationBar.isTranslucent = true
+//        navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        navigationController.navigationBar.shadowImage = UIImage()
+//
+//        RZTransitionsManager.shared().defaultPushPopAnimationController = RZZoomAlphaAnimationController()
+//        navigationController.delegate = RZTransitionsManager.shared()
+//
+//        self.window = UIWindow(frame: UIScreen.main.bounds)
+//        self.window?.rootViewController = navigationController
+//        self.window?.makeKeyAndVisible()
+//
+//        return true
+//    }
+    
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         Fabric.with([Crashlytics.self])
-        
+
         let navigationController = CustomNavigationController(rootViewController: self.cameraViewController)
         navigationController.navigationBar.backgroundColor = .clear
         navigationController.navigationBar.isTranslucent = true
         navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController.navigationBar.shadowImage = UIImage()
-        
+
         RZTransitionsManager.shared().defaultPushPopAnimationController = RZZoomAlphaAnimationController()
         navigationController.delegate = RZTransitionsManager.shared()
-        
+
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
-        
-        return true
-    }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-//        self.viewController.assetChosen(asset: AVURLAsset(url: url))
+
         return true
     }
 

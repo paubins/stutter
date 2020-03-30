@@ -47,7 +47,7 @@ class WaveformCollectionViewCell : UICollectionViewCell {
     }
     
     func updateProgressSamples(distance: CGFloat) {
-        self.waveformView.progressSamples = Int((distance + 10)/self.frame.width * CGFloat(self.waveformView.totalSamples))
+        self.waveformView.zoomSamples = 0..<abs(Int((distance + 10)/self.frame.width * CGFloat(self.waveformView.totalSamples)))
     }
     
     required init?(coder aDecoder: NSCoder) {

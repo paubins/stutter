@@ -18,7 +18,7 @@ class EditController: NSObject {
         }
     }
 
-    var lastInsertedTime:CMTime = kCMTimeZero
+    var lastInsertedTime:CMTime = CMTime.zero
 
     var size:CGSize {
         get {
@@ -27,7 +27,7 @@ class EditController: NSObject {
     }
     
     lazy var instructions:AVMutableVideoCompositionLayerInstruction! = {
-        let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).first!
+        let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaType.video).first!
         let instruction1:AVMutableVideoCompositionLayerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: assetTrack)
         
         return instruction1
@@ -53,7 +53,7 @@ class EditController: NSObject {
                 durationInterval = CMTimeSubtract(self.currentAssetDuration, startTime)
             }
 
-            let timeRange = CMTimeRangeMake(startTime, durationInterval)
+            let timeRange = CMTimeRangeMake(start: startTime, duration: durationInterval)
             
             // 1. we get the length shown
             // NOTE: They're inverted in logic because if we're sped up, we need
@@ -66,18 +66,18 @@ class EditController: NSObject {
             }
             
             // 3. scale that time range
-            if 0.1 <= fabs(percentageSpeed) {
+            if 0.1 <= abs(percentageSpeed) {
                 let offset = percentageSpeed < 0 ? -1 : 1
                 if (0 < offset) {
                     durationInterval = CMTimeMultiplyByRatio(durationInterval,
-                                                             Int32(fabs(percentageSpeed)*100), 100)
-                    self.mutableComposition.scaleTimeRange(CMTimeRangeMake(at, timeRange.duration),
+                                                             multiplier: Int32(abs(percentageSpeed)*100), divisor: 100)
+                    self.mutableComposition.scaleTimeRange(CMTimeRangeMake(start: at, duration: timeRange.duration),
                                                            toDuration: durationInterval)
                     
                 } else {
                     durationInterval = CMTimeAdd(durationInterval, CMTimeMultiplyByRatio(durationInterval,
-                                                                                         Int32(fabs(percentageSpeed)*100), 100))
-                    self.mutableComposition.scaleTimeRange(CMTimeRangeMake(at, timeRange.duration),
+                                                                                         multiplier: Int32(abs(percentageSpeed)*100), divisor: 100))
+                    self.mutableComposition.scaleTimeRange(CMTimeRangeMake(start: at, duration: timeRange.duration),
                                                            toDuration: durationInterval)
                 }
             }
@@ -85,13 +85,13 @@ class EditController: NSObject {
             let scaleX:CGFloat = 1 + percentageZoom
             let scaleY:CGFloat = 1 + percentageZoom
 
-            self.currentTransform = (self.asset.tracks(withMediaType: AVMediaTypeVideo).first?.preferredTransform
+            self.currentTransform = (self.asset.tracks(withMediaType: AVMediaType.video).first?.preferredTransform
                 .concatenating(CGAffineTransform(scaleX: scaleX, y: scaleY))
                 .concatenating(CGAffineTransform(translationX: -(self.size.width * percentageZoom)/2,
                                                  y: -(self.size.height * percentageZoom)/2)))!
             
             if (self.instructions == nil) {
-                let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaTypeVideo).first!
+                let assetTrack:AVAssetTrack = self.mutableComposition.tracks(withMediaType: AVMediaType.video).first!
                 self.instructions = AVMutableVideoCompositionLayerInstruction(assetTrack: assetTrack)
             }
             
@@ -105,7 +105,7 @@ class EditController: NSObject {
     
     func closeEdit() {
         if (self.currentEditHandler != nil) {
-            self.lastInsertedTime = kCMTimeZero
+            self.lastInsertedTime = CMTime.zero
             let _ = self.currentEditHandler(CMTimeMakeWithSeconds(CACurrentMediaTime(), preferredTimescale: 30), 0, 0)
             self.currentEditHandler = nil
         }
@@ -149,7 +149,7 @@ class EditController: NSObject {
     }
 
     func secondsFrom(percentage: CGFloat) -> CMTime {
-        return CMTimeMakeWithSeconds(CMTimeGetSeconds(self.currentAssetDuration) * Float64(percentage), 30)
+        return CMTimeMakeWithSeconds(CMTimeGetSeconds(self.currentAssetDuration) * Float64(percentage), preferredTimescale: 30)
     }
     
     func load(url: URL) {
@@ -158,7 +158,7 @@ class EditController: NSObject {
     
     func reset() {
         self.mutableComposition = AVMutableComposition()
-        self.lastInsertedTime = kCMTimeZero
+        self.lastInsertedTime = CMTime.zero
         self.currentEditHandler = nil
         self.instructions = nil
     }

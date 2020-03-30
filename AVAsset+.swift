@@ -18,7 +18,7 @@ extension AVAsset {
         let count = Int64(UIScreen.main.bounds.width/size.width)
         while(i < count) {
             let interval:Int64 = self.duration.value/count
-            times.append(NSValue(time: CMTimeMake(interval * i, self.duration.timescale)))
+            times.append(NSValue(time: CMTimeMake(value: interval * i, timescale: self.duration.timescale)))
             i += 1
         }
         
@@ -52,10 +52,10 @@ extension AVAsset {
     }
     
     func getSize() -> CGSize {
-        guard let track = self.tracks(withMediaType: AVMediaTypeVideo).first else { return CGSize.zero }
+        guard let track = self.tracks(withMediaType: AVMediaType.video).first else { return CGSize.zero }
         let size = track.naturalSize.applying(track.preferredTransform)
         
-        return CGSize(width: fabs(size.width), height: fabs(size.height))
+        return CGSize(width: abs(size.width), height: abs(size.height))
     }
 
 }

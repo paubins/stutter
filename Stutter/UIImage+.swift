@@ -15,7 +15,7 @@ extension UIImage {
         
         UIGraphicsBeginImageContextWithOptions(rect.size, false, self.scale)
         
-        let c:CGContext = UIGraphicsGetCurrentContext()!
+        let _:CGContext = UIGraphicsGetCurrentContext()!
         
         self.draw(in: rect)
 

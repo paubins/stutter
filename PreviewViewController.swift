@@ -41,18 +41,18 @@ class PreviewViewController : UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         let playerItem:AVPlayerItem = AVPlayerItem(asset: EditController.shared.mutableComposition)
-        playerItem.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithmVarispeed
+        playerItem.audioTimePitchAlgorithm = AVAudioTimePitchAlgorithm.varispeed
         playerItem.videoComposition = EditController.shared.getVideoComposition()
         self.player = AVPlayer(playerItem: playerItem)
         
-        self.player.addPeriodicTimeObserver(forInterval: CMTimeMake(10, 30), queue: DispatchQueue(label: "com.ew.time")) { (time) in
+        self.player.addPeriodicTimeObserver(forInterval: CMTimeMake(value: 10, timescale: 30), queue: DispatchQueue(label: "com.ew.time")) { (time) in
             DispatchQueue.main.async {
                 self.progressBar.progressValue = (CGFloat(CMTimeGetSeconds(self.player.currentTime())/CMTimeGetSeconds((self.player.currentItem?.asset.duration)!))) * 100
             }
         }
         
         self.playerLayer = AVPlayerLayer(player: self.player)
-        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect
+        self.playerLayer.videoGravity = AVLayerVideoGravity.resizeAspect
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -91,22 +91,22 @@ class PreviewViewController : UIViewController {
         return .pi * x / 180.0
     }
     
-    func play(sender: UITapGestureRecognizer) {
+    @objc func play(sender: UITapGestureRecognizer) {
         if (self.player.rate == 1.0) {
             self.player.rate = 0.0
         } else {
-            self.player.seek(to: kCMTimeZero)
+            self.player.seek(to: CMTime.zero)
             self.player.rate = 1.0
         }
     }
     
-    func save(button: UIBarButtonItem) {
+    @objc func save(button: UIBarButtonItem) {
         print("cool")
         
         self.navigationController?.pushViewController(ShareViewController(), animated: true)
     }
     
-    func back(button: PressableButton) {
+    @objc func back(button: PressableButton) {
         print("cool")
         EditController.shared.reset()
         self.navigationController?.popViewController(animated: true)

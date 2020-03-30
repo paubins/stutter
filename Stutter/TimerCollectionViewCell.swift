@@ -31,7 +31,7 @@ class TimerCollectionViewCell : UICollectionViewCell {
         let containerView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 130, height: 20))
         containerView.clipsToBounds = true
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         blurEffectView.clipsToBounds = true

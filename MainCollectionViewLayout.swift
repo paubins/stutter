@@ -73,8 +73,6 @@ class MainCollectionViewLayout: UICollectionViewFlowLayout {
                 attributes.zIndex = 70
                 attributes.center = CGPoint(x: xPosition, y: yPosition)
                 break
-            default:
-                break
             }
         }
         

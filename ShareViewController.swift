@@ -53,7 +53,7 @@ class ShareViewController : UIViewController {
         let containerView:UIView = UIView(frame: .zero)
         containerView.clipsToBounds = true
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
         blurEffectView.clipsToBounds = true
@@ -215,7 +215,7 @@ class ShareViewController : UIViewController {
         }
     }
     
-    func back(buttonItem: UIBarButtonItem) {
+    @objc func back(buttonItem: UIBarButtonItem) {
         if (self.completed) {
             self.resetTimers()
             EditController.shared.reset()

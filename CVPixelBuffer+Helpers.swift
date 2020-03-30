@@ -121,6 +121,6 @@ public func resizePixelBuffer(_ pixelBuffer: CVPixelBuffer,
   let sx = CGFloat(width) / CGFloat(CVPixelBufferGetWidth(pixelBuffer))
   let sy = CGFloat(height) / CGFloat(CVPixelBufferGetHeight(pixelBuffer))
   let scaleTransform = CGAffineTransform(scaleX: sx, y: sy)
-    let scaledImage = ciImage.applying(scaleTransform)
+    let scaledImage = ciImage.transformed(by: scaleTransform)
   context.render(scaledImage, to: output)
 }

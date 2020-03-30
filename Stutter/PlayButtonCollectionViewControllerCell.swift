@@ -57,7 +57,7 @@ class PlayButtonCollectionViewControllerCell : UICollectionViewCell {
                               shadow: self.color.darkerColorForColor())
     }
     
-    func tapped(button: PressableButton) {
+    @objc func tapped(button: PressableButton) {
         self.delegate.playButtonTapped(cell: self)
     }
 }

@@ -105,7 +105,7 @@ class MainCollectionViewController : UICollectionViewController {
         
         player.playbackDelegate = self
         player.view.frame = self.view.bounds
-        player.fillMode = AVLayerVideoGravityResizeAspect
+        player.fillMode = AVLayerVideoGravity.resizeAspect
         player.playbackLoops = false
         player.view.backgroundColor = .clear
         player.playbackResumesWhenEnteringForeground = false
@@ -149,8 +149,8 @@ class MainCollectionViewController : UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
  
-        self.addChildViewController(self.playerViewController)
-        self.addChildViewController(self.dazzleController)
+        self.addChild(self.playerViewController)
+        self.addChild(self.dazzleController)
 
         self.view.addSubview(self.previewContainerView)
         self.view.insertSubview(self.dazzleController.view, belowSubview: self.collectionView!)
@@ -191,7 +191,7 @@ class MainCollectionViewController : UICollectionViewController {
         self.collectionView?.backgroundColor = .clear
         self.collectionView?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureMethod)))
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChange), name:NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationChange), name:UIDevice.orientationDidChangeNotification, object: nil)
         
         self.navigationItem.leftBarButtonItem = self.backBarButtonItem
     }
@@ -269,22 +269,22 @@ class MainCollectionViewController : UICollectionViewController {
         
         switch(section) {
         case .buttons:
-            let cell:PlayButtonCollectionViewControllerCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayButtonCollectionViewControllerCell", for: indexPath) as! PlayButtonCollectionViewControllerCell
+            let cell:PlayButtonCollectionViewControllerCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayButtonCollectionViewControllerCell", for: indexPath) as? PlayButtonCollectionViewControllerCell
             cell.delegate = self
             cell.color = Constant.COLORS[indexPath.row]
             return cell
         case .slices:
-            let cell:ScrubberCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "ScrubberCollectionViewCell", for: indexPath) as! ScrubberCollectionViewCell
+            let cell:ScrubberCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "ScrubberCollectionViewCell", for: indexPath) as? ScrubberCollectionViewCell
             cell.delegate = self
             return cell
         case .waveform:
-            let cell:WaveformCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "WaveformCollectionViewCell", for: indexPath) as! WaveformCollectionViewCell
+            let cell:WaveformCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "WaveformCollectionViewCell", for: indexPath) as? WaveformCollectionViewCell
             if (self.audioURL != nil) {
                 cell.updateAudioURL(audioURL: self.audioURL)
             }
             return cell
         case .thumbnails:
-            let cell:ThumbnailCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "ThumbnailCollectionViewCell", for: indexPath) as! ThumbnailCollectionViewCell
+            let cell:ThumbnailCollectionViewCell! = collectionView.dequeueReusableCell(withReuseIdentifier: "ThumbnailCollectionViewCell", for: indexPath) as? ThumbnailCollectionViewCell
             if (0 < self.thumbnails.count) {
                 cell.thumbnailImageView.image = self.thumbnails[indexPath.row]
             }
@@ -303,7 +303,7 @@ class MainCollectionViewController : UICollectionViewController {
         self.collectionView?.reloadSections(IndexSet(integer: SliderSections.thumbnails.rawValue))
     }
     
-    func orientationChange(notification: Notification) {
+    @objc func orientationChange(notification: Notification) {
         
     }
 
@@ -316,12 +316,12 @@ class MainCollectionViewController : UICollectionViewController {
             if (self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.waveform.rawValue)) != nil) {
                 let cell:WaveformCollectionViewCell = self.collectionView?.cellForItem(at: IndexPath(row: 0, section: SliderSections.waveform.rawValue)) as! WaveformCollectionViewCell
                 
-                cell.waveformView.progressSamples = Int(CGFloat(cell.waveformView.totalSamples) * distance)
+                cell.waveformView.zoomSamples = 0..<abs(Int(CGFloat(cell.waveformView.totalSamples) * distance))
             }
         }
     }
     
-    func panGestureMethod(gesture:UIPanGestureRecognizer) {
+    @objc func panGestureMethod(gesture:UIPanGestureRecognizer) {
         // Get the gesture's point location within its view
         // (This answer assumes the gesture and the buttons are
         // within the same view, ex. the gesture is attached to
@@ -348,13 +348,13 @@ class MainCollectionViewController : UICollectionViewController {
         
         switch(section) {
         case .buttons:
-            var fireButton:PlayButtonCollectionViewControllerCell! = self.collectionView?.cellForItem(at: indexPath!) as! PlayButtonCollectionViewControllerCell
+            let fireButton:PlayButtonCollectionViewControllerCell! = self.collectionView?.cellForItem(at: indexPath!) as? PlayButtonCollectionViewControllerCell
             
             if fireButton != nil {
                 if (self.currentTimer == nil) {
                     fireButton.isHighlighted = true
                     self.currentTimer = Timer.after(0.25.seconds) {
-                        fireButton.button0.sendActions(for: UIControlEvents.touchUpInside)
+                        fireButton.button0.sendActions(for: UIControl.Event.touchUpInside)
                         fireButton.isHighlighted = false
                         
                         self.currentTimer.invalidate()
@@ -391,7 +391,7 @@ class MainCollectionViewController : UICollectionViewController {
         return cell.getPercentageY(index: index)
     }
     
-    func playerViewtapped(gestureRecognizer: UITapGestureRecognizer) {
+    @objc func playerViewtapped(gestureRecognizer: UITapGestureRecognizer) {
 //        self.timerLabel.pause()
         
         if (gestureRecognizer.location(in: self.view).x < UIScreen.main.bounds.width/4) {
@@ -409,7 +409,7 @@ class MainCollectionViewController : UICollectionViewController {
         self.nextBarButtonItem.tintColor = nil
     }
     
-    func exportButtonTapped() {
+    @objc func exportButtonTapped() {
         guard self.stutterState == .recording || self.stutterState == .paused else {
             return
         }
@@ -423,7 +423,7 @@ class MainCollectionViewController : UICollectionViewController {
         self.navigationController?.pushViewController(PreviewViewController(), animated: true)
     }
     
-    func back(barButtonItem: UIBarButtonItem) {
+    @objc func back(barButtonItem: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
     }
 }
@@ -449,8 +449,6 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
         let kWhateverHeightYouWant = 50
         
         switch(section) {
-        case .scrubberPreview:
-            return CGSize(width: collectionView.bounds.size.width, height: CGFloat(kWhateverHeightYouWant))
         case .buttons:
             return CGSize(width: collectionView.bounds.size.width/6, height: CGFloat(kWhateverHeightYouWant))
         case .slices:
@@ -551,9 +549,9 @@ extension MainCollectionViewController : PlayButtonCollectionViewControllerCellD
         
         self.waveformCell.waveformView.progressColor = Constant.COLORS[index]
         
-        self.dazzleController.touch(atPosition: (self.collectionView?.convert(self.scrubberCell.getPoint(for: index), to: self.view))!, color: Constant.COLORS[index])
+        self.dazzleController.touch(atPosition: (self.collectionView?.convert(self.scrubberCell.getPoint(for: index), to: self.view))!)
         
-        var time:CMTime = kCMTimeZero
+        var time:CMTime = CMTime.zero
 
         let timelinePercentageX = self.getTimelinePercentageX(index: index)
         let percentageX = self.getSpeedPercentageX(index: index)
@@ -597,9 +595,9 @@ extension MainCollectionViewController : PlayButtonCollectionViewControllerCellD
         }
         
         
-        self.playerViewController.seekToTime(to: time, toleranceBefore: CMTimeMake(1, 600), toleranceAfter: CMTimeMake(1, 600))
+        self.playerViewController.seekToTime(to: time, toleranceBefore: CMTimeMake(value: 1, timescale: 600), toleranceAfter: CMTimeMake(value: 1, timescale: 600))
         self.playerViewController.playFromCurrentTime()
-        self.playerViewController.setRate(rate: Float(1 + 1 * percentageX))
+//        self.playerViewController.setRate(rate: Float(1 + 1 * percentageX))
         
 
     }
@@ -620,7 +618,7 @@ extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
         let indexPath:IndexPath = IndexPath(row: 0, section: SliderSections.slices.rawValue)
         let cell:ScrubberCollectionViewCell = self.collectionView?.cellForItem(at: indexPath) as! ScrubberCollectionViewCell
         
-        let newPoint:CGPoint = cell.convert(to, to: self.view.superview)
+        let _:CGPoint = cell.convert(to, to: self.view.superview)
         
         self.previewContainerView.frame.origin = to
         self.scrubberPreviewViewController.view.layer.transform = CATransform3DMakeScale(percentageY+1, percentageY+1, 1)
@@ -656,7 +654,7 @@ extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
     func timelinePercentageOfWidth(index: Int, percentageX: CGFloat, percentageY: CGFloat, point: CGPoint) {
         print("percentage")
         self.previewContainerView.frame.origin = point
-        self.scrubberPreviewViewController.seekToTime(to: CMTimeMakeWithSeconds(Float64(CGFloat(CMTimeGetSeconds(EditController.shared.currentAssetDuration)) * percentageX), 60), toleranceBefore: CMTimeMake(1, 60), toleranceAfter: CMTimeMake(1, 60))
+        self.scrubberPreviewViewController.seekToTime(to: CMTimeMakeWithSeconds(Float64(CGFloat(CMTimeGetSeconds(EditController.shared.currentAssetDuration)) * percentageX), preferredTimescale: 60), toleranceBefore: CMTimeMake(value: 1, timescale: 60), toleranceAfter: CMTimeMake(value: 1, timescale: 60))
     }
     
     func timelineScrubbingHasEnded(point: CGPoint) {
@@ -667,6 +665,10 @@ extension MainCollectionViewController : ScrubberCollectionViewCellDelegate {
 }
 
 extension MainCollectionViewController: PlayerPlaybackDelegate {
+    func playerPlaybackDidLoop(_ player: Player) {
+        
+    }
+    
     
     public func playerPlaybackWillStartFromBeginning(_ player: Player) {
         
@@ -688,6 +690,10 @@ extension MainCollectionViewController: PlayerPlaybackDelegate {
 }
 
 extension MainCollectionViewController : PlayerDelegate {
+    func player(_ player: Player, didFailWithError error: Error?) {
+        print("failed")
+    }
+    
     func playerReady(_ player: Player) {
         print("ready")
     }

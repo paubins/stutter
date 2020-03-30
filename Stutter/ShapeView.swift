@@ -98,6 +98,10 @@ class ShapeView : UIView {
         }
     }
     
+    override class var layerClass: AnyClass {
+        return WireLayer.self
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -137,9 +141,7 @@ class ShapeView : UIView {
     }
     
     func getPercentageY(index: Int) -> CGFloat {
-        guard var layer:WireLayer = self.getWire(at: index) else {
-            return 0
-        }
+        let layer:WireLayer = self.getWire(at: index)
         return (Constant.controlSurfaceHeight-layer.currentPoint.y)/Constant.controlSurfaceHeight
     }
     
@@ -149,9 +151,7 @@ class ShapeView : UIView {
     }
     
     func getTimelinePercentageY(index: Int) -> CGFloat {
-        guard var layer:WireLayer = self.getWire(at: index) else {
-            return 0
-        }
+        let layer:WireLayer = self.getWire(at: index)
         return (Constant.controlSurfaceHeight-layer.timelinePoint.y)/Constant.controlSurfaceHeight
     }
     
@@ -244,7 +244,7 @@ class ShapeView : UIView {
         
     }
     
-    func tapped(sender: UITapGestureRecognizer) {
+    @objc func tapped(sender: UITapGestureRecognizer) {
         self.delegate.tapped()
     }
     
