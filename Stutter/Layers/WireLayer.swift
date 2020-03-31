@@ -20,7 +20,7 @@ class WireLayer : CALayer {
     var v1x : CGFloat = 0.0
     var v1y : CGFloat = 0.0
     
-    var color:UIColor = UIColor.orange
+    var color:UIColor = .clear
     
     var currentPoint:CGPoint = CGPoint.zero {
         didSet {

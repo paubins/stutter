@@ -34,18 +34,6 @@ class MainCollectionViewController : UICollectionViewController {
     
     var size:CGSize!
     var currentTimer:Timer!
-
-    let dazzleController:DazTouchController = DazTouchController()
-    
-    var backgroundShiftView:ShiftView = {
-        let v = ShiftView()
-        
-        // set colors
-        v.setColors(Constant.DARKER_COLORS)
-        
-        return v
-    }()
-    
     var stutterState:StutterState = .prearmed
     
     lazy var backBarButtonItem:UIBarButtonItem = {
@@ -150,26 +138,11 @@ class MainCollectionViewController : UICollectionViewController {
         super.viewDidLoad()
  
         self.addChild(self.playerViewController)
-        self.addChild(self.dazzleController)
 
+        self.view.addSubview(self.playerViewController.view)
         self.view.addSubview(self.previewContainerView)
-        self.view.insertSubview(self.dazzleController.view, belowSubview: self.collectionView!)
-        self.view.insertSubview(self.playerViewController.view, belowSubview: self.dazzleController.view)
-        self.view.insertSubview(self.backgroundShiftView, belowSubview: self.playerViewController.view)
+        self.view.sendSubviewToBack(self.playerViewController.view)
         
-        constrain(self.dazzleController.view) { (view) in
-            view.top == view.superview!.top
-            view.left == view.superview!.left
-            view.right == view.superview!.right
-            view.bottom == view.superview!.bottom
-        }
-        
-        constrain(self.backgroundShiftView) { (view) in
-            view.top == view.superview!.top
-            view.left == view.superview!.left
-            view.right == view.superview!.right
-            view.bottom == view.superview!.bottom
-        }
         
         constrain(self.playerViewController.view) { (view) in
             view.top == view.superview!.top
@@ -177,8 +150,6 @@ class MainCollectionViewController : UICollectionViewController {
             view.right == view.superview!.right
             view.bottom == view.superview!.bottom
         }
-        
-        self.backgroundShiftView.animationDuration(20.0)
         
         constrain(self.collectionView!) { (view) in
             view.height == Constant.mainControlHeight
@@ -202,10 +173,7 @@ class MainCollectionViewController : UICollectionViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.backgroundShiftView.startTimedAnimation()
         self.previewContainerView.isHidden = true
-        
         self.stutterState = .prearmed
     }
     
@@ -250,8 +218,6 @@ class MainCollectionViewController : UICollectionViewController {
         case .thumbnails:
             count = self.thumbnails.count == 0 ? 1 : self.thumbnails.count
             break
-        default:
-            break
         }
         
         return count
@@ -289,8 +255,6 @@ class MainCollectionViewController : UICollectionViewController {
                 cell.thumbnailImageView.image = self.thumbnails[indexPath.row]
             }
             return cell
-        default:
-            break
         }
         
 //        cell.contentView.addSubview(self.thumbnails[indexPath.row])
@@ -464,11 +428,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
             }
             
             return thumbnails.count == 0 ? CGSize(width: (collectionView.bounds.size.width - 40), height: CGFloat(kWhateverHeightYouWant)) : CGSize(width: (collectionView.bounds.size.width - 40)/CGFloat(self.thumbnails.count), height: CGFloat(kWhateverHeightYouWant))
-        default:
-            break
         }
-        
-        return CGSize()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -486,11 +446,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
             return 0
         case .thumbnails:
             return  0
-        default:
-            break
         }
-        
-        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -509,11 +465,7 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
             return 0
         case .thumbnails:
             return  0
-        default:
-            break
         }
-        
-        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -531,8 +483,6 @@ extension MainCollectionViewController : UICollectionViewDelegateFlowLayout {
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         case .thumbnails:
             return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        default:
-            break
         }
         
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -548,9 +498,6 @@ extension MainCollectionViewController : PlayButtonCollectionViewControllerCellD
         let index:Int = (self.collectionView?.indexPath(for: cell)?.row)!
         
         self.waveformCell.waveformView.progressColor = Constant.COLORS[index]
-        
-        self.dazzleController.touch(atPosition: (self.collectionView?.convert(self.scrubberCell.getPoint(for: index), to: self.view))!)
-        
         var time:CMTime = CMTime.zero
 
         let timelinePercentageX = self.getTimelinePercentageX(index: index)
